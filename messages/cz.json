@@ -1,0 +1,30 @@
+{
+  "MetaTitle": {
+    "": "Home",
+    "/o-nas": "About",
+    "/blog": "Blog"
+  },
+  "MetaDescription": {
+    "": "This is a homepage",
+    "/o-nas": "This is an about",
+    "/blog": "To je nas Blog"
+  },
+  "404": { "Error": "chyba", "NotFound": "nenalezeno" },
+  "Header": {
+    "Home": "Domov",
+    "Blogs": "Blogy",
+    "About": "O nás"
+  },
+  "Footer": {
+    "PrivacyPolicy": "Zásady ochrany osobních údajů",
+    "TermsConditions": "Všeobecné obchodní podmínky",
+    "About": "O nás",
+    "FollowUs": "Následuj nás",
+    "Legal": "Právní"
+  },
+  "Home": {
+    "BBTitle": "Ahoj světe!",
+    "BBBuyText": "Kupte si obraz",
+    "BBBuyCTA": "Koupit"
+  }
+}

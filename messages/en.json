@@ -1,0 +1,30 @@
+{
+  "MetaTitle": {
+    "": "Home",
+    "/about": "About",
+    "/blog": "Blog"
+  },
+  "MetaDescription": {
+    "": "This is a homepage",
+    "/about": "This is an about",
+    "/blog": "To je nas Blog"
+  },
+  "404": { "Error": "error", "NotFound": "not found" },
+  "Header": {
+    "Home": "Home",
+    "Blogs": "Blogs",
+    "About": "About"
+  },
+  "Footer": {
+    "PrivacyPolicy": "Privacy Policy",
+    "TermsConditions": "Terms & Conditions",
+    "About": "About",
+    "FollowUs": "Follow us",
+    "Legal": "Legal"
+  },
+  "Home": {
+    "BBTitle": "Hello world!",
+    "BBBuyText": "Buy the painting",
+    "BBBuyCTA": "Buy"
+  }
+}
