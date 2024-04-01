@@ -16,6 +16,8 @@ import { searchProducts } from "./SearchProducts";
 import ShoppingCartButton from "./ShoppingCartButton";
 import UserMenuAvatar from "./UserMenuAvatar";
 
+// test
+
 type Props = { locale: string };
 export type NavLinks = NavLink[];
 export type NavLink = { active: boolean; title: string; href: string };
