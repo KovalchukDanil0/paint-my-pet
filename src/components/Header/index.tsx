@@ -23,7 +23,7 @@ export type NavLink = { active: boolean; title: string; href: string };
 export default async function Header({ locale }: Readonly<Props>) {
   const session = await getServerSession(authOptions);
 
-  const t: Function = await getTranslations("Header");
+  const t = await getTranslations("Header");
 
   const navLink: NavLinks = [
     { active: false, title: t("Home"), href: "/" },

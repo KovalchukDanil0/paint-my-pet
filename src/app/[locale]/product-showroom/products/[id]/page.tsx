@@ -31,7 +31,6 @@ export async function generateMetadata({
   };
 }
 
-let size: string;
 export default async function ProductPage({ params: { id } }: Readonly<Props>) {
   const product = (await getProduct(id))!;
 

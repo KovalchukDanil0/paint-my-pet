@@ -51,12 +51,16 @@ export default function Footer() {
         </div>
         <FooterElm.Divider />
         <div className="w-full sm:flex sm:items-center sm:justify-between">
-          <FooterElm.Copyright href="#" by="Flowbite™" year={currentYear} />
+          <FooterElm.Copyright href="#" by="PaintMyPet™" year={currentYear} />
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
             <FooterElm.Icon href="#" icon={BsFacebook} />
             <FooterElm.Icon href="#" icon={BsInstagram} />
             <FooterElm.Icon href="#" icon={BsTwitter} />
-            <FooterElm.Icon href="#" icon={BsGithub} />
+            <FooterElm.Icon
+              target="_blank"
+              href="https://github.com/KovalchukDanil0/paint-my-pet"
+              icon={BsGithub}
+            />
             <FooterElm.Icon
               target="_blank"
               href="https://t.me/+Bx6B4ly2UxBiNTcy"

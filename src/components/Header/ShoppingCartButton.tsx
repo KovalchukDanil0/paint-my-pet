@@ -8,7 +8,7 @@ import { FaShoppingCart } from "react-icons/fa";
 export default async function ShoppingCartButton() {
   const cart = await getCart();
 
-  const itemsCount = cart?.size ?? 0;
+  const itemsCount = cart?.items.length ?? 0;
 
   return (
     <Popover

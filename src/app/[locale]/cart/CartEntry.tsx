@@ -2,37 +2,29 @@
 
 import { CartItemWithProduct } from "@/lib/db/cart";
 import { FormatPrice } from "@/lib/format";
-import { Button, Select, Spinner } from "flowbite-react";
+import { Select, Spinner } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, useTransition } from "react";
 
 interface Props {
   cartItem: CartItemWithProduct;
-  setProductQuantity: (
-    productId: string,
-    quantity: number,
-    size: string,
-  ) => Promise<void>;
+  setProductQuantity: (productId: string, dimension: string) => Promise<void>;
 }
-
-let newQuantity: number;
-function updateQuantity(e: ChangeEvent<HTMLSelectElement>) {
-  newQuantity = parseInt(e.currentTarget.value);
-}
-
-let newSize: string;
-function updateSize(e: ChangeEvent<HTMLSelectElement>) {
-  newSize = e.currentTarget.value;
-}
-
-function updateValues() {}
 
 export default function CartEntry({
-  cartItem: { product, quantity, size },
+  cartItem: { product, dimension },
   setProductQuantity,
 }: Readonly<Props>) {
   const [isPending, startTransition] = useTransition();
+
+  function updateDimension(e: ChangeEvent<HTMLSelectElement>) {
+    const newDimension = e.currentTarget.value;
+
+    startTransition(async () => {
+      await setProductQuantity(product.id, newDimension);
+    });
+  }
 
   return (
     <div>
@@ -52,31 +44,13 @@ export default function CartEntry({
         />
         <div>Price: {FormatPrice(product.price)}</div>
         <div className="my-1 flex items-center gap-2">
-          Quantity:
-          <Select defaultValue={quantity} onChange={updateQuantity}>
-            {Array.from({ length: 100 }).map((_elm, index) => (
-              <option key={index}>{index}</option>
-            ))}
-          </Select>
-          <Select defaultValue={size} onChange={updateSize}>
+          <Select defaultValue={dimension} onChange={updateDimension}>
             <option>16x20</option>
             <option>12x16</option>
             <option>11x14</option>
             <option>8x10</option>
             <option>5x7</option>
           </Select>
-        </div>
-        <Button
-          onClick={() => {
-            startTransition(async () => {
-              await setProductQuantity(product.id, newQuantity, newSize);
-            });
-          }}
-        >
-          Update
-        </Button>
-        <div className="flex items-center gap-3">
-          Total: {FormatPrice(product.price * quantity)}
           {isPending && <Spinner />}
         </div>
       </div>

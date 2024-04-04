@@ -6,30 +6,18 @@ import { revalidatePath } from "next/cache";
 
 export async function incrementProductQuantity(
   productId: string,
-  size: string,
+  dimension: string,
 ) {
   const cart = (await getCart()) ?? (await createCart());
 
-  const articleInCart = cart.items.find((item) => item.productId === productId);
+  /*   const articleInCart = cart.items.find(
+    (item) => item.productId === productId && item.size === size,
+  ); */
 
-  if (articleInCart) {
-    await prisma.cart.update({
-      where: { id: cart.id },
-      data: {
-        items: {
-          update: {
-            where: { id: articleInCart.id },
-            data: { quantity: { increment: 1 }, size },
-          },
-        },
-      },
-    });
-  } else {
-    await prisma.cart.update({
-      where: { id: cart.id },
-      data: { items: { create: { productId, size, quantity: 1 } } },
-    });
-  }
+  await prisma.cart.update({
+    where: { id: cart.id },
+    data: { items: { create: { productId, dimension } } },
+  });
 
   revalidatePath("/[locale]/product-showroom/products/[id]");
 }

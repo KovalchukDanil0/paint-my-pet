@@ -6,8 +6,10 @@ import { prisma } from "./prisma";
 
 const cartId = "localCartId";
 
+const include = { items: { include: { product: true } } };
+
 export type CartWithProducts = Prisma.CartGetPayload<{
-  include: { items: { include: { product: true } } };
+  include: typeof include;
 }>;
 
 export type CartItemWithProduct = Prisma.CartItemGetPayload<{
@@ -15,7 +17,7 @@ export type CartItemWithProduct = Prisma.CartItemGetPayload<{
 }>;
 
 export type ShoppingCart = CartWithProducts & {
-  size: number;
+  dimension: string;
   subtotal: number;
 };
 
@@ -27,14 +29,14 @@ export async function getCart(): Promise<ShoppingCart | null> {
   if (session) {
     cart = await prisma.cart.findFirst({
       where: { userId: session.user.id },
-      include: { items: { include: { product: true } } },
+      include,
     });
   } else {
     const localCartId = cookies().get(cartId)?.value;
     cart = localCartId
       ? await prisma.cart.findUnique({
           where: { id: localCartId },
-          include: { items: { include: { product: true } } },
+          include,
         })
       : null;
   }
@@ -45,11 +47,8 @@ export async function getCart(): Promise<ShoppingCart | null> {
 
   return {
     ...cart,
-    size: cart.items.reduce((acc, item) => acc + item.quantity, 0),
-    subtotal: cart.items.reduce(
-      (acc, item) => acc + item.quantity * item.product.price,
-      0,
-    ),
+    dimension: cart.items[0]?.dimension ?? "16x9",
+    subtotal: cart.items.reduce((acc, item) => acc + item.product.price, 0),
   };
 }
 
@@ -67,7 +66,7 @@ export async function createCart(): Promise<ShoppingCart> {
     cookies().set(cartId, newCart.id);
   }
 
-  return { ...newCart, items: [], size: 0, subtotal: 0 };
+  return { ...newCart, items: [], dimension: "16x9", subtotal: 0 };
 }
 
 export async function mergeAnonymousCartIntoUserCart(userId: string) {
@@ -102,8 +101,7 @@ export async function mergeAnonymousCartIntoUserCart(userId: string) {
             createMany: {
               data: mergedCartItems.map((item) => ({
                 productId: item.productId,
-                quantity: item.quantity,
-                size: item.size,
+                dimension: item.dimension,
               })),
             },
           },
@@ -117,8 +115,7 @@ export async function mergeAnonymousCartIntoUserCart(userId: string) {
             createMany: {
               data: localCart.items.map((item) => ({
                 productId: item.productId,
-                quantity: item.quantity,
-                size: item.size,
+                dimension: item.dimension,
               })),
             },
           },
@@ -137,7 +134,7 @@ function mergeCartItems(...cartItems: CartItem[][]) {
     items.forEach((item) => {
       const existingItem = acc.find((i) => i.productId === item.productId);
       if (existingItem) {
-        existingItem.quantity += item.quantity;
+        existingItem.dimension = item.dimension;
       } else {
         acc.push(item);
       }
