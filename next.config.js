@@ -1,5 +1,4 @@
 const createNextIntlPlugin = require("next-intl/plugin");
-const { hostname } = require("os");
 const withMDX = require("@next/mdx")({
   extension: /\.mdx?$/,
   options: {

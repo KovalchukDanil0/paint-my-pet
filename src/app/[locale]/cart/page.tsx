@@ -17,13 +17,16 @@ export default async function CartPage() {
           setProductQuantity={setProductQuantity}
         />
       ))}
-      {!cart?.items.length && <p>Your cart is empty</p>}
-      <div className="flex flex-col items-end sm:items-center">
-        <p className="mb-3 font-bold">
-          Total: {FormatPrice(cart?.subtotal ?? 0)}
-        </p>
-        <CheckoutButton items={cart?.items!} price={cart?.subtotal!} />
-      </div>
+      {cart?.items == null ? (
+        <p>Your cart is empty</p>
+      ) : (
+        <div className="flex flex-col items-end sm:items-center">
+          <p className="mb-3 font-bold">
+            Total: {FormatPrice(cart?.subtotal ?? 0)}
+          </p>
+          <CheckoutButton items={cart?.items} price={cart?.subtotal} />
+        </div>
+      )}
     </div>
   );
 }
