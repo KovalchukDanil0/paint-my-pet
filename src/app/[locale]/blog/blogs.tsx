@@ -12,7 +12,7 @@ export default function Blogs({ files }: Readonly<Props>) {
 
   return (
     <div id="blog" className="mx-5 my-5 flex flex-col">
-      {files.map((file, index) => {
+      {files.map((file) => {
         if (
           file === "page.tsx" ||
           file === "layout.tsx" ||
@@ -25,7 +25,7 @@ export default function Blogs({ files }: Readonly<Props>) {
           file.substring(0, file.lastIndexOf(".")) || file;
 
         return (
-          <Link key={index} href={`${pathname}/${fileNoExtension}`}>
+          <Link key={file} href={`${pathname}/${fileNoExtension}`}>
             {fileNoExtension}
           </Link>
         );

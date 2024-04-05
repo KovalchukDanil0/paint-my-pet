@@ -3,7 +3,7 @@
 import { Button } from "flowbite-react";
 import { useEffect } from "react";
 
-export default function Error({
+export default function ErrorPage({
   error,
   reset,
 }: Readonly<{
@@ -19,14 +19,7 @@ export default function Error({
     <div>
       <h2>Something went wrong!</h2>
       <p>Details: {error.message}</p>
-      <Button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again
-      </Button>
+      <Button onClick={reset}>Try again</Button>
     </div>
   );
 }

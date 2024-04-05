@@ -1,6 +1,4 @@
-type Props = {};
-
-function page({}: Props) {
+function page() {
   return <div>page</div>;
 }
 

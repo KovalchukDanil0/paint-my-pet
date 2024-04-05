@@ -32,14 +32,13 @@ async function fetchPrices(
 export default function CheckoutButton({ price, items }: Readonly<Props>) {
   const productsInCart = items.map((item) => item.product.name).join(", ");
 
+  function fetchPricesButton(e: React.MouseEvent<HTMLButtonElement>) {
+    fetchPrices(e, price, productsInCart);
+  }
+
   return (
     <div>
-      <Button
-        onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-          fetchPrices(e, price, productsInCart)
-        }
-        className="sm:w-52"
-      >
+      <Button onClick={fetchPricesButton} className="sm:w-52">
         Checkout
       </Button>
     </div>

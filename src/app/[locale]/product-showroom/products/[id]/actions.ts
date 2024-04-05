@@ -10,10 +10,6 @@ export async function incrementProductQuantity(
 ) {
   const cart = (await getCart()) ?? (await createCart());
 
-  /*   const articleInCart = cart.items.find(
-    (item) => item.productId === productId && item.size === size,
-  ); */
-
   await prisma.cart.update({
     where: { id: cart.id },
     data: { items: { create: { productId, dimension } } },

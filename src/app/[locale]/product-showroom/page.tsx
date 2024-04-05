@@ -1,9 +1,7 @@
 import ProductCard from "@/components/ProductCard";
 import { prisma } from "@/lib/db/prisma";
 
-type Props = {};
-
-export default async function ProductShowroom({}: Props) {
+export default async function ProductShowroom() {
   const products = await prisma.product.findMany({ orderBy: { id: "desc" } });
 
   return (
