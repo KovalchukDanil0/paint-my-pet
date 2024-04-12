@@ -7,26 +7,29 @@ interface Props {
   product: Product;
 }
 
-export default function ProductCard({ product }: Readonly<Props>) {
+export default function ProductCard({
+  product: { name, createdAt, id, description, price, imageUrl },
+}: Readonly<Props>) {
   const isNew =
-    Date.now() - new Date(product.createdAt).getTime() <
-    1000 * 60 * 60 * 24 * 7;
+    Date.now() - new Date(createdAt).getTime() < 1000 * 60 * 60 * 24 * 7;
 
   return (
     <Card
-      className="w-full bg-blue-100 transition-shadow hover:shadow-xl"
-      href={"/product-showroom/products/" + product.id}
+      draggable={false}
+      className="w-full select-none bg-blue-100 transition-shadow hover:shadow-xl"
+      href={"/product-showroom/products/" + id}
     >
-      <h2>{product.name}</h2>
+      <h2>{name}</h2>
       {isNew && <Badge>NEW</Badge>}
-      <p>{product.description}</p>
-      <PriceTag price={product.price} />
+      <p>{description}</p>
+      <PriceTag price={price} />
       <Image
-        src={product.imageUrl}
-        alt={product.name}
+        draggable={false}
+        src={imageUrl}
+        alt={name}
         width={800}
         height={400}
-        className="h-48 object-cover"
+        className="h-56 object-cover md:h-96"
       ></Image>
     </Card>
   );

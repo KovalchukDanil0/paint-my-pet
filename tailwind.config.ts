@@ -1,5 +1,6 @@
 import FlowbiteReact from "flowbite/plugin";
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const tailwind: Config = {
   content: [
@@ -9,7 +10,20 @@ const tailwind: Config = {
   theme: {
     extend: {},
   },
-  plugins: [FlowbiteReact],
+  plugins: [
+    FlowbiteReact,
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        ".drag-none": {
+          "-webkit-user-drag": "none",
+          "-khtml-user-drag": "none",
+          "-moz-user-drag": "none",
+          "-o-user-drag": "none",
+          "user-drag": "none",
+        },
+      });
+    }),
+  ],
   darkMode: "media",
 };
 

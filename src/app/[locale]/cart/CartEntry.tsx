@@ -1,20 +1,23 @@
 "use client";
 
+import DimensionsSelect from "@/components/DimensionsSelect";
 import { CartItemWithProduct } from "@/lib/db/cart";
 import { FormatPrice } from "@/lib/format";
-import { Select, Spinner } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, useTransition } from "react";
+import { addPrice, deleteItemFromCart, setProductDimension } from "./action";
 
 interface Props {
   cartItem: CartItemWithProduct;
-  setProductQuantity: (productId: string, dimension: string) => Promise<void>;
 }
 
 export default function CartEntry({
-  cartItem: { product, dimension },
-  setProductQuantity,
+  cartItem: {
+    product: { id, imageUrl, name, price },
+    dimension,
+  },
 }: Readonly<Props>) {
   const [isPending, startTransition] = useTransition();
 
@@ -22,35 +25,38 @@ export default function CartEntry({
     const newDimension = e.currentTarget.value;
 
     startTransition(async () => {
-      await setProductQuantity(product.id, newDimension);
+      await addPrice(id);
+      await setProductDimension(id, newDimension);
+    });
+  }
+
+  function deleteButtonClick(_e: React.MouseEvent<HTMLButtonElement>) {
+    startTransition(async () => {
+      await deleteItemFromCart(id);
     });
   }
 
   return (
     <div>
+      <p>{name}</p>
       <div className="flex flex-wrap items-center gap-3">
         <Image
-          src={product.imageUrl}
-          alt={product.name}
+          src={imageUrl}
+          alt={name}
           width={200}
           height={200}
           className="rounded-lg"
         />
       </div>
       <div>
-        <Link
-          href={"/product-showroom/products/" + product.id}
-          className="font-bold"
-        />
-        <div>Price: {FormatPrice(product.price)}</div>
+        <Link href={"/product-showroom/products/" + id} className="font-bold" />
+        <div>Price: {FormatPrice(price)}</div>
         <div className="my-1 flex items-center gap-2">
-          <Select defaultValue={dimension} onChange={updateDimension}>
-            <option>16x20</option>
-            <option>12x16</option>
-            <option>11x14</option>
-            <option>8x10</option>
-            <option>5x7</option>
-          </Select>
+          <DimensionsSelect
+            defaultValue={dimension}
+            onChange={updateDimension}
+          />
+          <Button onClick={deleteButtonClick}>Delete</Button>
           {isPending && <Spinner />}
         </div>
       </div>

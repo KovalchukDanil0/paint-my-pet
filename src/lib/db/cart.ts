@@ -2,6 +2,7 @@ import { Cart, CartItem, Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
 import { authOptions } from "../auth";
+import { Dimensions } from "../shared";
 import { prisma } from "./prisma";
 
 const cartId = "localCartId";
@@ -21,7 +22,7 @@ export type ShoppingCart = CartWithProducts & {
   subtotal: number;
 };
 
-export async function getCart(): Promise<ShoppingCart | null> {
+export async function getCart(): Promise<ShoppingCart> {
   const session = await getServerSession(authOptions);
 
   let cart: CartWithProducts | null = null;
@@ -42,12 +43,12 @@ export async function getCart(): Promise<ShoppingCart | null> {
   }
 
   if (!cart) {
-    return null;
+    return createCart();
   }
 
   return {
     ...cart,
-    dimension: cart.items[0]?.dimension ?? "16x9",
+    dimension: cart.items[0]?.dimension ?? Dimensions["16x20"],
     subtotal: cart.items.reduce((acc, item) => acc + item.product.price, 0),
   };
 }
@@ -102,6 +103,7 @@ export async function mergeAnonymousCartIntoUserCart(userId: string) {
               data: mergedCartItems.map((item) => ({
                 productId: item.productId,
                 dimension: item.dimension,
+                additionalPrice: item.additionalPrice,
               })),
             },
           },
@@ -116,6 +118,7 @@ export async function mergeAnonymousCartIntoUserCart(userId: string) {
               data: localCart.items.map((item) => ({
                 productId: item.productId,
                 dimension: item.dimension,
+                additionalPrice: item.additionalPrice,
               })),
             },
           },

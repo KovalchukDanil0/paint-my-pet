@@ -1,8 +1,9 @@
+"use server";
+
 import { getCart } from "@/lib/db/cart";
 import { FormatPrice } from "@/lib/format";
 import CartEntry from "./CartEntry";
 import CheckoutButton from "./CheckoutButton";
-import { setProductQuantity } from "./action";
 
 export default async function CartPage() {
   const cart = await getCart();
@@ -11,11 +12,7 @@ export default async function CartPage() {
     <div>
       <h1 className="mb-6 text-3xl font-bold">Your cart</h1>
       {cart?.items.map((cartItem) => (
-        <CartEntry
-          cartItem={cartItem}
-          key={cartItem.id}
-          setProductQuantity={setProductQuantity}
-        />
+        <CartEntry cartItem={cartItem} key={cartItem.id} />
       ))}
       {cart?.items == null ? (
         <p>Your cart is empty</p>

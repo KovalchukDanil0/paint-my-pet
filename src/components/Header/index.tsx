@@ -1,5 +1,8 @@
+"use server";
+
 import SiteIcon from "@/app/favicon.ico";
 import { authOptions } from "@/lib/auth";
+import { createCart, getCart } from "@/lib/db/cart";
 import {
   Navbar,
   NavbarBrand,
@@ -16,13 +19,14 @@ import { searchProducts } from "./SearchProducts";
 import ShoppingCartButton from "./ShoppingCartButton";
 import UserMenuAvatar from "./UserMenuAvatar";
 
-type Props = { locale: string };
 export type NavLinks = NavLink[];
 export type NavLink = { active: boolean; title: string; href: string };
 
-export default async function Header({ locale }: Readonly<Props>) {
-  const session = await getServerSession(authOptions);
+type Props = { locale: string };
 
+export default async function Header({ locale }: Readonly<Props>) {
+  const cart = (await getCart()) ?? (await createCart());
+  const session = await getServerSession(authOptions);
   const t = await getTranslations("Header");
 
   const navLink: NavLinks = [
@@ -54,7 +58,7 @@ export default async function Header({ locale }: Readonly<Props>) {
         </span>
       </NavbarBrand>
       <div className="flex gap-3 md:order-2">
-        <ShoppingCartButton />
+        <ShoppingCartButton cart={cart} />
         <form action={searchProducts}>
           <TextInput
             name="searchQuery"

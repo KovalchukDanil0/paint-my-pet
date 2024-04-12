@@ -1,14 +1,14 @@
-"use server";
+"use client";
 
-import { getCart } from "@/lib/db/cart";
+import { ShoppingCart } from "@/lib/db/cart";
 import { FormatPrice } from "@/lib/format";
 import { Badge, Button, Popover } from "flowbite-react";
 import { FaShoppingCart } from "react-icons/fa";
 
-export default async function ShoppingCartButton() {
-  const cart = await getCart();
+type Props = { cart: ShoppingCart };
 
-  const itemsCount = cart?.items.length ?? 0;
+export default function ShoppingCartButton({ cart }: Readonly<Props>) {
+  const itemsCount: number = cart?.items.length ?? 0;
 
   return (
     <Popover

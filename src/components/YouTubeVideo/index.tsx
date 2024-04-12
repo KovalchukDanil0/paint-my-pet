@@ -1,8 +1,8 @@
-interface YouTubeVideo {
+type Props = {
   videoID: string;
-}
+};
 
-export default function YouTubeVideo({ videoID }: Readonly<YouTubeVideo>) {
+export default function YouTubeVideo({ videoID }: Readonly<Props>) {
   const src = `https://www.youtube-nocookie.com/embed/${videoID}`;
 
   return (
