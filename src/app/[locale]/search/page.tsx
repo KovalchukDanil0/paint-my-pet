@@ -6,7 +6,7 @@ import { Metadata } from "next";
 
 type Props = { searchParams: { query: string } };
 
-export function generateMetadata({
+export async function generateMetadata({
   searchParams: { query },
 }: Readonly<Props>): Metadata {
   const title = `Search: ${query}`;
