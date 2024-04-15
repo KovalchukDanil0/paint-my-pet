@@ -8,7 +8,7 @@ type Props = { searchParams: { query: string } };
 
 export async function generateMetadata({
   searchParams: { query },
-}: Readonly<Props>): Metadata {
+}: Readonly<Props>): Promise<Metadata> {
   const title = `Search: ${query}`;
   const description = "This is a search page";
 
