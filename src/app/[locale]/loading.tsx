@@ -1,3 +1,9 @@
+"use client";
+
 export default function LoadingPage() {
-  return <p className="m-auto block">Loading... Please wait</p>;
+  return (
+    <div>
+      <p className="m-auto block">Loading... Please wait</p>{" "}
+    </div>
+  );
 }

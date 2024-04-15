@@ -1,3 +1,5 @@
+"use client";
+
 import { FormatPrice } from "@/lib/format";
 import { Badge } from "flowbite-react";
 

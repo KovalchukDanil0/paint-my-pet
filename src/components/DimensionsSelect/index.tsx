@@ -1,3 +1,5 @@
+"use client";
+
 import { Dimensions } from "@/lib/shared";
 import { Select } from "flowbite-react";
 import { ChangeEventHandler } from "react";

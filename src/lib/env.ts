@@ -10,4 +10,4 @@ const envSchema = zod.object({
   STRIPE_SECRET_KEY: zod.string().min(1),
 });
 
-export const env = envSchema.parse(process.env);
+export default envSchema.parse(process.env);

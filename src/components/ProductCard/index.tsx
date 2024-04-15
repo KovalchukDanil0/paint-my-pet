@@ -1,3 +1,5 @@
+"use client";
+
 import { Product } from "@prisma/client";
 import { Badge, Card } from "flowbite-react";
 import Image from "next/image";
@@ -17,7 +19,7 @@ export default function ProductCard({
     <Card
       draggable={false}
       className="w-full select-none bg-blue-100 transition-shadow hover:shadow-xl"
-      href={"/product-showroom/products/" + id}
+      href={"/products/" + id}
     >
       <h2>{name}</h2>
       {isNew && <Badge>NEW</Badge>}

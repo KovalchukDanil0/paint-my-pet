@@ -19,8 +19,6 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
   const [success, setSuccess] = useState(false);
   const [dimension, setDimension] = useState("16x20" as unknown as Dimensions);
 
-  console.log(dimension);
-
   function selectChange(e: ChangeEvent<HTMLSelectElement>) {
     setDimension(e.currentTarget.value as unknown as Dimensions);
   }

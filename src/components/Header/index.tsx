@@ -2,7 +2,7 @@
 
 import SiteIcon from "@/app/favicon.ico";
 import { authOptions } from "@/lib/auth";
-import { createCart, getCart } from "@/lib/db/cart";
+import { ShoppingCart, getCart } from "@/lib/db/cart";
 import {
   Navbar,
   NavbarBrand,
@@ -25,7 +25,7 @@ export type NavLink = { active: boolean; title: string; href: string };
 type Props = { locale: string };
 
 export default async function Header({ locale }: Readonly<Props>) {
-  const cart = (await getCart()) ?? (await createCart());
+  const cart: ShoppingCart = await getCart();
   const session = await getServerSession(authOptions);
   const t = await getTranslations("Header");
 
@@ -67,7 +67,6 @@ export default async function Header({ locale }: Readonly<Props>) {
           />
         </form>
         <UserMenuAvatar locale={locale} session={session} />
-
         <NavbarToggle />
       </div>
       <NavbarCollapse>

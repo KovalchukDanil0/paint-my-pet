@@ -1,6 +1,7 @@
 "use client";
 
 import { Product } from "@prisma/client";
+import { Button } from "flowbite-react";
 import Carousel, { ResponsiveType } from "react-multi-carousel";
 import ProductCard from "../ProductCard";
 
@@ -26,33 +27,38 @@ export default function ProductsCarousel({ products }: Readonly<Props>) {
   };
 
   return (
-    <Carousel
-      arrows
-      keyBoardControl
-      draggable
-      pauseOnHover
-      shouldResetAutoplay
-      swipeable
-      responsive={responsive}
-      centerMode={false}
-      focusOnSelect={false}
-      renderArrowsWhenDisabled={false}
-      renderButtonGroupOutside={false}
-      renderDotsOutside={false}
-      rewind={false}
-      rewindWithAnimation={false}
-      rtl={false}
-      showDots={false}
-      className="mx-5 my-5"
-      itemClass="px-5"
-      minimumTouchDrag={80}
-      slidesToSlide={1}
-      additionalTransfrom={0}
-      autoPlaySpeed={3000}
-    >
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-    </Carousel>
+    <div>
+      <Carousel
+        arrows
+        keyBoardControl
+        draggable
+        pauseOnHover
+        shouldResetAutoplay
+        swipeable
+        responsive={responsive}
+        centerMode={false}
+        focusOnSelect={false}
+        renderArrowsWhenDisabled={false}
+        renderButtonGroupOutside={false}
+        renderDotsOutside={false}
+        rewind={false}
+        rewindWithAnimation={false}
+        rtl={false}
+        showDots={false}
+        className="mx-5 my-5"
+        itemClass="px-5"
+        minimumTouchDrag={80}
+        slidesToSlide={1}
+        additionalTransfrom={0}
+        autoPlaySpeed={3000}
+      >
+        {products.slice(0, 6).map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </Carousel>
+      <div className="flex h-24 items-center justify-center">
+        <Button href="products">See all paintings</Button>
+      </div>
+    </div>
   );
 }

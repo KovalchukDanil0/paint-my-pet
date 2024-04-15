@@ -16,10 +16,13 @@ export default function ErrorPage({
   }, [error]);
 
   return (
-    <div>
+    <div className="my-12 flex flex-col items-center justify-center gap-3">
       <h2>Something went wrong!</h2>
       <p>Details: {error.message}</p>
-      <Button onClick={reset}>Try again</Button>
+      <div className="flex flex-row gap-2">
+        <Button onClick={reset}>Try again</Button>
+        <Button href="/">Return to home</Button>
+      </div>
     </div>
   );
 }

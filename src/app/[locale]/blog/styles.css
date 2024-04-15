@@ -1,25 +1,25 @@
 #blog>h1 {
-    @apply text-2xl my-5 font-bold
+    @apply my-5 font-bold
 }
 
 #blog>h2 {
-    @apply text-xl my-3 font-medium
+    @apply my-3 font-medium
 }
 
 #blog>h3 {
-    @apply text-lg my-3
+    @apply my-3
 }
 
 #blog>h4 {
-    @apply text-base my-3
+    @apply my-3
 }
 
 #blog>h5 {
-    @apply text-sm my-3
+    @apply my-3
 }
 
 #blog>h5 {
-    @apply text-xs my-3
+    @apply my-3
 }
 
 #blog a {

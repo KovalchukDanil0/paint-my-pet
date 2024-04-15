@@ -1,3 +1,4 @@
+const withPlugins = require("next-compose-plugins");
 const createNextIntlPlugin = require("next-intl/plugin");
 const withMDX = require("@next/mdx")({
   extension: /\.mdx?$/,
@@ -16,14 +17,17 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: { remotePatterns: [{ hostname: "lh3.googleusercontent.com" }] },
+  images: {
+    remotePatterns: [{ hostname: "lh3.googleusercontent.com" }],
+  },
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   reactStrictMode: true,
   async redirects() {
     return [
       {
-        source: "/test",
-        destination: "/en",
+        source: "/redirect",
+        destination: "/",
+        basePath: false,
         permanent: true,
       },
     ];
@@ -45,4 +49,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withNextIntl(withMDX(nextConfig));
+module.exports = withPlugins([withMDX, withNextIntl], nextConfig);

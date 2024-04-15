@@ -1,3 +1,5 @@
+"use client";
+
 import SiteIcon from "@/app/favicon.ico";
 import { Footer as FooterElm } from "flowbite-react";
 import { useTranslations } from "next-intl";
@@ -21,15 +23,15 @@ export default function Footer() {
             <FooterElm.Brand
               href="/"
               src={SiteIcon.src}
-              alt="Flowbite Logo"
-              name="Flowbite"
+              alt="Paint My Pet Logo"
+              name="Paint My Pet"
             />
           </div>
           <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
             <div>
               <FooterElm.Title title={t("About")} />
               <FooterElm.LinkGroup col>
-                <FooterElm.Link href="#">Flowbite</FooterElm.Link>
+                <FooterElm.Link href="#">Paint My Pet</FooterElm.Link>
                 <FooterElm.Link href="#">Tailwind CSS</FooterElm.Link>
               </FooterElm.LinkGroup>
             </div>

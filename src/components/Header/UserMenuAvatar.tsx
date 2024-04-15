@@ -1,6 +1,6 @@
 "use client";
 
-import { adminsList } from "@/lib/shared";
+import { isAdmin } from "@/lib/shared";
 import { Avatar, Dropdown } from "flowbite-react";
 import { Session } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
@@ -20,9 +20,7 @@ export default function UserMenuAvatar({ session, locale }: Readonly<Props>) {
         user ? (
           <Avatar
             className={
-              adminsList.includes(session.user.email)
-                ? "outline-dotted outline-yellow-300"
-                : ""
+              isAdmin(session) ? "outline-dotted outline-yellow-300" : ""
             }
             alt="User settings"
             img={user?.image}

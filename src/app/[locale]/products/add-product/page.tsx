@@ -1,7 +1,9 @@
+"use server";
+
 import FormSubmitButton from "@/components/FormSubmitButton";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db/prisma";
-import { adminsList } from "@/lib/shared";
+import { isAdmin } from "@/lib/shared";
 import { TextInput, Textarea } from "flowbite-react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -9,7 +11,7 @@ import { redirect } from "next/navigation";
 async function checkIfSigned() {
   const session = await getServerSession(authOptions);
 
-  if (!adminsList.includes(session?.user.email!)) {
+  if (isAdmin(session!)) {
     throw new Error("You are not admin");
   }
 }

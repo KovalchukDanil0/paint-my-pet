@@ -1,4 +1,4 @@
-import { env } from "@/lib/env";
+import env from "@/lib/env";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import { Adapter } from "next-auth/adapters";
