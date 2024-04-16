@@ -1,5 +1,9 @@
+"use server";
+
 import { Cart, CartItem, Prisma } from "@prisma/client";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { getServerSession } from "next-auth";
+import { cookies } from "next/headers";
 import { authOptions } from "../auth";
 import { Dimensions } from "../shared";
 import { prisma } from "./prisma";
@@ -32,7 +36,7 @@ export async function getCart(): Promise<ShoppingCart> {
       include,
     });
   } else {
-    const localCartId = /* cookies().get(cartId)?.value */ null;
+    const localCartId = getCookie(cartId, { cookies });
     cart = localCartId
       ? await prisma.cart.findUnique({
           where: { id: localCartId },
@@ -41,7 +45,7 @@ export async function getCart(): Promise<ShoppingCart> {
       : null;
   }
 
-  if (!cart) {
+  if (cart == null) {
     return createCart();
   }
 
@@ -63,15 +67,20 @@ export async function createCart(): Promise<ShoppingCart> {
     newCart = await prisma.cart.create({ data: {} });
 
     //! Problem with security, user can change the cartId
-    // cookies().set(cartId, newCart.id);
+    setCookieAction(newCart.id);
   }
 
   return { ...newCart, items: [], dimension: "16x9", subtotal: 0 };
 }
 
-export async function mergeAnonymousCartIntoUserCart(userId: string) {
-  const localCartId = /* cookies().get(cartId)?.value */ null;
+async function setCookieAction(newCartId: string) {
+  "use server";
 
+  setCookie(cartId, newCartId, { cookies });
+}
+
+export async function mergeAnonymousCartIntoUserCart(userId: string) {
+  const localCartId = getCookie(cartId, { cookies });
   const localCart = localCartId
     ? await prisma.cart.findUnique({
         where: { id: localCartId },
@@ -127,7 +136,7 @@ export async function mergeAnonymousCartIntoUserCart(userId: string) {
 
     await tx.cart.delete({ where: { id: localCart.id } });
 
-    // cookies().set(cartId, "");
+    deleteCookie(cartId, { cookies });
   });
 }
 
