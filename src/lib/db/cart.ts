@@ -34,7 +34,7 @@ export async function getCart(): Promise<ShoppingCart> {
       include,
     });
   } else {
-    const localCartId = getCookie(cartId, { cookies });
+    const localCartId = getCookie(cartId);
     cart = localCartId
       ? await prisma.cart.findUnique({
           where: { id: localCartId },
@@ -55,8 +55,6 @@ export async function getCart(): Promise<ShoppingCart> {
 }
 
 export async function createCart(): Promise<ShoppingCart> {
-  "use server";
-
   const session = await getServerSession(authOptions);
 
   let newCart: Cart;
@@ -73,7 +71,7 @@ export async function createCart(): Promise<ShoppingCart> {
 }
 
 export async function mergeAnonymousCartIntoUserCart(userId: string) {
-  const localCartId = getCookie(cartId, { cookies });
+  const localCartId = getCookie(cartId);
   const localCart = localCartId
     ? await prisma.cart.findUnique({
         where: { id: localCartId },
@@ -129,7 +127,7 @@ export async function mergeAnonymousCartIntoUserCart(userId: string) {
 
     await tx.cart.delete({ where: { id: localCart.id } });
 
-    deleteCookie(cartId, { cookies });
+    deleteCookie(cartId);
   });
 }
 

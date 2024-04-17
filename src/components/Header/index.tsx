@@ -1,3 +1,5 @@
+"use server";
+
 import SiteIcon from "@/app/favicon.ico";
 import { authOptions } from "@/lib/auth";
 import { getCart } from "@/lib/db/cart";
