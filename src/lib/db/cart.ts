@@ -1,5 +1,3 @@
-"use server";
-
 import { Cart, CartItem, Prisma } from "@prisma/client";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { getServerSession } from "next-auth";
@@ -57,6 +55,8 @@ export async function getCart(): Promise<ShoppingCart> {
 }
 
 export async function createCart(): Promise<ShoppingCart> {
+  "use server";
+
   const session = await getServerSession(authOptions);
 
   let newCart: Cart;
@@ -66,17 +66,10 @@ export async function createCart(): Promise<ShoppingCart> {
   } else {
     newCart = await prisma.cart.create({ data: {} });
 
-    //! Problem with security, user can change the cartId
-    setCookieAction(newCart.id);
+    setCookie(cartId, newCart.id, { cookies });
   }
 
   return { ...newCart, items: [], dimension: "16x9", subtotal: 0 };
-}
-
-async function setCookieAction(newCartId: string) {
-  "use server";
-
-  setCookie(cartId, newCartId, { cookies });
 }
 
 export async function mergeAnonymousCartIntoUserCart(userId: string) {

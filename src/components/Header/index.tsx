@@ -1,5 +1,3 @@
-"use server";
-
 import SiteIcon from "@/app/favicon.ico";
 import { authOptions } from "@/lib/auth";
 import { getCart } from "@/lib/db/cart";
@@ -22,7 +20,9 @@ import UserMenuAvatar from "./UserMenuAvatar";
 export type NavLinks = NavLink[];
 export type NavLink = { active: boolean; title: string; href: string };
 
-type Props = { locale: string };
+type Props = {
+  locale: string;
+};
 
 export default async function Header({ locale }: Readonly<Props>) {
   const cart = await getCart();

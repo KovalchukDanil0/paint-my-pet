@@ -1,5 +1,3 @@
-"use server";
-
 import { getCart } from "@/lib/db/cart";
 import { FormatPrice } from "@/lib/format";
 import CartEntry from "./CartEntry";
