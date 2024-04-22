@@ -1,5 +1,4 @@
 import { Cart, CartItem, Prisma } from "@prisma/client";
-import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
 import { authOptions } from "../auth";
@@ -34,7 +33,7 @@ export async function getCart(): Promise<ShoppingCart> {
       include,
     });
   } else {
-    const localCartId = getCookie(cartId);
+    const localCartId = cookies().get(cartId)?.value;
     cart = localCartId
       ? await prisma.cart.findUnique({
           where: { id: localCartId },
@@ -64,14 +63,14 @@ export async function createCart(): Promise<ShoppingCart> {
   } else {
     newCart = await prisma.cart.create({ data: {} });
 
-    setCookie(cartId, newCart.id, { cookies });
+    // await exampleAction();
   }
 
   return { ...newCart, items: [], dimension: "16x9", subtotal: 0 };
 }
 
 export async function mergeAnonymousCartIntoUserCart(userId: string) {
-  const localCartId = getCookie(cartId);
+  const localCartId = cookies().get(cartId)?.value;
   const localCart = localCartId
     ? await prisma.cart.findUnique({
         where: { id: localCartId },
@@ -127,7 +126,7 @@ export async function mergeAnonymousCartIntoUserCart(userId: string) {
 
     await tx.cart.delete({ where: { id: localCart.id } });
 
-    deleteCookie(cartId);
+    cookies().delete(cartId);
   });
 }
 

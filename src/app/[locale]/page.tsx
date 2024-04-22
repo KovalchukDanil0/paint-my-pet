@@ -1,5 +1,3 @@
-"use server";
-
 import Billboard from "@/components/Billboard";
 import ProductsCarousel from "@/components/ProductsCarousel";
 import SectionHeading from "@/components/SectionHeading";

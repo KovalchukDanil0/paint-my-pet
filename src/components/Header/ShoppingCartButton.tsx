@@ -1,14 +1,24 @@
 "use client";
 
+import { exampleAction } from "@/app/actions";
 import { ShoppingCart } from "@/lib/db/cart";
 import { FormatPrice } from "@/lib/format";
 import { Badge, Button, Popover } from "flowbite-react";
+import { useEffect } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 
 type Props = { cart: ShoppingCart };
 
 export default function ShoppingCartButton({ cart }: Readonly<Props>) {
   const itemsCount: number = cart?.items.length ?? 0;
+
+  const updateViews = async () => {
+    const updatedViews = await exampleAction("localCartId", cart.id);
+  };
+
+  useEffect(() => {
+    updateViews();
+  }, []);
 
   return (
     <Popover
