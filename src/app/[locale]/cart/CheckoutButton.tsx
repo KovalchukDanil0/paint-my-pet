@@ -6,7 +6,13 @@ import { Button } from "flowbite-react";
 
 type Props = { price: number; items: CartItemWithProduct[] };
 
-async function fetchPrices(price: number, products: string) {
+async function fetchPrices(
+  e: React.MouseEvent<HTMLButtonElement>,
+  price: number,
+  products: string,
+) {
+  e.preventDefault();
+
   const { data } = await axios.post(
     "/api/payment",
     {
@@ -26,15 +32,14 @@ async function fetchPrices(price: number, products: string) {
 export default function CheckoutButton({ price, items }: Readonly<Props>) {
   const productsInCart = items.map((item) => item.product.name).join(", ");
 
-  function fetchPricesButton(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault();
-
-    fetchPrices(price, productsInCart);
-  }
-
   return (
     <div>
-      <Button onClick={fetchPricesButton} className="sm:w-52">
+      <Button
+        onClick={(ev: React.MouseEvent<HTMLButtonElement>) =>
+          fetchPrices(ev, price, productsInCart)
+        }
+        className="sm:w-52"
+      >
         Checkout
       </Button>
     </div>

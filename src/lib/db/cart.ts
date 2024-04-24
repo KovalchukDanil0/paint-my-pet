@@ -63,7 +63,8 @@ export async function createCart(): Promise<ShoppingCart> {
   } else {
     newCart = await prisma.cart.create({ data: {} });
 
-    // await exampleAction();
+    // setCookie(cartId, newCart.id, { path: "/", cookies });
+    //! this part must be assigning from here, but nextjs not allowing
   }
 
   return { ...newCart, items: [], dimension: "16x9", subtotal: 0 };

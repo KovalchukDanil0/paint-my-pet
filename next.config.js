@@ -17,6 +17,11 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false };
+
+    return config;
+  },
   images: {
     remotePatterns: [{ hostname: "lh3.googleusercontent.com" }],
   },
