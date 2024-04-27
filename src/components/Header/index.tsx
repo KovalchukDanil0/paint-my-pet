@@ -53,18 +53,14 @@ export default async function Header({ locale }: Readonly<Props>) {
           className="mr-3 h-9"
           alt="Flowbite React Logo"
         />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+        <span className="hidden self-center whitespace-nowrap text-xl font-semibold md:block dark:text-white">
           Paint My Pet
         </span>
       </NavbarBrand>
-      <div className="flex gap-3 md:order-2">
+      <div className="flex w-min flex-nowrap gap-3 md:order-2 md:w-auto">
         <ShoppingCartButton cart={cart} />
-        <form action={searchProducts}>
-          <TextInput
-            name="searchQuery"
-            placeholder="Search"
-            className="w-full min-w-24"
-          />
+        <form action={searchProducts} className="w-1/3 min-w-24 md:w-full">
+          <TextInput name="searchQuery" placeholder="Search" />
         </form>
         <UserMenuAvatar locale={locale} session={session} />
         <NavbarToggle />

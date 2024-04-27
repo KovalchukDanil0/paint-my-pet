@@ -16,20 +16,15 @@ export default async function Home() {
     <div>
       <Billboard
         btnText={t("BBBuyCTA")}
-        src="/painting1.jpg"
+        src="/interior-dog-portrait.jpg"
         alt="Test Billboard"
+        offsetY={25}
       >
-        <h1
-          style={{
-            animation: "IridescentColor 30s ease infinite",
-            backgroundSize: "400% 400%",
-          }}
-        >
-          {t("BBTitle")}
-        </h1>
-        <p>{t("BBBuyText")}</p>
+        <h1 className="text-black">{t("BBTitle")}</h1>
+        <p className="text-slate-700">{t("BBBuyText")}</p>
       </Billboard>
-      <SectionHeading text="See the collection" />
+
+      <SectionHeading text="View collection" />
       <ProductsCarousel products={products} />
       <SectionHeading text="See the video" />
       <YouTubeVideo videoID="Bv__4y2cyMk" />
