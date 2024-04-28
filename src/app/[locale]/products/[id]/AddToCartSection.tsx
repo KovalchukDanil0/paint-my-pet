@@ -44,7 +44,7 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
       />
       <div>
         <h1 className="text-5xl font-bold">{product.name}</h1>
-        <PriceTag price={product.price} className="mt-4" />
+        <PriceTag price={product.price} className="mt-8" />
         <p className="py-6">{product.description}</p>
         <div className="flex items-center gap-2">
           <DimensionsSelect onChange={selectChange} />
