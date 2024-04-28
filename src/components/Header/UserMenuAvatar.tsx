@@ -4,26 +4,47 @@ import { isAdmin } from "@/lib/shared";
 import { Avatar, Dropdown } from "flowbite-react";
 import { Session } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
+import Image from "next/image";
 import { FaRegUserCircle } from "react-icons/fa";
+import { twMerge } from "tailwind-merge";
 import ButChangeLang from "../ButChangeLang";
 
-type Props = { session: Session | null; locale: string };
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  session: Session | null;
+  locale: string;
+}
 
-export default function UserMenuAvatar({ session, locale }: Readonly<Props>) {
+const userImage = (image: string) => (
+  <Image
+    className="rounded-2xl"
+    alt="User Avatar"
+    width={50}
+    height={50}
+    src={image}
+  />
+);
+
+export default function UserMenuAvatar({
+  session,
+  locale,
+  ...props
+}: Readonly<Props>) {
   const user = session?.user;
 
   return (
     <Dropdown
+      {...props}
       arrowIcon={false}
       inline
       label={
         user ? (
           <Avatar
-            className={
-              isAdmin(session) ? "outline-dotted outline-yellow-300" : ""
-            }
+            className={twMerge(
+              isAdmin(session) ? "outline-dotted outline-yellow-300" : "",
+              "w-12",
+            )}
             alt="User settings"
-            img={user?.image}
+            img={() => userImage(user.image)}
             rounded
           />
         ) : (

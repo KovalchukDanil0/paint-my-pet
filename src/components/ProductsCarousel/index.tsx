@@ -5,9 +5,14 @@ import { Button } from "flowbite-react";
 import Carousel, { ResponsiveType } from "react-multi-carousel";
 import ProductCard from "../ProductCard";
 
-type Props = { products: Product[] };
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
+  products: Product[];
+}
 
-export default function ProductsCarousel({ products }: Readonly<Props>) {
+export default function ProductsCarousel({
+  products,
+  ...props
+}: Readonly<Props>) {
   const responsive: ResponsiveType = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -27,7 +32,7 @@ export default function ProductsCarousel({ products }: Readonly<Props>) {
   };
 
   return (
-    <div>
+    <div {...props}>
       <Carousel
         arrows
         keyBoardControl

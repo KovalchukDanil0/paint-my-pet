@@ -9,12 +9,14 @@ import {
   useSearchParams,
 } from "next/navigation";
 
-type Props = { locale: string };
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  locale: string;
+}
 
 let butValue: string;
 let butText: string;
 
-export default function ButChangeLang({ locale }: Readonly<Props>) {
+export default function ButChangeLang({ locale, ...props }: Readonly<Props>) {
   const pathname: string = usePathname();
   const router: AppRouterInstance = useRouter();
   const searchParams: ReadonlyURLSearchParams = useSearchParams();
@@ -36,5 +38,9 @@ export default function ButChangeLang({ locale }: Readonly<Props>) {
     butText = "EN";
   }
 
-  return <Dropdown.Item onClick={ChangeLanguage}>{butText}</Dropdown.Item>;
+  return (
+    <Dropdown.Item {...props} onClick={ChangeLanguage}>
+      {butText}
+    </Dropdown.Item>
+  );
 }

@@ -45,21 +45,21 @@ export default async function Header({ locale }: Readonly<Props>) {
 
   return (
     <Navbar fluid className="sticky top-0 z-50">
-      <NavbarBrand as={Link} href="/">
+      <NavbarBrand className="flex-1 md:flex-initial" as={Link} href="/">
         <Image
           width={40}
-          height={512}
+          height={40}
           src={SiteIcon}
           className="mr-3 h-9"
           alt="Flowbite React Logo"
         />
-        <span className="hidden self-center whitespace-nowrap text-xl font-semibold md:block dark:text-white">
+        <span className="hidden self-center whitespace-nowrap text-xl font-semibold md:inline-block dark:text-white">
           Paint My Pet
         </span>
       </NavbarBrand>
-      <div className="flex w-min flex-nowrap gap-3 md:order-2 md:w-auto">
+      <div className="flex flex-1 gap-3 md:order-2 md:flex-initial">
         <ShoppingCartButton cart={cart} />
-        <form action={searchProducts} className="w-1/3 min-w-24 md:w-full">
+        <form action={searchProducts} className="min-w-20 md:w-full">
           <TextInput name="searchQuery" placeholder="Search" />
         </form>
         <UserMenuAvatar locale={locale} session={session} />

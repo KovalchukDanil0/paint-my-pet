@@ -2,8 +2,8 @@
 
 import Billboard from "@/components/Billboard";
 import ProductsCarousel from "@/components/ProductsCarousel";
+import ReactVideo from "@/components/ReactVideo";
 import SectionHeading from "@/components/SectionHeading";
-import YouTubeVideo from "@/components/YouTubeVideo";
 import { prisma } from "@/lib/db/prisma";
 import { getTranslations } from "next-intl/server";
 import "react-multi-carousel/lib/styles.css";
@@ -27,7 +27,7 @@ export default async function Home() {
       <SectionHeading text="View collection" />
       <ProductsCarousel products={products} />
       <SectionHeading text="See the video" />
-      <YouTubeVideo videoID="Bv__4y2cyMk" />
+      <ReactVideo videoID="Bv__4y2cyMk" />
     </div>
   );
 }

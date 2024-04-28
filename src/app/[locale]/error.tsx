@@ -16,7 +16,7 @@ export default function ErrorPage({
   }, [error]);
 
   return (
-    <div className="my-12 flex flex-col items-center justify-center gap-3">
+    <div className="mx-10 my-12 flex flex-col items-center justify-center gap-3">
       <h2>Something went wrong!</h2>
       <p>Details: {error.message}</p>
       <div className="flex flex-row gap-2">

@@ -1,19 +1,18 @@
 "use client";
 
 import { Button, Spinner } from "flowbite-react";
-import { ComponentProps } from "react";
 import { useFormStatus } from "react-dom";
 
-type Props = {
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   className?: string;
-} & ComponentProps<typeof Button>;
+}
 
 export default function FormSubmitButton({
   children,
   className,
   ...props
-}: Props) {
+}: Readonly<Props>) {
   const { pending } = useFormStatus();
 
   return (

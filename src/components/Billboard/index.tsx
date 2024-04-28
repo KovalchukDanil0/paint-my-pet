@@ -3,32 +3,29 @@
 import { Button } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
-import { type ReactElement } from "react";
+import React, { type ReactElement } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface Props {
-  src: string;
-  hl?: string;
-  alt?: string;
+interface Props extends React.ImgHTMLAttributes<HTMLImageElement> {
   href?: string;
-  sl?: string;
-  marginLeft?: number;
-  marginTop?: number;
-  children?: ReactElement[];
   btnText?: string;
   offsetX?: number;
   offsetY?: number;
 }
 
 export default function Billboard({
-  offsetX = 50,
-  offsetY = 50,
-  href,
+  offsetX = 0,
+  offsetY = 0,
   src,
   alt,
+  href,
   children,
   btnText,
+  className,
+  ...props
 }: Readonly<Props>): React.ReactElement {
+  console.log(offsetY);
+
   const image: ReactElement = (
     <Image
       className="object-cover"
@@ -36,7 +33,7 @@ export default function Billboard({
         objectPosition: `${offsetX}% ${offsetY}%`,
         height: "inherit",
       }}
-      src={src}
+      src={src!}
       width={2160}
       height={750}
       alt={alt!}
@@ -46,13 +43,14 @@ export default function Billboard({
 
   return (
     <div
-      className="relative h-[500px] md:h-[750px]"
+      className={twMerge("relative h-[500px] md:h-[750px]", className)}
       style={{
         width: "fit-content",
       }}
+      {...props}
     >
       {href == null ? image : <Link href={href}>{image}</Link>}
-      {children?.length !== 0 ? (
+      {children ? (
         <div
           className={twMerge(
             "absolute bottom-20 left-1/2 m-0 inline-block w-fit -translate-x-1/2 translate-y-1/3 justify-center text-center",

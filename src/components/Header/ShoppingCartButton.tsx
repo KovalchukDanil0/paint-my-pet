@@ -6,15 +6,21 @@ import { setCookie } from "cookies-next";
 import { Badge, Button, Popover } from "flowbite-react";
 import { FaShoppingCart } from "react-icons/fa";
 
-type Props = { cart: ShoppingCart };
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
+  cart: ShoppingCart;
+}
 
-export default function ShoppingCartButton({ cart }: Readonly<Props>) {
+export default function ShoppingCartButton({
+  cart,
+  ...props
+}: Readonly<Props>) {
   const itemsCount: number = cart?.items.length ?? 0;
 
   setCookie("localCartId", cart.id);
 
   return (
     <Popover
+      {...props}
       aria-labelledby="default-popover"
       content={
         <div className="h-fit w-64 text-sm text-gray-500 dark:text-gray-400">

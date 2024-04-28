@@ -11,7 +11,7 @@ import { redirect } from "next/navigation";
 async function checkIfSigned() {
   const session = await getServerSession(authOptions);
 
-  if (isAdmin(session!)) {
+  if (!isAdmin(session!)) {
     throw new Error("You are not admin");
   }
 }
@@ -34,7 +34,7 @@ async function addProduct(formData: FormData) {
     data: { name, description, imageUrl, price },
   });
 
-  redirect("/product-showroom");
+  redirect("/products");
 }
 
 export default async function AddProductPage() {

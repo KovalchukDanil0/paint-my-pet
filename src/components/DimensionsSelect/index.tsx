@@ -4,10 +4,9 @@ import { Dimensions } from "@/lib/shared";
 import { Select } from "flowbite-react";
 import { ChangeEventHandler } from "react";
 
-type Props = {
+interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
   onChange: ChangeEventHandler<HTMLSelectElement>;
-  defaultValue?: string;
-};
+}
 
 export default function DimensionsSelect(props: Readonly<Props>) {
   return (
