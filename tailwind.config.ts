@@ -7,7 +7,7 @@ const tailwind: Config = {
     "node_modules/flowbite-react/lib/esm/**/*.js",
   ],
   theme: {
-    extend: {},
+    extend: { zIndex: { "9999": "9999" } },
   },
   plugins: [FlowbiteReact],
   darkMode: "media",
