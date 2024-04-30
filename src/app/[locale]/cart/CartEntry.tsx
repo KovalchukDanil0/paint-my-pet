@@ -37,28 +37,23 @@ export default function CartEntry({
   }
 
   return (
-    <div>
-      <p>{name}</p>
-      <div className="flex flex-wrap items-center gap-3">
-        <Image
-          src={imageUrl}
-          alt={name}
-          width={200}
-          height={200}
-          className="rounded-lg"
-        />
-      </div>
-      <div>
-        <Link href={"/product-showroom/products/" + id} className="font-bold" />
-        <div>Price: {FormatPrice(price)}</div>
-        <div className="my-1 flex items-center gap-2">
-          <DimensionsSelect
-            defaultValue={dimension}
-            onChange={updateDimension}
-          />
-          <Button onClick={deleteButtonClick}>Delete</Button>
-          {isPending && <Spinner />}
-        </div>
+    <div className="flex w-fit flex-col gap-3">
+      <h2>{name}</h2>
+      <Image
+        src={imageUrl}
+        alt={name}
+        width={200}
+        height={200}
+        className="h-52 rounded-lg object-cover"
+      />
+      <Link href={"/products/" + id} className="font-bold">
+        View product
+      </Link>
+      <div>Price: {FormatPrice(price)}</div>
+      <div className="my-1 flex items-center gap-2">
+        <DimensionsSelect defaultValue={dimension} onChange={updateDimension} />
+        <Button onClick={deleteButtonClick}>Delete</Button>
+        {isPending && <Spinner />}
       </div>
     </div>
   );

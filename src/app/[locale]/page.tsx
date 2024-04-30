@@ -21,7 +21,7 @@ export default async function Home() {
         offsetY={25}
       >
         <h1 className="text-black">{t("BBTitle")}</h1>
-        <p className="text-slate-700">{t("BBBuyText")}</p>
+        <p className="animate-fade text-slate-700">{t("BBBuyText")}</p>
       </Billboard>
 
       <SectionHeading text="View collection" />

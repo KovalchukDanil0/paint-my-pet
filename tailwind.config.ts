@@ -1,5 +1,7 @@
 import FlowbiteReact from "flowbite/plugin";
 import type { Config } from "tailwindcss";
+// @ts-ignore
+import tailwindcssAnimated from "tailwindcss-animated";
 
 const tailwind: Config = {
   content: [
@@ -7,9 +9,9 @@ const tailwind: Config = {
     "node_modules/flowbite-react/lib/esm/**/*.js",
   ],
   theme: {
-    extend: { zIndex: { "9999": "9999" } },
+    extend: { zIndex: { top: "9999" } },
   },
-  plugins: [FlowbiteReact],
+  plugins: [FlowbiteReact, tailwindcssAnimated],
   darkMode: "media",
 };
 

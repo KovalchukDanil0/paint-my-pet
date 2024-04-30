@@ -7,11 +7,13 @@ export default async function CartPage() {
   const cart = await getCart();
 
   return (
-    <div>
-      <h1 className="mb-6 text-3xl font-bold">Your cart</h1>
-      {cart?.items.map((cartItem) => (
-        <CartEntry cartItem={cartItem} key={cartItem.id} />
-      ))}
+    <div className="m-7 md:m-11">
+      <h1 className="mb-6 text-center text-3xl font-bold">Your cart</h1>
+      <div className="flex flex-row flex-wrap gap-9">
+        {cart?.items.map((cartItem) => (
+          <CartEntry cartItem={cartItem} key={cartItem.id} />
+        ))}
+      </div>
       {cart?.items == null ? (
         <p>Your cart is empty</p>
       ) : (

@@ -11,21 +11,25 @@ export default function Blogs({ files }: Readonly<Props>) {
   const pathname = usePathname();
 
   return (
-    <div id="blog" className="mx-5 my-5 flex flex-col">
+    <div id="blog" className="mx-5 my-5 flex flex-col gap-3">
       {files.map((file) => {
         if (
           file === "page.tsx" ||
           file === "layout.tsx" ||
           file === "styles.css"
         ) {
-          return <></>;
+          return null;
         }
 
         const fileNoExtension =
           file.substring(0, file.lastIndexOf(".")) || file;
 
         return (
-          <Link key={file} href={`${pathname}/${fileNoExtension}`}>
+          <Link
+            className="w-fit"
+            key={file}
+            href={`${pathname}/${fileNoExtension}`}
+          >
             {fileNoExtension}
           </Link>
         );

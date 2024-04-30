@@ -18,10 +18,8 @@ export default async function ProductShowroom() {
           <Button href="products/add-product">Add product page</Button>
         </div>
       )}
-      <div>
-        <ProductCard product={products[0]}></ProductCard>
-      </div>
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-3 gap-4">
+        <ProductCard className="col-span-3" product={products[0]}></ProductCard>
         {products.slice(1).map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

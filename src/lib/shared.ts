@@ -8,7 +8,5 @@ export enum Dimensions {
   "5x7",
 }
 
-const adminsList = ["danilkovalchuk0@gmail.com"];
-
 export const isAdmin = (session: Session) =>
-  adminsList.includes(session?.user.email);
+  process.env.ADMINS_LIST?.split(",").includes(session?.user.email);

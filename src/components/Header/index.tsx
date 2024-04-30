@@ -44,7 +44,7 @@ export default async function Header({ locale }: Readonly<Props>) {
   ];
 
   return (
-    <Navbar fluid className="z-9999 sticky top-0">
+    <Navbar fluid className="sticky top-0 z-top">
       <NavbarBrand className="flex-1 md:flex-initial" as={Link} href="/">
         <Image
           width={40}

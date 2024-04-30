@@ -3,6 +3,7 @@
 import { Product } from "@prisma/client";
 import { Badge, Card } from "flowbite-react";
 import Image from "next/image";
+import { twMerge } from "tailwind-merge";
 import PriceTag from "../PriceTag";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -11,6 +12,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export default function ProductCard({
   product: { name, createdAt, id, description, price, imageUrl },
+  className,
   ...props
 }: Readonly<Props>) {
   const isNew =
@@ -20,7 +22,10 @@ export default function ProductCard({
     <Card
       {...props}
       draggable={false}
-      className="w-full select-none bg-blue-100 transition-shadow hover:shadow-xl"
+      className={twMerge(
+        "w-full select-none bg-blue-100 transition-shadow hover:shadow-xl",
+        className,
+      )}
       href={"/products/" + id}
     >
       <h2>{name}</h2>

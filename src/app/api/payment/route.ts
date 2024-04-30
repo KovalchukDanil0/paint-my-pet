@@ -1,4 +1,3 @@
-import env from "@/lib/env";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -9,7 +8,7 @@ export type routeData = {
 };
 
 export async function POST(request: NextRequest) {
-  const stripe = new Stripe(env.STRIPE_SECRET_KEY);
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
   const data: routeData = await request.json();
   const unit_amount = data.price;

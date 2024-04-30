@@ -24,8 +24,6 @@ export default function Billboard({
   className,
   ...props
 }: Readonly<Props>): React.ReactElement {
-  console.log(offsetY);
-
   const image: ReactElement = (
     <Image
       className="object-cover"

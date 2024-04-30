@@ -16,7 +16,7 @@ export default function ShoppingCartButton({
 }: Readonly<Props>) {
   const itemsCount: number = cart?.items.length ?? 0;
 
-  setCookie("localCartId", cart.id);
+  setCookie("localCartId", cart.id, { sameSite: "none", secure: true });
 
   return (
     <Popover
