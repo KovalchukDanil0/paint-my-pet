@@ -1,6 +1,7 @@
 "use server";
 
 import fs from "fs";
+import path from "path";
 import Blogs from "./blogs";
 import "./styles.css";
 
@@ -11,9 +12,11 @@ type Props = {
 };
 
 export default async function Page({ params: { locale } }: Readonly<Props>) {
-  const folder = `/blogs/${locale}`;
+  const folder = `blogs/${locale}`;
 
-  const props: { files: string[] } = { files: fs.readdirSync("src" + folder) };
+  const props: { files: string[] } = {
+    files: fs.readdirSync(path.join(process.cwd(), "src", folder)),
+  };
 
   return <Blogs {...props} />;
 }

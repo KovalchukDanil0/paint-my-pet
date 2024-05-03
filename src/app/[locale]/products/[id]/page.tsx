@@ -1,7 +1,6 @@
 "use server";
 
 import { prisma } from "@/lib/db/prisma";
-import { isEmpty } from "@/lib/shared";
 import { Product } from "@prisma/client";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -22,10 +21,6 @@ export async function generateMetadata({
 }: Readonly<Props>): Promise<Metadata> {
   const product: Product = (await getProduct(id))!;
 
-  if (isEmpty(product)) {
-    notFound();
-  }
-
   return {
     title: product.name,
     description: product.description,
@@ -39,10 +34,6 @@ export async function generateMetadata({
 
 export default async function ProductPage({ params: { id } }: Readonly<Props>) {
   const product = (await getProduct(id))!;
-
-  if (isEmpty(product)) {
-    notFound();
-  }
 
   return <AddToCartSection product={product} />;
 }
