@@ -1,7 +1,7 @@
 "use client";
 
-import DimensionsSelect from "@/components/DimensionsSelect";
 import PriceTag from "@/components/PriceTag";
+import SelectFromEnum from "@/components/SelectFromEnum";
 import { Dimensions } from "@/lib/shared";
 import { Product } from "@prisma/client";
 import { Button, Spinner } from "flowbite-react";
@@ -32,29 +32,34 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
   }
 
   return (
-    <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
-      <Image
-        src={product.imageUrl}
-        alt={product.name}
-        width={500}
-        height={500}
-        style={{ aspectRatio: dimension.toString().replace("x", "/") }}
-        className="rounded-lg object-cover"
-        priority
-      />
-      <div>
-        <h1 className="text-5xl font-bold">{product.name}</h1>
-        <PriceTag price={product.price} className="mt-8" />
-        <p className="py-6">{product.description}</p>
-        <div className="flex items-center gap-2">
-          <DimensionsSelect onChange={selectChange} />
-          <Button onClick={buttonClick}>
-            Add to cart <FaShoppingCart />
-          </Button>
-          {isPending && <Spinner />}
-          {!isPending && success && (
-            <span className="text-green-500">Added to cart</span>
-          )}
+    <div>
+      <Button className="mb-5 w-fit" href="/products">
+        Back to products
+      </Button>
+      <div className="flex w-fit flex-col gap-4 lg:flex-row lg:items-center">
+        <Image
+          src={product.imageUrl}
+          alt={product.name}
+          width={500}
+          height={500}
+          style={{ aspectRatio: dimension.toString().replace("x", "/") }}
+          className="rounded-lg object-cover"
+          priority
+        />
+        <div className="flex flex-col gap-4">
+          <h1 className="text-5xl font-bold">{product.name}</h1>
+          <PriceTag price={product.price} />
+          <p>{product.description}</p>
+          <div className="flex w-fit items-center gap-2">
+            <SelectFromEnum onChange={selectChange} enumObj={Dimensions} />
+            <Button onClick={buttonClick}>
+              Add to cart <FaShoppingCart />
+            </Button>
+            {isPending && <Spinner />}
+            {!isPending && success && (
+              <span className="text-green-500">Added to cart</span>
+            )}
+          </div>
         </div>
       </div>
     </div>

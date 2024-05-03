@@ -39,6 +39,7 @@ export default function ProductCard({
         width={800}
         height={400}
         className="h-56 object-cover md:h-96"
+        loading="lazy"
       ></Image>
     </Card>
   );

@@ -9,7 +9,10 @@ const tailwind: Config = {
     "node_modules/flowbite-react/lib/esm/**/*.js",
   ],
   theme: {
-    extend: { zIndex: { top: "9999" } },
+    extend: {
+      height: { 600: "600px" },
+      zIndex: { top: "9999" },
+    },
   },
   plugins: [FlowbiteReact, tailwindcssAnimated],
   darkMode: "media",

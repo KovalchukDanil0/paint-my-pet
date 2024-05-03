@@ -31,6 +31,7 @@ export async function generateMetadata() {
   const description = descriptionTranslation(pathname);
 
   const meta: Metadata = {
+    metadataBase: new URL("https://paint-my-pet.vercel.app"),
     title,
     description,
     openGraph: { title, description },

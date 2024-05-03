@@ -1,6 +1,8 @@
 "use server";
 
 import { prisma } from "@/lib/db/prisma";
+import { isEmpty } from "@/lib/shared";
+import { Product } from "@prisma/client";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
@@ -10,14 +12,22 @@ interface Props {
   params: { id: string };
 }
 
-const getProduct = cache(async (id: string) =>
-  prisma.product.findUnique({ where: { id } }).catch(() => notFound()),
+const getProduct = cache(
+  async (id: string): Promise<Product | null> =>
+    prisma.product.findUnique({ where: { id } }).catch(() => notFound()),
 );
 
 export async function generateMetadata({
   params: { id },
 }: Readonly<Props>): Promise<Metadata> {
-  const product = (await getProduct(id))!;
+  const product: Product = (await getProduct(id))!;
+
+  if (!isEmpty(product)) {
+    product.name = "Not Found";
+    product.description = "Not Found";
+    product.imageUrl = "/not-found.png";
+    console.log(product);
+  }
 
   return {
     title: product.name,

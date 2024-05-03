@@ -1,11 +1,11 @@
 "use server";
 
-import ProductCard from "@/components/ProductCard";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db/prisma";
 import { isAdmin } from "@/lib/shared";
 import { Button } from "flowbite-react";
 import { getServerSession } from "next-auth";
+import ProductsPage from "./products";
 
 export default async function ProductShowroom() {
   const products = await prisma.product.findMany({ orderBy: { id: "desc" } });
@@ -18,12 +18,7 @@ export default async function ProductShowroom() {
           <Button href="products/add-product">Add product page</Button>
         </div>
       )}
-      <div className="grid grid-cols-3 gap-4">
-        <ProductCard className="col-span-3" product={products[0]}></ProductCard>
-        {products.slice(1).map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      <ProductsPage products={products} />
     </div>
   );
 }

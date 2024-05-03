@@ -1,8 +1,9 @@
 "use client";
 
-import DimensionsSelect from "@/components/DimensionsSelect";
+import SelectFromEnum from "@/components/SelectFromEnum";
 import { CartItemWithProduct } from "@/lib/db/cart";
 import { FormatPrice } from "@/lib/format";
+import { Dimensions } from "@/lib/shared";
 import { Button, Spinner } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -51,7 +52,11 @@ export default function CartEntry({
       </Link>
       <div>Price: {FormatPrice(price)}</div>
       <div className="my-1 flex items-center gap-2">
-        <DimensionsSelect defaultValue={dimension} onChange={updateDimension} />
+        <SelectFromEnum
+          defaultValue={dimension}
+          onChange={updateDimension}
+          enumObj={Dimensions}
+        />
         <Button onClick={deleteButtonClick}>Delete</Button>
         {isPending && <Spinner />}
       </div>

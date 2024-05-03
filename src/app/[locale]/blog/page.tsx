@@ -1,5 +1,6 @@
+"use server";
+
 import fs from "fs";
-import { ReactElement } from "react";
 import Blogs from "./blogs";
 import "./styles.css";
 
@@ -9,9 +10,7 @@ type Props = {
   };
 };
 
-export default function Page({
-  params: { locale },
-}: Readonly<Props>): ReactElement {
+export default async function Page({ params: { locale } }: Readonly<Props>) {
   const folder = `/blogs/${locale}`;
 
   const props: { files: string[] } = { files: fs.readdirSync("src" + folder) };

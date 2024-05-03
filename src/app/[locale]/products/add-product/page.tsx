@@ -1,9 +1,10 @@
 "use server";
 
 import FormSubmitButton from "@/components/FormSubmitButton";
+import SelectFromEnum from "@/components/SelectFromEnum";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db/prisma";
-import { isAdmin } from "@/lib/shared";
+import { ProductTags, isAdmin, isEmpty } from "@/lib/shared";
 import { TextInput, Textarea } from "flowbite-react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -21,17 +22,20 @@ async function addProduct(formData: FormData) {
 
   await checkIfSigned();
 
-  const name: string = formData.get("name")?.toString()!;
-  const description: string = formData.get("description")?.toString()!;
-  const imageUrl: string = formData.get("imageUrl")?.toString()!;
-  const price = Number(formData.get("price") || 0);
+  const data = {
+    name: formData.get("name")?.toString()!,
+    description: formData.get("description")?.toString()!,
+    imageUrl: formData.get("imageUrl")?.toString()!,
+    price: Number(formData.get("price") || 0),
+    tag: formData.get("tag")?.toString()!,
+  };
 
-  if (!name || !description || !imageUrl || !price) {
+  if (isEmpty(data)) {
     throw Error("Missing required fields");
   }
 
   await prisma.product.create({
-    data: { name, description, imageUrl, price },
+    data,
   });
 
   redirect("/products");
@@ -43,35 +47,18 @@ export default async function AddProductPage() {
   return (
     <div>
       <h1 className="mb-3 text-lg font-bold">Add Product</h1>
-      <form action={addProduct}>
-        <TextInput
-          required
-          name="name"
-          placeholder="Name"
-          type="text"
-          className="mb-3 w-full"
-        />
-        <Textarea
-          required
-          name="description"
-          placeholder="Description"
-          className="mb-3 w-full"
-        />
+      <form className="flex flex-col gap-3" action={addProduct}>
+        <TextInput required name="name" placeholder="Name" type="text" />
+        <Textarea required name="description" placeholder="Description" />
         <TextInput
           required
           name="imageUrl"
           placeholder="Image URL"
           type="text"
-          className="mb-3 w-full"
         />
-        <TextInput
-          required
-          name="price"
-          placeholder="Price"
-          type="number"
-          className="mb-3 w-full"
-        />
-        <FormSubmitButton>Add Product</FormSubmitButton>
+        <TextInput required name="price" placeholder="Price" type="number" />
+        <SelectFromEnum required name="tag" enumObj={ProductTags} />
+        <FormSubmitButton className="w-fit">Add Product</FormSubmitButton>
       </form>
     </div>
   );

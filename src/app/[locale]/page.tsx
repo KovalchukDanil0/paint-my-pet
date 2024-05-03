@@ -10,7 +10,9 @@ import "react-multi-carousel/lib/styles.css";
 
 export default async function Home() {
   const t = await getTranslations("Home");
-  const products = await prisma.product.findMany({ orderBy: { id: "desc" } });
+  const products = await prisma.product.findMany({
+    orderBy: { id: "desc" },
+  });
 
   return (
     <div>
