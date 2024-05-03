@@ -22,11 +22,8 @@ export async function generateMetadata({
 }: Readonly<Props>): Promise<Metadata> {
   const product: Product = (await getProduct(id))!;
 
-  if (!isEmpty(product)) {
-    product.name = "Not Found";
-    product.description = "Not Found";
-    product.imageUrl = "/not-found.png";
-    console.log(product);
+  if (isEmpty(product)) {
+    notFound();
   }
 
   return {
@@ -42,6 +39,10 @@ export async function generateMetadata({
 
 export default async function ProductPage({ params: { id } }: Readonly<Props>) {
   const product = (await getProduct(id))!;
+
+  if (isEmpty(product)) {
+    notFound();
+  }
 
   return <AddToCartSection product={product} />;
 }
