@@ -15,7 +15,7 @@ export default async function Page({ params: { locale } }: Readonly<Props>) {
   const folder = `blogs/${locale}`;
 
   const props: { files: string[] } = {
-    files: fs.readdirSync(path.join(process.cwd(), "src", folder)),
+    files: fs.readdirSync(path.join(process.cwd(), folder)),
   };
 
   return <Blogs {...props} />;
