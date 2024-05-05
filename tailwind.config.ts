@@ -1,7 +1,18 @@
 import FlowbiteReact from "flowbite/plugin";
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 // @ts-ignore
 import tailwindcssAnimated from "tailwindcss-animated";
+
+const myPlugin = plugin(function ({ addUtilities }) {
+  addUtilities({
+    ".center": {
+      display: "flex",
+      "align-items": "center",
+      "justify-content": "center",
+    },
+  });
+});
 
 const tailwind: Config = {
   content: [
@@ -14,7 +25,7 @@ const tailwind: Config = {
       zIndex: { top: "9999" },
     },
   },
-  plugins: [FlowbiteReact, tailwindcssAnimated],
+  plugins: [myPlugin, FlowbiteReact, tailwindcssAnimated],
   darkMode: "media",
 };
 

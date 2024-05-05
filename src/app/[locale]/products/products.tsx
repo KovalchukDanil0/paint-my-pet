@@ -5,6 +5,7 @@ import { ProductTags, isEmpty } from "@/lib/shared";
 import { Product } from "@prisma/client";
 import { Radio } from "flowbite-react";
 import { ChangeEvent, useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 type Props = { products: Product[] };
 
@@ -22,8 +23,6 @@ export default function ProductsPage({ products }: Readonly<Props>) {
     newProducts = products;
   }
 
-  console.log(newProducts);
-
   return (
     <>
       <div className="my-5 flex flex-row justify-around">
@@ -33,7 +32,10 @@ export default function ProductsPage({ products }: Readonly<Props>) {
             return;
           }
           return (
-            <div key={num} className="flex flex-row items-center gap-3">
+            <div
+              key={num}
+              className="flex select-none flex-row items-center gap-3"
+            >
               <Radio id={num} onChange={setChosenTagFunc} name="tagFilter" />
               <p className="uppercase">{num}</p>
             </div>
@@ -42,19 +44,20 @@ export default function ProductsPage({ products }: Readonly<Props>) {
       </div>
 
       {!isEmpty(newProducts) ? (
-        <div className="grid grid-cols-3 gap-4">
-          <ProductCard
-            className="col-span-3"
-            product={newProducts[0]}
-          ></ProductCard>
-          {newProducts.slice(1).map((product) => (
-            <ProductCard key={product.id} product={product} />
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {newProducts.map((product, index) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              className={twMerge(
+                index === 0 ? "col-span-1 md:col-span-3" : "",
+                "animate-fade-up",
+              )}
+            />
           ))}
         </div>
       ) : (
-        <center>
-          <p>No products to display</p>
-        </center>
+        <p className="center">No products to display</p>
       )}
     </>
   );

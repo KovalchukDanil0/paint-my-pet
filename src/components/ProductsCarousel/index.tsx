@@ -58,7 +58,11 @@ export default function ProductsCarousel({
         autoPlaySpeed={3000}
       >
         {products.slice(0, 6).map((product) => (
-          <ProductCard className="h-600" key={product.id} product={product} />
+          <ProductCard
+            className="h-600 animate-fade-right"
+            key={product.id}
+            product={product}
+          />
         ))}
       </Carousel>
       <div className="flex h-24 items-center justify-center">

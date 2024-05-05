@@ -1,6 +1,8 @@
-const withPlugins = require("next-compose-plugins");
-const createNextIntlPlugin = require("next-intl/plugin");
-const withMDX = require("@next/mdx")({
+import withMDX from "@next/mdx";
+import withPlugins from "next-compose-plugins";
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withMDXPlugin = withMDX({
   extension: /\.mdx?$/,
   options: {
     // If you use remark-gfm, you'll need to use next.config.mjs
@@ -54,4 +56,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withPlugins([withMDX, withNextIntl], nextConfig);
+export default withPlugins([withMDXPlugin, withNextIntl], nextConfig);
