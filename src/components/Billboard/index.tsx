@@ -3,10 +3,10 @@
 import { Button } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { type ReactElement } from "react";
+import React, { ComponentProps, type ReactElement } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface Props extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface Props extends ComponentProps<"img"> {
   href?: string;
   btnText?: string;
   offsetX?: number;

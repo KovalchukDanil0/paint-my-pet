@@ -1,11 +1,11 @@
 "use client";
 
 import { Button, Spinner } from "flowbite-react";
+import { ComponentProps, RefObject } from "react";
 import { useFormStatus } from "react-dom";
 
-interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-  className?: string;
+interface Props extends ComponentProps<"button"> {
+  ref?: RefObject<HTMLButtonElement>;
 }
 
 export default function FormSubmitButton({

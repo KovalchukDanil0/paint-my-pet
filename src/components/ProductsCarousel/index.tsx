@@ -2,10 +2,11 @@
 
 import { Product } from "@prisma/client";
 import { Button } from "flowbite-react";
+import { ComponentProps } from "react";
 import Carousel, { ResponsiveType } from "react-multi-carousel";
 import ProductCard from "../ProductCard";
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface Props extends ComponentProps<"div"> {
   products: Product[];
 }
 

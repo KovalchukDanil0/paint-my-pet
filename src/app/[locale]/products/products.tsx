@@ -29,7 +29,7 @@ export default function ProductsPage({ products }: Readonly<Props>) {
         {Object.keys(ProductTags).map((val) => {
           const num = ProductTags[val as keyof typeof ProductTags].toString();
           if (!isNaN(Number(num))) {
-            return;
+            return null;
           }
           return (
             <div

@@ -19,6 +19,7 @@ async function fetchPrices(
       price,
       products,
       link: window.location.href,
+      currency: "CZK",
     },
     {
       headers: {

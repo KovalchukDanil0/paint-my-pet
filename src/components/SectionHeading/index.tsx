@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { ComponentProps, RefObject, useRef } from "react";
+import { useInViewport } from "react-in-viewport";
 import { twMerge } from "tailwind-merge";
 
-interface Props extends React.HtmlHTMLAttributes<HTMLHeadingElement> {
+interface Props extends ComponentProps<"h2"> {
   text: string;
 }
 
@@ -12,35 +13,22 @@ export default function SectionHeading({
   className,
   ...props
 }: Readonly<Props>) {
-  const ref = useRef<HTMLParagraphElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const current = ref.current!;
-
-    const scrollObserver = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsVisible(true);
-        scrollObserver.unobserve(entry.target);
-      }
-    });
-
-    scrollObserver.observe(current);
-
-    return () => {
-      if (current) {
-        scrollObserver.unobserve(current);
-      }
-    };
-  }, []);
-
-  const classes = isVisible ? "animate-rotate-y" : "";
+  const refElm: RefObject<HTMLHeadingElement> = useRef(null);
+  const { inViewport, enterCount } = useInViewport(
+    refElm,
+    {},
+    { disconnectOnLeave: false },
+  );
 
   return (
     <h2
       {...props}
-      ref={ref}
-      className={twMerge("my-10 text-center text-4xl", classes, className)}
+      ref={refElm}
+      className={twMerge(
+        "my-10 text-center text-4xl",
+        className,
+        inViewport && enterCount === 1 ? "animate-rotate-y" : "",
+      )}
     >
       {text}
     </h2>

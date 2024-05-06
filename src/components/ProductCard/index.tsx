@@ -3,10 +3,11 @@
 import { Product } from "@prisma/client";
 import { Badge, Card } from "flowbite-react";
 import Image from "next/image";
+import { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 import PriceTag from "../PriceTag";
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface Props extends ComponentProps<"div"> {
   product: Product;
 }
 

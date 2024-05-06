@@ -8,9 +8,11 @@ import {
   useRouter,
   useSearchParams,
 } from "next/navigation";
+import { ComponentProps, RefObject } from "react";
 
-interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface Props extends ComponentProps<"button"> {
   locale: string;
+  ref?: RefObject<HTMLButtonElement>;
 }
 
 let butValue: string;

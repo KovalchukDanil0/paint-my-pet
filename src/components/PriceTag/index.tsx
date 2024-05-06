@@ -2,9 +2,10 @@
 
 import { FormatPrice } from "@/lib/format";
 import { Badge } from "flowbite-react";
+import { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface Props extends React.HTMLAttributes<HTMLSpanElement> {
+interface Props extends ComponentProps<"span"> {
   price: number;
 }
 

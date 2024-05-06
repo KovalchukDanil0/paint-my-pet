@@ -1,6 +1,8 @@
 "use client";
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+import { ComponentProps } from "react";
+
+interface Props extends ComponentProps<"div"> {
   videoID: string;
 }
 

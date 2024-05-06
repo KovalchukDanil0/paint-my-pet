@@ -1,9 +1,9 @@
 "use client";
 
 import { Select } from "flowbite-react";
-import { SelectHTMLAttributes } from "react";
+import { ComponentProps } from "react";
 
-interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
+interface Props extends ComponentProps<"select"> {
   enumObj: object;
 }
 
