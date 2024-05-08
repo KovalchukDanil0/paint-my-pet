@@ -1,17 +1,18 @@
 "use client";
 
 import { ShoppingCart } from "@/lib/db/cart";
-import { FormatPrice } from "@/lib/format";
 import { setCookie } from "cookies-next";
 import { Badge, Button, Popover } from "flowbite-react";
 import { FaShoppingCart } from "react-icons/fa";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   cart: ShoppingCart;
+  price: string;
 }
 
 export default function ShoppingCartButton({
   cart,
+  price,
   ...props
 }: Readonly<Props>) {
   const itemsCount: number = cart?.items.length ?? 0;
@@ -33,7 +34,7 @@ export default function ShoppingCartButton({
             </h3>
           </div>
           <div className="px-3 py-2">
-            <p>Subtotal: {FormatPrice(cart?.subtotal ?? 0)}</p>
+            <p>Subtotal: {price}</p>
             <Button className="my-3" href="/cart">
               View cart
             </Button>

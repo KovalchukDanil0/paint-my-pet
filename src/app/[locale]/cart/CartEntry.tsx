@@ -2,7 +2,6 @@
 
 import SelectFromEnum from "@/components/SelectFromEnum";
 import { CartItemWithProduct } from "@/lib/db/cart";
-import { FormatPrice } from "@/lib/format";
 import { Dimensions } from "@/lib/shared";
 import { Button, Spinner } from "flowbite-react";
 import Image from "next/image";
@@ -12,13 +11,15 @@ import { addPrice, deleteItemFromCart, setProductDimension } from "./action";
 
 interface Props {
   cartItem: CartItemWithProduct;
+  price: string;
 }
 
 export default function CartEntry({
   cartItem: {
-    product: { id, imageUrl, name, price },
+    product: { id, imageUrl, name },
     dimension,
   },
+  price,
 }: Readonly<Props>) {
   const [isPending, startTransition] = useTransition();
 
@@ -50,7 +51,7 @@ export default function CartEntry({
       <Link href={"/products/" + id} className="font-bold">
         View product
       </Link>
-      <div>Price: {FormatPrice(price)}</div>
+      <div>Price: {price}</div>
       <div className="my-1 flex items-center gap-2">
         <SelectFromEnum
           defaultValue={dimension}

@@ -1,6 +1,9 @@
+"use server";
+
 import SiteIcon from "@/app/favicon.ico";
 import { authOptions } from "@/lib/auth";
 import { getCart } from "@/lib/db/cart";
+import { FormatPrice } from "@/lib/format";
 import {
   Navbar,
   NavbarBrand,
@@ -28,6 +31,7 @@ export default async function Header({ locale }: Readonly<Props>) {
   const cart = await getCart();
   const session = await getServerSession(authOptions);
   const t = await getTranslations("Header");
+  const price = await FormatPrice(cart?.subtotal ?? 0, locale);
 
   const navLink: NavLinks = [
     { active: false, title: t("Home"), href: "/" },
@@ -58,7 +62,7 @@ export default async function Header({ locale }: Readonly<Props>) {
         </span>
       </NavbarBrand>
       <div className="flex flex-1 gap-3 md:order-2 md:flex-initial">
-        <ShoppingCartButton cart={cart} />
+        <ShoppingCartButton cart={cart} price={price} />
         <form action={searchProducts} className="min-w-20 md:w-full">
           <TextInput name="searchQuery" placeholder="Search" />
         </form>

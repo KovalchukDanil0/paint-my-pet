@@ -1,43 +1,55 @@
+import { ShoppingCart, getCart } from "@/lib/db/cart";
+import { localeToCurrency } from "@/lib/format";
 import axios from "axios";
 import Big from "big.js";
 import { convert } from "cashify";
+import { Rates } from "cashify/dist/lib/options";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 export type routeData = {
-  price: number;
-  products: string;
   link: string;
-  currency: string;
+  locale: string;
 };
 
 export async function POST(request: NextRequest) {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  const cart: ShoppingCart = await getCart();
 
+  if (cart.items.length === 0) {
+    throw new Error("There are no items in cart");
+  }
+
+  const stripe: Stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
   const requestData: routeData = await request.json();
+  const currency = localeToCurrency(requestData.locale);
 
   const {
     data: { rates },
-  } = await axios.get("https://open.er-api.com/v6/latest/EUR");
+  }: { data: { rates: Rates } } = await axios.get(
+    "https://open.er-api.com/v6/latest/EUR",
+  );
 
-  const unit_amount = convert(requestData.price, {
-    rates,
-    base: "EUR",
-    from: "EUR",
-    to: requestData.currency,
-    BigJs: Big,
-  });
+  const unit_amount: number = Math.round(
+    convert(cart.subtotal, {
+      rates,
+      base: "EUR",
+      from: "EUR",
+      to: currency,
+      BigJs: Big,
+    }),
+  );
 
-  const nickname = requestData.products;
-  const link = requestData.link;
+  const nickname: string = cart.items
+    .map((item) => item.product.name)
+    .join(", ");
 
-  //! user can manipulate the price of the product - not pass value to the route
+  const link: string = requestData.link;
 
   const price: Stripe.Price = await stripe.prices.create({
     nickname,
     unit_amount,
+    currency,
     product: "prod_PqAA86kBDBjhuO",
-    currency: requestData.currency,
   });
 
   const session = await stripe.checkout.sessions.create({

@@ -1,25 +1,17 @@
 "use client";
 
-import { CartItemWithProduct } from "@/lib/db/cart";
 import axios from "axios";
 import { Button } from "flowbite-react";
+import { MouseEvent } from "react";
 
-type Props = { price: number; items: CartItemWithProduct[] };
-
-async function fetchPrices(
-  e: React.MouseEvent<HTMLButtonElement>,
-  price: number,
-  products: string,
-) {
+async function fetchPrices(e: MouseEvent<HTMLButtonElement>, locale: string) {
   e.preventDefault();
 
   const { data } = await axios.post(
     "/api/payment",
     {
-      price,
-      products,
       link: window.location.href,
-      currency: "CZK",
+      locale,
     },
     {
       headers: {
@@ -30,15 +22,15 @@ async function fetchPrices(
   window.location.assign(data);
 }
 
-export default function CheckoutButton({ price, items }: Readonly<Props>) {
-  const productsInCart = items.map((item) => item.product.name).join(", ");
+type Props = {
+  locale: string;
+};
 
+export default function CheckoutButton({ locale }: Readonly<Props>) {
   return (
     <div>
       <Button
-        onClick={(ev: React.MouseEvent<HTMLButtonElement>) =>
-          fetchPrices(ev, price, productsInCart)
-        }
+        onClick={(ev: MouseEvent<HTMLButtonElement>) => fetchPrices(ev, locale)}
         className="sm:w-52"
       >
         Checkout

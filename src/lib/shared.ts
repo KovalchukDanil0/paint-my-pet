@@ -23,3 +23,11 @@ export function isEmpty(object: Object | null) {
   }
   return Object.values(object).every((x) => x == null || x === "");
 }
+
+export interface Countries {
+  data: Name[];
+}
+
+interface Name {
+  name: { common: string };
+}

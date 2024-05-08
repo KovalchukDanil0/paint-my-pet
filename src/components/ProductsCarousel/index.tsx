@@ -60,7 +60,7 @@ export default function ProductsCarousel({
       >
         {products.slice(0, 6).map((product) => (
           <ProductCard
-            className="h-600 animate-fade-right"
+            className="h-[450px] animate-fade-right md:h-[600px]"
             key={product.id}
             product={product}
           />
