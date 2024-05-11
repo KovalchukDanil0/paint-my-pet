@@ -16,23 +16,25 @@ export function localeToCurrency(locale: string) {
 
 export async function FormatPrice(price: number, locale: string) {
   const {
-    data: { rates },
-  }: { data: { rates: Rates } } = await axios.get(
-    "https://open.er-api.com/v6/latest/EUR",
+    data: { conversion_rates },
+  }: { data: { conversion_rates: Rates } } = await axios.get(
+    `https://v6.exchangerate-api.com/v6/${process.env.EXCHANGE_API}/latest/EUR`,
   );
+
+  const currency = localeToCurrency(locale);
 
   const convertedPrice: number = Math.round(
     convert(price, {
-      rates,
+      rates: conversion_rates,
       base: "EUR",
       from: "EUR",
-      to: localeToCurrency(locale),
+      to: currency,
       BigJs: Big,
     }),
   );
 
   return (convertedPrice / 100).toLocaleString(locale, {
+    currency,
     style: "currency",
-    currency: localeToCurrency(locale),
   });
 }

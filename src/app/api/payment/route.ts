@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
   const {
     data: { rates },
   }: { data: { rates: Rates } } = await axios.get(
-    "https://open.er-api.com/v6/latest/EUR",
+    `https://v6.exchangerate-api.com/v6/${process.env.EXCHANGE_API}/latest/EUR`,
   );
 
   const unit_amount: number = Math.round(

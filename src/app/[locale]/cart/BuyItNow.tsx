@@ -1,15 +1,35 @@
+"use client";
+
 import SelectFromEnum from "@/components/SelectFromEnum";
-import { Countries } from "@/lib/shared";
-import { Label, TextInput } from "flowbite-react";
+import { createClient } from "@supabase/supabase-js";
+import axios from "axios";
+import { FileInput, Label, TextInput } from "flowbite-react";
+import { ChangeEvent } from "react";
 
 type Props = {
-  countries: Countries;
+  countries: string[];
 };
 
+const supabase = createClient(
+  process.env.SUPABASE_PAGE!,
+  process.env.SUPABASE_API!,
+);
+
 export default function BuyItNowPage({ countries }: Readonly<Props>) {
-  const countriesNames = countries.data
-    .map((country) => country.name.common)
-    .sort((a, b) => a.localeCompare(b));
+  const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.currentTarget.files![0];
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await axios.post("/api/enhance-image", formData);
+      // Handle the enhanced image response here
+      console.log("Enhanced image:", response.data);
+      // Update state or display the enhanced image
+    } catch (error) {
+      console.error("Error enhancing image:", error);
+    }
+  };
 
   return (
     <div className="m-36">
@@ -70,12 +90,13 @@ export default function BuyItNowPage({ countries }: Readonly<Props>) {
               <SelectFromEnum
                 required
                 name="address-country"
-                enumObj={countriesNames}
+                enumObj={countries}
               />
               <Label>Country</Label>
             </div>
           </div>
         </div>
+        <FileInput accept="image/*" onChange={handleImageUpload} />
       </form>
     </div>
   );

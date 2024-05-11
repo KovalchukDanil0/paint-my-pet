@@ -4,21 +4,17 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withMDXPlugin = withMDX({
   extension: /\.mdx?$/,
-  options: {
-    // If you use remark-gfm, you'll need to use next.config.mjs
-    // as the package is ESM only
-    // https://github.com/remarkjs/remark-gfm#install
-    remarkPlugins: [],
-    rehypePlugins: [],
-    // If you use `MDXProvider`, uncomment the following line.
-    // providerImportSource: "@mdx-js/react",
-  },
 });
 
 const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    EXCHANGE_API: process.env.EXCHANGE_API,
+    SUPABASE_PAGE: process.env.SUPABASE_PAGE,
+    SUPABASE_API: process.env.SUPABASE_API,
+  },
   webpack: (config) => {
     config.resolve.fallback = { fs: false };
 
