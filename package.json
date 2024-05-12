@@ -19,6 +19,7 @@
     "@stripe/stripe-js": "^3.4.0",
     "@supabase/supabase-js": "^2.43.1",
     "axios": "^1.6.8",
+    "axios-cache-interceptor": "^1.5.2",
     "big.js": "^6.2.1",
     "cashify": "^3.0.1",
     "cookie": "^0.6.0",

@@ -3,11 +3,14 @@
 import { getCart } from "@/lib/db/cart";
 import { FormatPrice } from "@/lib/format";
 import { Countries } from "@/lib/shared";
-import axios from "axios";
+import Axios from "axios";
+import { setupCache } from "axios-cache-interceptor";
 import { getLocale } from "next-intl/server";
-import BuyItNowPage from "./BuyItNow";
+import BuyItNow from "./BuyItNow";
 import CartEntry from "./CartEntry";
 import CheckoutButton from "./CheckoutButton";
+
+const axios = setupCache(Axios.create());
 
 export default async function CartPage() {
   const cart = await getCart();
@@ -37,7 +40,7 @@ export default async function CartPage() {
         <p>Your cart is empty</p>
       ) : (
         <div>
-          <BuyItNowPage countries={countriesNames} />
+          <BuyItNow countries={countriesNames} />
           <div className="flex flex-col items-end sm:items-center">
             <p className="mb-3 font-bold">Total: {subtotalPrice}</p>
             <CheckoutButton locale={locale} />

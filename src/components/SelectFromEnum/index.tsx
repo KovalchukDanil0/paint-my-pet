@@ -4,10 +4,13 @@ import { Select } from "flowbite-react";
 import { ComponentProps } from "react";
 
 interface Props extends ComponentProps<"select"> {
-  enumObj: object;
+  obj: object;
 }
 
-export default function SelectFromEnum({ enumObj, ...props }: Readonly<Props>) {
+export default function SelectFromObject({
+  obj: enumObj,
+  ...props
+}: Readonly<Props>) {
   return (
     <Select {...props}>
       {Object.keys(enumObj).map((val) => {

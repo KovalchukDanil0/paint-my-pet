@@ -1,8 +1,7 @@
 "use client";
 
-import SelectFromEnum from "@/components/SelectFromEnum";
+import SelectFromObject from "@/components/SelectFromEnum";
 import { createClient } from "@supabase/supabase-js";
-import axios from "axios";
 import { FileInput, Label, TextInput } from "flowbite-react";
 import { ChangeEvent } from "react";
 
@@ -11,24 +10,26 @@ type Props = {
 };
 
 const supabase = createClient(
-  process.env.SUPABASE_PAGE!,
-  process.env.SUPABASE_API!,
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
 
-export default function BuyItNowPage({ countries }: Readonly<Props>) {
+export default function BuyItNow({ countries }: Readonly<Props>) {
   const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.currentTarget.files![0];
-    const formData = new FormData();
-    formData.append("image", file);
 
-    try {
-      const response = await axios.post("/api/enhance-image", formData);
-      // Handle the enhanced image response here
-      console.log("Enhanced image:", response.data);
-      // Update state or display the enhanced image
-    } catch (error) {
-      console.error("Error enhancing image:", error);
-    }
+    const gg = await supabase.auth.signInWithPassword({
+      email: "dterrariad@gmail.com",
+      password: process.env.SUPABASE_AUTH_PASSWORD!,
+    });
+
+    console.log(gg);
+
+    const { data, error } = await supabase.storage
+      .from("images")
+      .upload(`${gg.data.user?.id}/${file.name}`, file);
+
+    console.log(error);
   };
 
   return (
@@ -87,10 +88,10 @@ export default function BuyItNowPage({ countries }: Readonly<Props>) {
               <Label>Postal Code</Label>
             </div>
             <div>
-              <SelectFromEnum
+              <SelectFromObject
                 required
                 name="address-country"
-                enumObj={countries}
+                obj={countries}
               />
               <Label>Country</Label>
             </div>

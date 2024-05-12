@@ -1,7 +1,7 @@
 "use server";
 
 import FormSubmitButton from "@/components/FormSubmitButton";
-import SelectFromEnum from "@/components/SelectFromEnum";
+import SelectFromObject from "@/components/SelectFromEnum";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db/prisma";
 import { ProductTags, isAdmin, isEmpty } from "@/lib/shared";
@@ -57,7 +57,7 @@ export default async function AddProductPage() {
           type="text"
         />
         <TextInput required name="price" placeholder="Price" type="number" />
-        <SelectFromEnum required name="tag" enumObj={ProductTags} />
+        <SelectFromObject required name="tag" obj={ProductTags} />
         <FormSubmitButton className="w-fit">Add Product</FormSubmitButton>
       </form>
     </div>

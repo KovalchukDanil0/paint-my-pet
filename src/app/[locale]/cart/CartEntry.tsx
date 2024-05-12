@@ -1,6 +1,6 @@
 "use client";
 
-import SelectFromEnum from "@/components/SelectFromEnum";
+import SelectFromObject from "@/components/SelectFromEnum";
 import { CartItemWithProduct } from "@/lib/db/cart";
 import { Dimensions } from "@/lib/shared";
 import { Button, Spinner } from "flowbite-react";
@@ -53,10 +53,10 @@ export default function CartEntry({
       </Link>
       <div>Price: {price}</div>
       <div className="my-1 flex items-center gap-2">
-        <SelectFromEnum
+        <SelectFromObject
           defaultValue={dimension}
           onChange={updateDimension}
-          enumObj={Dimensions}
+          obj={Dimensions}
         />
         <Button onClick={deleteButtonClick}>Delete</Button>
         {isPending && <Spinner />}

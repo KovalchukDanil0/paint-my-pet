@@ -1,7 +1,7 @@
 "use client";
 
 import PriceTag from "@/components/PriceTag";
-import SelectFromEnum from "@/components/SelectFromEnum";
+import SelectFromObject from "@/components/SelectFromEnum";
 import { Dimensions } from "@/lib/shared";
 import { Product } from "@prisma/client";
 import { Button, Spinner } from "flowbite-react";
@@ -51,7 +51,7 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
           <PriceTag price={product.price} />
           <p>{product.description}</p>
           <div className="flex w-fit items-center gap-2">
-            <SelectFromEnum onChange={selectChange} enumObj={Dimensions} />
+            <SelectFromObject onChange={selectChange} obj={Dimensions} />
             <Button onClick={buttonClick}>
               Add to cart <FaShoppingCart />
             </Button>
