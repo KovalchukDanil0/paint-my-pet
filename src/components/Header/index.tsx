@@ -31,7 +31,7 @@ export default async function Header({ locale }: Readonly<Props>) {
   const cart = await getCart();
   const session = await getServerSession(authOptions);
   const t = await getTranslations("Header");
-  const price = await FormatPrice(cart?.subtotal ?? 0, locale);
+  const price = String(await FormatPrice(cart?.subtotal ?? 0, locale));
 
   const navLink: NavLinks = [
     { active: false, title: t("Home"), href: "/" },
