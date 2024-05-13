@@ -1,14 +1,16 @@
 import Axios from "axios";
-import { setupCache } from "axios-cache-interceptor";
+import { CacheAxiosResponse, setupCache } from "axios-cache-interceptor";
 import Big from "big.js";
 import { convert } from "cashify";
 import { Rates } from "cashify/dist/lib/options";
 
 const axios = setupCache(Axios.create());
 
-const req = axios.get(
-  `https://v6.exchangerate-api.com/v6/${process.env.EXCHANGE_API}/latest/EUR`,
-);
+const req: Promise<CacheAxiosResponse | null> = axios
+  .get(
+    `https://v6.exchangerate-api.com/v6/${process.env.EXCHANGE_API}/latest/EUR`,
+  )
+  .catch(() => null);
 
 export function localeToCurrency(locale: string) {
   switch (locale) {
@@ -16,21 +18,28 @@ export function localeToCurrency(locale: string) {
       return "CZK";
     case "en":
       return "USD";
+    case "eu":
+      return "EUR";
     default:
       throw new Error(`This locale "${locale}" doesn't exist`);
   }
 }
 
-export async function FormatPrice(price: number, locale: string) {
-  let conversion_rates: Rates;
+export async function FormatPrice(
+  price: number,
+  locale: string,
+  withSign = true,
+): Promise<string | number> {
+  let conversion_rates: Rates = { EUR: 1 };
 
-  try {
-    conversion_rates = (await req).data.conversion_rates;
-  } catch {
-    return "NO PRICE AVAILABLE";
+  let currency = localeToCurrency(locale);
+
+  const reqResolved: CacheAxiosResponse | null = await req;
+  if (reqResolved != null) {
+    conversion_rates = reqResolved.data.conversion_rates;
+  } else {
+    currency = "EUR";
   }
-
-  const currency = localeToCurrency(locale);
 
   const convertedPrice: number = Math.round(
     convert(price, {
@@ -41,6 +50,10 @@ export async function FormatPrice(price: number, locale: string) {
       BigJs: Big,
     }),
   );
+
+  if (!withSign) {
+    return convertedPrice;
+  }
 
   return (convertedPrice / 100).toLocaleString(locale, {
     currency,

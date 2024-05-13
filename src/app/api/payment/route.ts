@@ -1,9 +1,5 @@
 import { ShoppingCart, getCart } from "@/lib/db/cart";
-import { localeToCurrency } from "@/lib/format";
-import axios from "axios";
-import Big from "big.js";
-import { convert } from "cashify";
-import { Rates } from "cashify/dist/lib/options";
+import { FormatPrice, localeToCurrency } from "@/lib/format";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -23,20 +19,8 @@ export async function POST(request: NextRequest) {
   const requestData: routeData = await request.json();
   const currency = localeToCurrency(requestData.locale);
 
-  const {
-    data: { rates },
-  }: { data: { rates: Rates } } = await axios.get(
-    `https://v6.exchangerate-api.com/v6/${process.env.EXCHANGE_API}/latest/EUR`,
-  );
-
-  const unit_amount: number = Math.round(
-    convert(cart.subtotal, {
-      rates,
-      base: "EUR",
-      from: "EUR",
-      to: currency,
-      BigJs: Big,
-    }),
+  const unit_amount = Number(
+    await FormatPrice(cart.subtotal, requestData.locale, false),
   );
 
   const nickname: string = cart.items

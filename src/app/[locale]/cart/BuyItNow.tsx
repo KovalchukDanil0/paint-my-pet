@@ -18,18 +18,22 @@ export default function BuyItNow({ countries }: Readonly<Props>) {
   const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.currentTarget.files![0];
 
-    const gg = await supabase.auth.signInWithPassword({
+    const auth = await supabase.auth.signInWithPassword({
       email: "dterrariad@gmail.com",
       password: process.env.SUPABASE_AUTH_PASSWORD!,
     });
 
-    console.log(gg);
+    if (auth.error != null) {
+      throw new Error(auth.error.message);
+    }
 
-    const { data, error } = await supabase.storage
+    const storage = await supabase.storage
       .from("images")
-      .upload(`${gg.data.user?.id}/${file.name}`, file);
+      .upload(`${auth.data.user?.id}/${file.name}`, file);
 
-    console.log(error);
+    if (storage.error != null) {
+      throw new Error(storage.error.message);
+    }
   };
 
   return (
