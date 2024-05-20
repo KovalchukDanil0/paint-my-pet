@@ -29,7 +29,7 @@ export default async function CartPage() {
       <h1 className="mb-6 text-center text-3xl font-bold">Your cart</h1>
       <div className="flex flex-row flex-wrap gap-9">
         {cart?.items.map(async (cartItem) => {
-          const price: string = String(
+          const price = String(
             await FormatPrice(cartItem.product.price, locale),
           );
           return (

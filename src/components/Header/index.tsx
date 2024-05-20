@@ -1,9 +1,10 @@
 "use server";
 
 import SiteIcon from "@/app/favicon.ico";
-import { authOptions } from "@/lib/auth";
 import { getCart } from "@/lib/db/cart";
+import { prisma } from "@/lib/db/prisma";
 import { FormatPrice } from "@/lib/format";
+import { createClient } from "@/lib/supabase/server";
 import {
   Navbar,
   NavbarBrand,
@@ -11,7 +12,6 @@ import {
   NavbarToggle,
   TextInput,
 } from "flowbite-react";
-import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,9 +29,19 @@ type Props = {
 
 export default async function Header({ locale }: Readonly<Props>) {
   const cart = await getCart();
-  const session = await getServerSession(authOptions);
   const t = await getTranslations("Header");
   const price = String(await FormatPrice(cart?.subtotal ?? 0, locale));
+  const supabase = createClient();
+  const user = await supabase.auth.getUser();
+
+  let userAvatar: string | undefined;
+  if (user != null) {
+    userAvatar = (
+      await prisma.user.findFirst({
+        where: { id: user.data.user?.id },
+      })
+    )?.image;
+  }
 
   const navLink: NavLinks = [
     { active: false, title: t("Home"), href: "/" },
@@ -66,7 +76,11 @@ export default async function Header({ locale }: Readonly<Props>) {
         <form action={searchProducts} className="min-w-20 md:w-full">
           <TextInput name="searchQuery" placeholder="Search" />
         </form>
-        <UserMenuAvatar locale={locale} session={session} />
+        <UserMenuAvatar
+          user={user.data.user!}
+          userAvatar={userAvatar}
+          locale={locale}
+        />
         <NavbarToggle />
       </div>
       <NavbarCollapse>

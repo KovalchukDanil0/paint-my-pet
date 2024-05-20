@@ -2,17 +2,17 @@
 
 import FormSubmitButton from "@/components/FormSubmitButton";
 import SelectFromObject from "@/components/SelectFromEnum";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db/prisma";
 import { ProductTags, isAdmin, isEmpty } from "@/lib/shared";
+import { createClient } from "@/lib/supabase/server";
 import { TextInput, Textarea } from "flowbite-react";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 async function checkIfSigned() {
-  const session = await getServerSession(authOptions);
+  const supabase = createClient();
+  const user = await supabase.auth.getUser();
 
-  if (!isAdmin(session!)) {
+  if (!isAdmin(user)) {
     throw new Error("You are not admin");
   }
 }

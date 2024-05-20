@@ -1,8 +1,7 @@
 import { Cart, CartItem, Prisma } from "@prisma/client";
-import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
-import { authOptions } from "../auth";
 import { Dimensions } from "../shared";
+import { createClient } from "../supabase/server";
 import { prisma } from "./prisma";
 
 const cartId = "localCartId";
@@ -23,13 +22,20 @@ export type ShoppingCart = CartWithProducts & {
 };
 
 export async function getCart(): Promise<ShoppingCart> {
-  const session = await getServerSession(authOptions);
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.getSession();
+  if (error != null) {
+    throw new Error(error.message);
+  }
 
   let cart: CartWithProducts | null = null;
 
-  if (session) {
+  if (data != null) {
+    const user = (await supabase.auth.getUser()).data.user;
+
     cart = await prisma.cart.findFirst({
-      where: { userId: session.user.id },
+      where: { userId: user?.id },
       include,
     });
   } else {
@@ -54,11 +60,12 @@ export async function getCart(): Promise<ShoppingCart> {
 }
 
 export async function createCart(): Promise<ShoppingCart> {
-  const session = await getServerSession(authOptions);
+  const supabase = createClient();
+  const session = (await supabase.auth.getSession()).data.session;
 
   let newCart: Cart;
 
-  if (session) {
+  if (session != null) {
     newCart = await prisma.cart.create({ data: { userId: session.user.id } });
   } else {
     newCart = await prisma.cart.create({ data: {} });

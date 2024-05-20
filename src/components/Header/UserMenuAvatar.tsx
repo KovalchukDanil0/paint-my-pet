@@ -1,35 +1,27 @@
 "use client";
 
 import { isAdmin } from "@/lib/shared";
+import { User, UserResponse } from "@supabase/supabase-js";
 import { Avatar, Dropdown } from "flowbite-react";
-import { Session } from "next-auth";
-import { signIn, signOut } from "next-auth/react";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { FaRegUserCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import ButChangeLang from "../ButChangeLang";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  session: Session | null;
+  user: User;
+  userAvatar: string | undefined;
   locale: string;
 }
 
-const userImage = (image: string) => (
-  <Image
-    className="rounded-2xl"
-    alt="User Avatar"
-    width={50}
-    height={50}
-    src={image}
-  />
-);
-
 export default function UserMenuAvatar({
-  session,
+  user,
+  userAvatar,
   locale,
   ...props
 }: Readonly<Props>) {
-  const user = session?.user;
+  const router = useRouter();
+  const userResponse: UserResponse = { data: { user }, error: null };
 
   return (
     <Dropdown
@@ -37,14 +29,14 @@ export default function UserMenuAvatar({
       arrowIcon={false}
       inline
       label={
-        user ? (
+        userAvatar != null ? (
           <Avatar
             className={twMerge(
-              isAdmin(session) ? "outline-dotted outline-yellow-300" : "",
+              isAdmin(userResponse) ? "outline-dotted outline-yellow-300" : "",
               "w-12",
             )}
             alt="User settings"
-            img={() => userImage(user.image)}
+            img={userAvatar}
             rounded
           />
         ) : (
@@ -52,9 +44,9 @@ export default function UserMenuAvatar({
         )
       }
     >
-      {user && (
+      {user != null && (
         <Dropdown.Header>
-          <span className="block text-sm">{user?.name}</span>
+          <span className="block text-sm">{user.id}</span>
           <span className="block truncate text-sm font-medium">
             {user?.email}
           </span>
@@ -62,12 +54,14 @@ export default function UserMenuAvatar({
       )}
       <ButChangeLang locale={locale} />
       <Dropdown.Divider />
-      {user ? (
-        <Dropdown.Item onClick={() => signOut({ callbackUrl: "/" })}>
+      {user != null ? (
+        <Dropdown.Item onClick={() => router.push("/login")}>
           Sign out
         </Dropdown.Item>
       ) : (
-        <Dropdown.Item onClick={signIn}>Sign in</Dropdown.Item>
+        <Dropdown.Item onClick={() => router.push("/login")}>
+          Sign in
+        </Dropdown.Item>
       )}
     </Dropdown>
   );

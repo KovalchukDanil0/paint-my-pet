@@ -34,9 +34,9 @@ button {
   @apply text-base
 }
 
-a {
-  @apply text-base
-}
+/* div>a {
+  @apply text-base text-blue-600 dark:text-blue-500 hover:underline
+} */
 
 @keyframes IridescentColor {
   0% {

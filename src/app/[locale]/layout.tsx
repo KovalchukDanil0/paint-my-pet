@@ -7,7 +7,6 @@ import { getTranslations } from "next-intl/server";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 import { twMerge } from "tailwind-merge";
-import SessionProvider from "./SessionProvider";
 import "./globals.css";
 import { flowbiteTheme } from "./theme";
 
@@ -56,15 +55,13 @@ export default function RootLayout({
           inter.className,
         )}
       >
-        <SessionProvider>
-          <Flowbite theme={{ theme: flowbiteTheme }}>
-            <NextIntlClientProvider locale={locale} messages={messages}>
-              <Header locale={locale} />
-              <main>{children}</main>
-              <Footer />
-            </NextIntlClientProvider>
-          </Flowbite>
-        </SessionProvider>
+        <Flowbite theme={{ theme: flowbiteTheme }}>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <Header locale={locale} />
+            <main>{children}</main>
+            <Footer />
+          </NextIntlClientProvider>
+        </Flowbite>
       </body>
     </html>
   );

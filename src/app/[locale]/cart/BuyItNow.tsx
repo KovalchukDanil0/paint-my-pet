@@ -14,30 +14,25 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
 
+const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+  const file = event.currentTarget.files![0];
+
+  const auth = await supabase.auth.getUser();
+
+  console.log(`${auth.data.user?.id}/${file.name}`);
+
+  const storage = await supabase.storage
+    .from("images")
+    .upload(`${auth.data.user?.id}/${file.name}`, file);
+
+  if (storage.error != null) {
+    throw new Error(storage.error.message);
+  }
+};
+
 export default function BuyItNow({ countries }: Readonly<Props>) {
-  const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.currentTarget.files![0];
-
-    const auth = await supabase.auth.signInWithPassword({
-      email: "dterrariad@gmail.com",
-      password: process.env.SUPABASE_AUTH_PASSWORD!,
-    });
-
-    if (auth.error != null) {
-      throw new Error(auth.error.message);
-    }
-
-    const storage = await supabase.storage
-      .from("images")
-      .upload(`${auth.data.user?.id}/${file.name}`, file);
-
-    if (storage.error != null) {
-      throw new Error(storage.error.message);
-    }
-  };
-
   return (
-    <div className="m-36">
+    <div className="md:m-36">
       <form className="flex flex-col gap-5" action="">
         <div>
           <Label className="text-base font-bold">
