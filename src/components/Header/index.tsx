@@ -35,7 +35,7 @@ export default async function Header({ locale }: Readonly<Props>) {
   const user = await supabase.auth.getUser();
 
   let userAvatar: string | undefined;
-  if (user != null) {
+  if (user.data.user != null) {
     userAvatar = (
       await prisma.user.findFirst({
         where: { id: user.data.user?.id },
