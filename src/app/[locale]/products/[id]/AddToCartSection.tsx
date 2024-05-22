@@ -8,25 +8,25 @@ import { Button, Spinner } from "flowbite-react";
 import Image from "next/image";
 import { ChangeEvent, useState, useTransition } from "react";
 import { FaShoppingCart } from "react-icons/fa";
-import { incrementProductQuantity } from "./actions";
+import { setDimension } from "./actions";
 
 type Props = {
   product: Product;
 };
 
+let dimension = Dimensions["16x20"];
+
 export default function AddToCartSection({ product }: Readonly<Props>) {
   const [isPending, startTransition] = useTransition();
   const [success, setSuccess] = useState(false);
-  const [dimension, setDimension] = useState("16x20" as unknown as Dimensions);
 
   function selectChange(e: ChangeEvent<HTMLSelectElement>) {
-    setDimension(e.currentTarget.value as unknown as Dimensions);
+    dimension = e.currentTarget.value as unknown as Dimensions;
   }
 
   function buttonClick() {
-    setSuccess(false);
     startTransition(async () => {
-      await incrementProductQuantity(product.id, dimension);
+      await setDimension(product.id, dimension);
       setSuccess(true);
     });
   }
@@ -42,8 +42,8 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
           alt={product.name}
           width={500}
           height={500}
-          style={{ aspectRatio: dimension.toString().replace("x", "/") }}
           className="rounded-lg object-cover"
+          style={{ aspectRatio: "3/4" }}
           priority
         />
         <div className="flex flex-col gap-4">
@@ -57,7 +57,9 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
             </Button>
             {isPending && <Spinner />}
             {!isPending && success && (
-              <span className="text-green-500">Added to cart</span>
+              <span className="animate-fade text-green-500 animate-reverse">
+                Added to cart
+              </span>
             )}
           </div>
         </div>

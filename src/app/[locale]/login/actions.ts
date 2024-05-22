@@ -4,6 +4,7 @@ import { mergeAnonymousCartIntoUserCart } from "@/lib/db/cart";
 import { prisma } from "@/lib/db/prisma";
 import { createClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function login(formData: FormData) {
   const supabase = createClient();
@@ -25,6 +26,8 @@ export async function login(formData: FormData) {
   if (userId != null) {
     await mergeAnonymousCartIntoUserCart(userId);
   }
+
+  redirectAfterAction();
 }
 
 export async function signup(formData: FormData) {
@@ -44,6 +47,8 @@ export async function signup(formData: FormData) {
   }
 
   await prisma.user.create({ data: { id: data.user?.id! } });
+
+  redirectAfterAction();
 }
 
 export async function signout() {
@@ -56,4 +61,25 @@ export async function signout() {
   }
 
   cookies().delete("localCartId");
+
+  redirectAfterAction();
+}
+
+export async function logInWithGoogle() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: `${process.env.NEXTAUTH_URL}/api/auth/callback` },
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  redirect(data.url);
+}
+
+function redirectAfterAction() {
+  redirect("/");
 }

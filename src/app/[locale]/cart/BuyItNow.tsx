@@ -19,8 +19,6 @@ const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
 
   const auth = await supabase.auth.getUser();
 
-  console.log(`${auth.data.user?.id}/${file.name}`);
-
   const storage = await supabase.storage
     .from("images")
     .upload(`${auth.data.user?.id}/${file.name}`, file);

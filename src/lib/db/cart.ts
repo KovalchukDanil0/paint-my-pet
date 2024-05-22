@@ -1,6 +1,5 @@
 import { Cart, CartItem, Prisma } from "@prisma/client";
 import { cookies } from "next/headers";
-import { Dimensions } from "../shared";
 import { createClient } from "../supabase/server";
 import { prisma } from "./prisma";
 
@@ -17,35 +16,30 @@ export type CartItemWithProduct = Prisma.CartItemGetPayload<{
 }>;
 
 export type ShoppingCart = CartWithProducts & {
-  dimension: string;
   subtotal: number;
 };
 
 export async function getCart(): Promise<ShoppingCart> {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getSession();
-  if (error != null) {
-    throw new Error(error.message);
-  }
+  const { data } = await supabase.auth.getUser();
 
   let cart: CartWithProducts | null = null;
 
-  if (data != null) {
-    const user = (await supabase.auth.getUser()).data.user;
-
+  if (data.user != null) {
     cart = await prisma.cart.findFirst({
-      where: { userId: user?.id },
+      where: { userId: data.user.id },
       include,
     });
   } else {
     const localCartId = cookies().get(cartId)?.value;
-    cart = localCartId
-      ? await prisma.cart.findUnique({
-          where: { id: localCartId },
-          include,
-        })
-      : null;
+    cart =
+      localCartId != null
+        ? await prisma.cart.findUnique({
+            where: { id: localCartId },
+            include,
+          })
+        : null;
   }
 
   if (cart == null) {
@@ -54,19 +48,18 @@ export async function getCart(): Promise<ShoppingCart> {
 
   return {
     ...cart,
-    dimension: cart.items[0]?.dimension ?? Dimensions["16x20"],
     subtotal: cart.items.reduce((acc, item) => acc + item.product.price, 0),
   };
 }
 
 export async function createCart(): Promise<ShoppingCart> {
   const supabase = createClient();
-  const session = (await supabase.auth.getSession()).data.session;
+  const user = (await supabase.auth.getUser()).data.user;
 
   let newCart: Cart;
 
-  if (session != null) {
-    newCart = await prisma.cart.create({ data: { userId: session.user.id } });
+  if (user != null) {
+    newCart = await prisma.cart.create({ data: { userId: user.id } });
   } else {
     newCart = await prisma.cart.create({ data: {} });
 
@@ -74,7 +67,7 @@ export async function createCart(): Promise<ShoppingCart> {
     //! cookies().set(cartId, newCart.id);
   }
 
-  return { ...newCart, items: [], dimension: "16x9", subtotal: 0 };
+  return { ...newCart, items: [], subtotal: 0 };
 }
 
 export async function mergeAnonymousCartIntoUserCart(userId: string) {
