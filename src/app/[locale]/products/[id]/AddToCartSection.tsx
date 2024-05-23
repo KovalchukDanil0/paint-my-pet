@@ -6,7 +6,7 @@ import { Dimensions } from "@/lib/shared";
 import { Product } from "@prisma/client";
 import { Button, Spinner } from "flowbite-react";
 import Image from "next/image";
-import { ChangeEvent, useState, useTransition } from "react";
+import { AnimationEvent, ChangeEvent, useState, useTransition } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { setDimension } from "./actions";
 
@@ -15,6 +15,12 @@ type Props = {
 };
 
 let dimension = Dimensions["16x20"];
+
+function setInvisible(event: AnimationEvent<HTMLSpanElement>) {
+  const element = event.currentTarget;
+  element.classList.remove("block");
+  element.classList.add("hidden");
+}
 
 export default function AddToCartSection({ product }: Readonly<Props>) {
   const [isPending, startTransition] = useTransition();
@@ -57,7 +63,10 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
             </Button>
             {isPending && <Spinner />}
             {!isPending && success && (
-              <span className="animate-fade text-green-500 animate-reverse">
+              <span
+                onAnimationEnd={setInvisible}
+                className="animate-fade text-green-500 animate-reverse"
+              >
                 Added to cart
               </span>
             )}

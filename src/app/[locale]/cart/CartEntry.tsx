@@ -48,7 +48,7 @@ export default function CartEntry({
         height={200}
         className="h-52 rounded-lg object-cover"
       />
-      <Link href={"/products/" + id} className="font-bold">
+      <Link href={"/products/" + id} className="w-fit font-bold">
         View product
       </Link>
       <div>Price: {price}</div>

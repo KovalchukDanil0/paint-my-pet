@@ -16,7 +16,6 @@ export default function PriceTag({
   ...props
 }: Readonly<Props>) {
   const locale = useLocale();
-
   const [gg, setGg] = useState<string | number | null>(null);
 
   useEffect(() => {

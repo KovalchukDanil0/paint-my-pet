@@ -20,7 +20,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    remotePatterns: [{ hostname: "lh3.googleusercontent.com" }],
+    remotePatterns: [{ hostname: "ljcwvpublqnhcfwtbjli.supabase.co" }],
   },
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   reactStrictMode: true,
