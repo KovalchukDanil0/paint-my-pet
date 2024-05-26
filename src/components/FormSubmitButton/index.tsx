@@ -1,10 +1,10 @@
 "use client";
 
-import { Button, Spinner } from "flowbite-react";
-import { ComponentProps, RefObject } from "react";
+import { RefObject } from "react";
+import { Button, ButtonProps, Progress } from "react-daisyui";
 import { useFormStatus } from "react-dom";
 
-interface Props extends ComponentProps<"button"> {
+interface Props extends ButtonProps {
   ref?: RefObject<HTMLButtonElement>;
 }
 
@@ -17,7 +17,7 @@ export default function FormSubmitButton({
 
   return (
     <Button {...props} className={className} disabled={pending} type="submit">
-      {pending && <Spinner className="mr-3" />}
+      {pending && <Progress className="mr-3" />}
       {children}
     </Button>
   );

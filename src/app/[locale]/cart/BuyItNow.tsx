@@ -2,8 +2,8 @@
 
 import SelectFromObject from "@/components/SelectFromEnum";
 import { createClient } from "@/lib/supabase/client";
-import { FileInput, Label, TextInput } from "flowbite-react";
 import { ChangeEvent } from "react";
+import { FileInput, Input } from "react-daisyui";
 
 type Props = {
   countries: string[];
@@ -35,65 +35,56 @@ export default function BuyItNow({ countries }: Readonly<Props>) {
     <div className="md:m-36">
       <form className="flex flex-col gap-5" action="">
         <div>
-          <Label htmlFor="name-box" className="text-base font-bold">
+          <label htmlFor="name-box" className="text-base font-bold">
             Name<span className="text-red-500">*</span>
-          </Label>
+          </label>
           <div id="name-box" className="flex gap-5">
             <div className="w-full">
-              <TextInput
-                id="name-first"
-                name="name-first"
-                required
-                type="text"
-              />
-              <Label htmlFor="name-first">First</Label>
+              <Input id="name-first" name="name-first" required type="text" />
+              <label htmlFor="name-first">First</label>
             </div>
             <div className="w-full">
-              <TextInput id="name-last" name="name-last" required type="text" />
-              <Label htmlFor="name-last">Last</Label>
+              <Input id="name-last" name="name-last" required type="text" />
+              <label htmlFor="name-last">Last</label>
             </div>
           </div>
         </div>
         <div className="w-full">
-          <Label htmlFor="email" className="text-base font-bold">
+          <label htmlFor="email" className="text-base font-bold">
             Email<span className="text-red-500">*</span>
-          </Label>
-          <TextInput id="email" name="email" required type="email" />
+          </label>
+          <Input id="email" name="email" required type="email" />
         </div>
         <div className="w-full">
-          <Label htmlFor="phone" className="text-base font-bold">
+          <label htmlFor="phone" className="text-base font-bold">
             Phone<span className="text-red-500">*</span>
-          </Label>
-          <TextInput id="phone" name="phone" required type="tel" />
+          </label>
+          <Input id="phone" name="phone" required type="tel" />
         </div>
         <div className="w-full">
-          <Label htmlFor="address" className="text-base font-bold">
+          <label htmlFor="address" className="text-base font-bold">
             Address<span className="text-red-500">*</span>
-          </Label>
-          <TextInput id="address" name="address" required type="text" />
+          </label>
+          <Input id="address" name="address" required type="text" />
         </div>
         <div className="w-full">
-          <Label htmlFor="address-full">Address Line 1</Label>
-          <TextInput id="address-full" name="address-full" type="text" />
+          <label htmlFor="address-full">Address Line 1</label>
+          <Input id="address-full" name="address-full" type="text" />
         </div>
         <div>
-          <Label>Address Line 2</Label>
+          <label>Address Line 2</label>
           <div className="grid grid-cols-2 gap-5">
             <div>
-              <TextInput id="address-city" name="address-city" type="text" />
-              <Label htmlFor="address-city">City</Label>
+              <Input id="address-city" name="address-city" type="text" />
+              <label htmlFor="address-city">City</label>
             </div>
             <div>
-              <TextInput id="address-state" name="address-state" type="text" />
-              <Label htmlFor="address-state">State / Province / Region</Label>
+              <Input id="address-state" name="address-state" type="text" />
+              <label htmlFor="address-state">State / Province / Region</label>
             </div>
             <div>
-              <TextInput
-                id="address-postal"
-                name="address-postal"
-                type="text"
-              />
-              <Label htmlFor="address-postal">Postal Code</Label>
+              <Input id="address-postal" name="address-postal" type="text" />
+              <label htmlFor="address-postal">Postal Code</label>
             </div>
             <div>
               <SelectFromObject
@@ -101,8 +92,10 @@ export default function BuyItNow({ countries }: Readonly<Props>) {
                 id="address-country"
                 name="address-country"
                 obj={countries}
-              />
-              <Label htmlFor="address-country">Country</Label>
+              >
+                <></>
+              </SelectFromObject>
+              <label htmlFor="address-country">Country</label>
             </div>
           </div>
         </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { Dropdown } from "flowbite-react";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import {
   ReadonlyURLSearchParams,
@@ -8,11 +7,10 @@ import {
   useRouter,
   useSearchParams,
 } from "next/navigation";
-import { ComponentProps, RefObject } from "react";
+import { Dropdown, DropdownProps } from "react-daisyui";
 
-interface Props extends ComponentProps<"button"> {
+interface Props extends DropdownProps {
   locale: string;
-  ref?: RefObject<HTMLButtonElement>;
 }
 
 let butValue: string;

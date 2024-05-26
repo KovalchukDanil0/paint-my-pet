@@ -1,32 +1,73 @@
 "use client";
 
 import SiteIcon from "@/app/favicon.ico";
-import { Footer as FooterElm } from "flowbite-react";
 import { useTranslations } from "next-intl";
-import {
-  BsFacebook,
-  BsGithub,
-  BsInstagram,
-  BsTelegram,
-  BsTwitter,
-} from "react-icons/bs";
+import Image from "next/image";
+import Link from "next/link";
+import { Footer } from "react-daisyui";
 
-export default function Footer() {
+export default function FooterNav() {
   const t = useTranslations("Footer");
   const currentYear = new Date().getFullYear();
 
   return (
-    <FooterElm container>
-      <div className="w-full">
+    <Footer className="bg-neutral p-10 text-neutral-content">
+      <div>
+        <Image className="size-16" src={SiteIcon} alt="Paint My Pet Logo" />
+        <h2>Paint my pet</h2>
+      </div>
+
+      <div>
+        <Footer.Title>Services</Footer.Title>
+        <Link href="" className="link-hover link">
+          Branding
+        </Link>
+        <Link href="" className="link-hover link">
+          Design
+        </Link>
+        <Link href="" className="link-hover link">
+          Marketing
+        </Link>
+        <Link href="" className="link-hover link">
+          Advertisement
+        </Link>
+      </div>
+
+      <div>
+        <Footer.Title>Company</Footer.Title>
+        <Link href="" className="link-hover link">
+          About us
+        </Link>
+        <Link href="" className="link-hover link">
+          Contact
+        </Link>
+        <Link href="" className="link-hover link">
+          Jobs
+        </Link>
+        <Link href="" className="link-hover link">
+          Press kit
+        </Link>
+      </div>
+
+      <div>
+        <Footer.Title>Legal</Footer.Title>
+        <Link href="" className="link-hover link">
+          Terms of use
+        </Link>
+        <Link href="" className="link-hover link">
+          Privacy policy
+        </Link>
+        <Link href="" className="link-hover link">
+          Cookie policy
+        </Link>
+      </div>
+    </Footer>
+  );
+}
+
+/* 
+<div className="w-full">
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
-          <div>
-            <FooterElm.Brand
-              href="/"
-              src={SiteIcon.src}
-              alt="Paint My Pet Logo"
-              name="Paint My Pet"
-            />
-          </div>
           <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
             <div>
               <FooterElm.Title title={t("About")} />
@@ -70,7 +111,4 @@ export default function Footer() {
             />
           </div>
         </div>
-      </div>
-    </FooterElm>
-  );
-}
+      </div> */

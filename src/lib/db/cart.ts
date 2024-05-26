@@ -102,7 +102,6 @@ export async function mergeAnonymousCartIntoUserCart(userId: string) {
               data: mergedCartItems.map((item) => ({
                 productId: item.productId,
                 dimension: item.dimension,
-                additionalPrice: item.additionalPrice,
               })),
             },
           },
@@ -117,7 +116,6 @@ export async function mergeAnonymousCartIntoUserCart(userId: string) {
               data: localCart.items.map((item) => ({
                 productId: item.productId,
                 dimension: item.dimension,
-                additionalPrice: item.additionalPrice,
               })),
             },
           },

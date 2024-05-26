@@ -1,14 +1,12 @@
-import Footer from "@/components/Footer";
+import FooterNav from "@/components/Footer";
 import Header from "@/components/Header";
-import { Flowbite, ThemeModeScript } from "flowbite-react";
 import { Metadata } from "next";
 import { NextIntlClientProvider, useMessages } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 import { twMerge } from "tailwind-merge";
-import "./globals.css";
-import { flowbiteTheme } from "./theme";
+import "./globals.sass";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,22 +44,18 @@ export default function RootLayout({
 
   return (
     <html lang={locale}>
-      <head>
-        <ThemeModeScript />
-      </head>
+      <head></head>
       <body
         className={twMerge(
           "bg-gray-50 text-black dark:bg-black dark:text-white",
           inter.className,
         )}
       >
-        <Flowbite theme={{ theme: flowbiteTheme }}>
-          <NextIntlClientProvider locale={locale} messages={messages}>
-            <Header locale={locale} />
-            <main>{children}</main>
-            <Footer />
-          </NextIntlClientProvider>
-        </Flowbite>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Header locale={locale} />
+          <main>{children}</main>
+          <FooterNav />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

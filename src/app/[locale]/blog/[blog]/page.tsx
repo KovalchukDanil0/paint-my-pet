@@ -1,8 +1,8 @@
 "use client";
 
-import { Spinner } from "flowbite-react";
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
+import { Loading } from "react-daisyui";
 
 type Props = {
   params: {
@@ -14,7 +14,7 @@ type Props = {
 function LoadingElm() {
   return (
     <div className="flex h-20 items-center justify-center">
-      <Spinner />
+      <Loading />
     </div>
   );
 }

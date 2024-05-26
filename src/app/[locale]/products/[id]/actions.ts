@@ -15,7 +15,6 @@ export async function setDimension(productId: string, dimension: Dimensions) {
         create: {
           productId,
           dimension: dimension.toString(),
-          additionalPrice: 0,
         },
       },
     },

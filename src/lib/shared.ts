@@ -1,5 +1,3 @@
-import { UserResponse } from "@supabase/supabase-js";
-
 export enum Dimensions {
   "16x20",
   "12x16",
@@ -12,14 +10,6 @@ export enum ProductTags {
   "dog",
   "cat",
   "rat",
-}
-
-export function isAdmin(user: UserResponse) {
-  if (user.error != null || user.data.user == null) {
-    return false;
-  }
-
-  return process.env.ADMINS_LIST?.split(",").includes(user.data.user.email!);
 }
 
 export function isEmpty(object: Object | null) {

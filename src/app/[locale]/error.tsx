@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "flowbite-react";
 import { useEffect } from "react";
+import { Button } from "react-daisyui";
 
 export default function ErrorPage({
   error,
@@ -21,7 +21,9 @@ export default function ErrorPage({
       <p>Details: {error.message}</p>
       <div className="flex flex-row gap-2">
         <Button onClick={reset}>Try again</Button>
-        <Button href="/">Return to home</Button>
+        <Button tag="a" href="/">
+          Return to home
+        </Button>
       </div>
     </div>
   );

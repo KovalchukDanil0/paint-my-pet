@@ -1,12 +1,12 @@
 "use client";
 
 import { FormatPrice } from "@/lib/format";
-import { Badge } from "flowbite-react";
 import { useLocale } from "next-intl";
-import { ComponentProps, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { Badge, BadgeProps } from "react-daisyui";
 import { twMerge } from "tailwind-merge";
 
-interface Props extends ComponentProps<"span"> {
+interface Props extends BadgeProps {
   price: number;
 }
 

@@ -11,13 +11,13 @@ datasource db {
 model Product {
   id          String @id @default(cuid())
   description String
-  imageUrl    String
+  imageUrl    String @map("image_url")
   name        String
   price       Int
   tag         String
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
   CartItem  CartItem[]
 
   @@map("products")
@@ -27,18 +27,17 @@ model Cart {
   id        String     @id @default(cuid())
   items     CartItem[]
   userId    String?    @map("user_id")
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
 
   @@map("carts")
 }
 
 model CartItem {
-  id              String  @id @default(cuid())
-  productId       String  @map("product_id")
-  product         Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  dimension       String
-  additionalPrice Int
+  id        String  @id @default(cuid())
+  productId String  @map("product_id")
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  dimension String
 
   cartId String @map("cart_id")
   cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
@@ -47,8 +46,23 @@ model CartItem {
 }
 
 model User {
-  id    String @id
-  image String @default("https://ljcwvpublqnhcfwtbjli.supabase.co/storage/v1/object/public/images/user.png")
+  id     String  @id
+  name   String
+  image  String  @default("https://ljcwvpublqnhcfwtbjli.supabase.co/storage/v1/object/public/images/user.png")
+  Admins Admins?
 
   @@map("user")
+}
+
+model Order {
+  id String @id
+
+  @@map("order")
+}
+
+model Admins {
+  id    String @id
+  users User   @relation(fields: [id], references: [id])
+
+  @@map("admins")
 }

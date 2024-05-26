@@ -3,11 +3,11 @@
 import SelectFromObject from "@/components/SelectFromEnum";
 import { CartItemWithProduct } from "@/lib/db/cart";
 import { Dimensions } from "@/lib/shared";
-import { Button, Spinner } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, useTransition } from "react";
-import { addPrice, deleteItemFromCart, setProductDimension } from "./action";
+import { Button, Loading } from "react-daisyui";
+import { deleteItemFromCart, setProductDimension } from "./action";
 
 interface Props {
   cartItem: CartItemWithProduct;
@@ -27,7 +27,6 @@ export default function CartEntry({
     const newDimension = e.currentTarget.value;
 
     startTransition(async () => {
-      await addPrice(id);
       await setProductDimension(id, newDimension);
     });
   }
@@ -57,9 +56,11 @@ export default function CartEntry({
           defaultValue={dimension}
           onChange={updateDimension}
           obj={Dimensions}
-        />
+        >
+          <></>
+        </SelectFromObject>
         <Button onClick={deleteButtonClick}>Delete</Button>
-        {isPending && <Spinner />}
+        {isPending && <Loading />}
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 "use client";
 
 import axios from "axios";
-import { Button } from "flowbite-react";
 import { MouseEvent } from "react";
+import { Button } from "react-daisyui";
 
 async function fetchPrices(e: MouseEvent<HTMLButtonElement>, locale: string) {
   e.preventDefault();

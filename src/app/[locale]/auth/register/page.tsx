@@ -2,8 +2,9 @@
 
 import { ExternalProviders } from "@supabase/supabase-js";
 import axios from "axios";
-import { Label, TextInput } from "flowbite-react";
-import { logInWithGoogle, login, signout, signup } from "./actions";
+import Link from "next/link";
+import { Input } from "react-daisyui";
+import { logInWithGoogle, signout, signup } from "../actions";
 
 export default async function LoginPage() {
   const response: { data: { external: ExternalProviders } } = await axios.get(
@@ -13,13 +14,17 @@ export default async function LoginPage() {
 
   return (
     <div>
+      <p>
+        Already registered? <Link href="/auth/login">Log In</Link>
+      </p>
       <form>
-        <Label htmlFor="email">Email:</Label>
-        <TextInput id="email" name="email" type="email" required />
-        <Label htmlFor="password">Password:</Label>
-        <TextInput id="password" name="password" type="password" required />
+        <label htmlFor="name">Name</label>
+        <Input id="name" name="name" type="text" />
+        <label htmlFor="email">Email:</label>
+        <Input id="email" name="email" type="email" required />
+        <label htmlFor="password">Password:</label>
+        <Input id="password" name="password" type="password" required />
         <div className="flex gap-3">
-          <button formAction={login}>Log in</button>
           <button formAction={signup}>Sign up</button>
           <button formNoValidate formAction={signout}>
             Sign out
@@ -27,7 +32,7 @@ export default async function LoginPage() {
         </div>
         {externalProviders.google && (
           <button formNoValidate formAction={logInWithGoogle}>
-            Log in with Google
+            Sign Up with Google
           </button>
         )}
       </form>

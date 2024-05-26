@@ -1,13 +1,11 @@
 "use client";
 
 import { Product } from "@prisma/client";
-import { Badge, Card } from "flowbite-react";
-import Image from "next/image";
-import { ComponentProps } from "react";
+import { Badge, Button, Card, CardProps } from "react-daisyui";
 import { twMerge } from "tailwind-merge";
 import PriceTag from "../PriceTag";
 
-interface Props extends ComponentProps<"div"> {
+interface Props extends CardProps {
   product: Product;
 }
 
@@ -23,25 +21,25 @@ export default function ProductCard({
     <Card
       {...props}
       draggable={false}
+      color="dark"
       className={twMerge(
         "w-full select-none bg-blue-100 transition-shadow hover:shadow-xl",
         className,
       )}
-      href={"/products/" + id}
     >
-      <h2>{name}</h2>
-      {isNew && <Badge className="w-fit">NEW</Badge>}
-      <p>{description}</p>
-      <PriceTag className="w-fit" price={price} />
-      <Image
-        draggable={false}
-        src={imageUrl}
-        alt={name}
-        width={800}
-        height={400}
-        className="h-56 object-cover md:h-96"
-        loading="lazy"
-      ></Image>
+      <Card.Image src={imageUrl} alt={name} />
+      <Card.Body>
+        <Card.Title tag="h2">
+          {name} {isNew && <Badge className="w-fit">NEW</Badge>}
+        </Card.Title>
+        <p>{description}</p>
+        <PriceTag className="w-fit" price={price} />
+        <Card.Actions className="justify-end">
+          <Button color="primary" tag="a" href={"/products/" + id}>
+            View Product
+          </Button>
+        </Card.Actions>
+      </Card.Body>
     </Card>
   );
 }

@@ -9,8 +9,6 @@ import { redirect } from "next/navigation";
 export async function login(formData: FormData) {
   const supabase = createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
@@ -33,8 +31,6 @@ export async function login(formData: FormData) {
 export async function signup(formData: FormData) {
   const supabase = createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const formAuthData = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
@@ -46,7 +42,9 @@ export async function signup(formData: FormData) {
     throw new Error(error.message);
   }
 
-  await prisma.user.create({ data: { id: data.user?.id! } });
+  await prisma.user.create({
+    data: { id: data.user?.id!, name: formData.get("name") as string },
+  });
 
   redirectAfterAction();
 }

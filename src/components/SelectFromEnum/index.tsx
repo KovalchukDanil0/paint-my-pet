@@ -1,9 +1,8 @@
 "use client";
 
-import { Select } from "flowbite-react";
-import { ComponentProps } from "react";
+import { Select, SelectProps } from "react-daisyui";
 
-interface Props extends ComponentProps<"select"> {
+interface Props extends SelectProps {
   obj: object;
 }
 
@@ -16,9 +15,9 @@ export default function SelectFromObject({
       {Object.keys(enumObj).map((val) => {
         const num = enumObj[val as keyof typeof enumObj];
         if (!isNaN(Number(num))) {
-          return;
+          return <></>;
         }
-        return <option key={num}>{num}</option>;
+        return <Select.Option key={num}>{num}</Select.Option>;
       })}
     </Select>
   );

@@ -1,11 +1,11 @@
 "use client";
 
-import { Spinner } from "flowbite-react";
+import { Loading } from "react-daisyui";
 
 export default function LoadingPage() {
   return (
     <div className="my-24 center">
-      <Spinner />
+      <Loading />
     </div>
   );
 }

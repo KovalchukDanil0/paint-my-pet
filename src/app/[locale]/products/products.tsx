@@ -3,13 +3,13 @@
 import ProductCard from "@/components/ProductCard";
 import { ProductTags, isEmpty } from "@/lib/shared";
 import { Product } from "@prisma/client";
-import { Radio } from "flowbite-react";
 import { ChangeEvent, useState } from "react";
+import { Button, Radio } from "react-daisyui";
 import { twMerge } from "tailwind-merge";
 
-type Props = { products: Product[] };
+type Props = { products: Product[]; admin: boolean };
 
-export default function ProductsPage({ products }: Readonly<Props>) {
+export default function ProductsPage({ products, admin }: Readonly<Props>) {
   const [chosenTag, setChosenTag] = useState<string | null>(null);
 
   function setChosenTagFunc(ev: ChangeEvent<HTMLInputElement>) {
@@ -24,7 +24,15 @@ export default function ProductsPage({ products }: Readonly<Props>) {
   }
 
   return (
-    <>
+    <div>
+      {admin && (
+        <div className="flex h-24 items-center justify-center">
+          <Button tag="a" href="products/add-product">
+            Add product page
+          </Button>
+        </div>
+      )}
+
       <div className="my-5 flex flex-row justify-around">
         {Object.keys(ProductTags).map((val) => {
           const num = ProductTags[val as keyof typeof ProductTags].toString();
@@ -59,6 +67,6 @@ export default function ProductsPage({ products }: Readonly<Props>) {
       ) : (
         <p className="center">No products to display</p>
       )}
-    </>
+    </div>
   );
 }

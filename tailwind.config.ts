@@ -1,4 +1,4 @@
-import FlowbiteReact from "flowbite/plugin";
+import daisyui from "daisyui";
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 // @ts-ignore
@@ -17,7 +17,8 @@ const myPlugin = plugin(function ({ addUtilities }) {
 const tailwind: Config = {
   content: [
     "src/**/*.{js,ts,jsx,tsx,mdx}",
-    "node_modules/flowbite-react/lib/esm/**/*.js",
+    "node_modules/daisyui/dist/**/*.js",
+    "node_modules/react-daisyui/dist/**/*.js",
   ],
   theme: {
     extend: {
@@ -25,7 +26,7 @@ const tailwind: Config = {
       zIndex: { top: "9999" },
     },
   },
-  plugins: [myPlugin, FlowbiteReact, tailwindcssAnimated],
+  plugins: [myPlugin, daisyui, tailwindcssAnimated],
   darkMode: "media",
 };
 

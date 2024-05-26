@@ -4,9 +4,9 @@ import PriceTag from "@/components/PriceTag";
 import SelectFromObject from "@/components/SelectFromEnum";
 import { Dimensions } from "@/lib/shared";
 import { Product } from "@prisma/client";
-import { Button, Spinner } from "flowbite-react";
 import Image from "next/image";
 import { AnimationEvent, ChangeEvent, useState, useTransition } from "react";
+import { Button, Progress } from "react-daisyui";
 import { FaShoppingCart } from "react-icons/fa";
 import { setDimension } from "./actions";
 
@@ -39,7 +39,7 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
 
   return (
     <div>
-      <Button className="mb-5 w-fit" href="/products">
+      <Button className="mb-5 w-fit" tag="a" href="/products">
         Back to products
       </Button>
       <div className="flex w-fit flex-col gap-4 lg:flex-row lg:items-center">
@@ -57,11 +57,13 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
           <PriceTag price={product.price} />
           <p>{product.description}</p>
           <div className="flex w-fit items-center gap-2">
-            <SelectFromObject onChange={selectChange} obj={Dimensions} />
+            <SelectFromObject onChange={selectChange} obj={Dimensions}>
+              <></>
+            </SelectFromObject>
             <Button onClick={buttonClick}>
               Add to cart <FaShoppingCart />
             </Button>
-            {isPending && <Spinner />}
+            {isPending && <Progress />}
             {!isPending && success && (
               <span
                 onAnimationEnd={setInvisible}

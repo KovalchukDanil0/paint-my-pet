@@ -1,10 +1,9 @@
 "use client";
 
 import { Product } from "@prisma/client";
-import { Button } from "flowbite-react";
 import { ComponentProps } from "react";
-import Carousel, { ResponsiveType } from "react-multi-carousel";
-import ProductCard from "../ProductCard";
+import { Button, Carousel } from "react-daisyui";
+import { ResponsiveType } from "react-multi-carousel";
 
 interface Props extends ComponentProps<"div"> {
   products: Product[];
@@ -34,40 +33,19 @@ export default function ProductsCarousel({
 
   return (
     <div {...props}>
-      <Carousel
-        arrows
-        keyBoardControl
-        draggable
-        pauseOnHover
-        shouldResetAutoplay
-        swipeable
-        responsive={responsive}
-        centerMode={false}
-        focusOnSelect={false}
-        renderArrowsWhenDisabled={false}
-        renderButtonGroupOutside={false}
-        renderDotsOutside={false}
-        rewind={false}
-        rewindWithAnimation={false}
-        rtl={false}
-        showDots={false}
-        className="mx-5 my-5"
-        itemClass="px-5"
-        minimumTouchDrag={80}
-        slidesToSlide={1}
-        additionalTransfrom={0}
-        autoPlaySpeed={3000}
-      >
+      <Carousel draggable className="mx-5 my-5">
         {products.slice(0, 6).map((product) => (
-          <ProductCard
+          <Carousel.Item
             className="h-[450px] animate-fade-right md:h-[600px]"
             key={product.id}
-            product={product}
+            src={product.imageUrl}
           />
         ))}
       </Carousel>
       <div className="flex h-24 items-center justify-center">
-        <Button href="products">See all paintings</Button>
+        <Button tag="a" href="products">
+          See all paintings
+        </Button>
       </div>
     </div>
   );

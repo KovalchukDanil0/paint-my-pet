@@ -27,27 +27,12 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: "/redirect",
-        destination: "/",
+        source: "/:locale/auth",
+        destination: "/auth/login",
         basePath: false,
         permanent: true,
       },
     ];
-  },
-  async rewrites() {
-    return {
-      beforeFiles: [
-        // These rewrites are checked after headers/redirects
-        // and before all files including _next/public files which
-        // allows overriding page files
-        {
-          source: "/rewrite",
-          destination: "https://github.com/vercel/next.js/discussions/8207",
-        },
-      ],
-      afterFiles: [],
-      fallback: [],
-    };
   },
 };
 

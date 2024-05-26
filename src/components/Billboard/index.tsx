@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { ComponentProps, type ReactElement } from "react";
+import { Button } from "react-daisyui";
 import { twMerge } from "tailwind-merge";
 
 interface Props extends ComponentProps<"img"> {
@@ -60,7 +60,7 @@ export default function Billboard({
           {href == null ? (
             <></>
           ) : (
-            <Button href={href} className="m-auto mt-9 w-1/3">
+            <Button tag="a" href={href} className="m-auto mt-9 w-1/3">
               {btnText}
             </Button>
           )}
