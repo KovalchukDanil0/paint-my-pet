@@ -69,7 +69,7 @@ export default function NavbarComponent({
   ];
 
   return (
-    <Navbar>
+    <Navbar className="sticky top-0">
       <Navbar.Center className="flex-1">
         <Button tag="a" href="/" className="text-xl normal-case" color="ghost">
           Paint My Pet
@@ -177,37 +177,3 @@ export default function NavbarComponent({
     </Navbar>
   );
 }
-
-/* <Navbar fluid className="sticky top-0 z-top">
-  <NavbarBrand className="flex-1 md:flex-initial" as={Link} href="/">
-    <Image
-      width={40}
-      height={40}
-      src={SiteIcon}
-      className="mr-3 h-9"
-      alt="Flowbite React Logo"
-    />
-    <span className="hidden self-center whitespace-nowrap text-xl font-semibold md:inline-block dark:text-white">
-      Paint My Pet
-    </span>
-  </NavbarBrand>
-  <div className="flex flex-1 gap-3 md:order-2 md:flex-initial">
-    <ShoppingCartButton cart={cart} price={price} />
-    <form action={searchProducts} className="min-w-20 md:w-full">
-      <TextInput name="searchQuery" placeholder="Search" />
-    </form>
-    <UserMenuAvatar
-      user={user.data.user!}
-      userAvatar={userAvatar}
-      userName={userName}
-      locale={locale}
-    />
-    <NavbarToggle />
-  </div>
-  <NavbarCollapse>
-    {navLink.map((link, index) => {
-      return <PageEntry key={link.title} link={link} index={index} />;
-    })}
-  </NavbarCollapse>
-</Navbar>;
- */
