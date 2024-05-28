@@ -69,7 +69,7 @@ export default function NavbarComponent({
   ];
 
   return (
-    <Navbar className="sticky top-0">
+    <Navbar className="sticky top-0 z-top">
       <Navbar.Center className="flex-1">
         <Button tag="a" href="/" className="text-xl normal-case" color="ghost">
           Paint My Pet
