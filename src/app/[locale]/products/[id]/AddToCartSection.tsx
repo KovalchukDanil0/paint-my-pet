@@ -6,7 +6,7 @@ import { Dimensions } from "@/lib/shared";
 import { Product } from "@prisma/client";
 import Image from "next/image";
 import { AnimationEvent, ChangeEvent, useState, useTransition } from "react";
-import { Button, Progress } from "react-daisyui";
+import { Button, Loading } from "react-daisyui";
 import { FaShoppingCart } from "react-icons/fa";
 import { setDimension } from "./actions";
 
@@ -57,13 +57,10 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
           <PriceTag price={product.price} />
           <p>{product.description}</p>
           <div className="flex w-fit items-center gap-2">
-            <SelectFromObject onChange={selectChange} obj={Dimensions}>
-              <></>
-            </SelectFromObject>
-            <Button onClick={buttonClick}>
-              Add to cart <FaShoppingCart />
+            <SelectFromObject onChange={selectChange} obj={Dimensions} />
+            <Button onClick={buttonClick} color="info">
+              Add to cart {isPending ? <Loading /> : <FaShoppingCart />}
             </Button>
-            {isPending && <Progress />}
             {!isPending && success && (
               <span
                 onAnimationEnd={setInvisible}

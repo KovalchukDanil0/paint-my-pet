@@ -39,62 +39,60 @@ export default function BuyItNow({ countries }: Readonly<Props>) {
             Name<span className="text-red-500">*</span>
           </label>
           <div id="name-box" className="flex gap-5">
-            <div className="w-full">
+            <div className="flex w-full flex-col">
               <Input id="name-first" name="name-first" required type="text" />
               <label htmlFor="name-first">First</label>
             </div>
-            <div className="w-full">
+            <div className="flex w-full flex-col">
               <Input id="name-last" name="name-last" required type="text" />
               <label htmlFor="name-last">Last</label>
             </div>
           </div>
         </div>
-        <div className="w-full">
+        <div className="flex w-full flex-col">
           <label htmlFor="email" className="text-base font-bold">
             Email<span className="text-red-500">*</span>
           </label>
           <Input id="email" name="email" required type="email" />
         </div>
-        <div className="w-full">
+        <div className="flex w-full flex-col">
           <label htmlFor="phone" className="text-base font-bold">
             Phone<span className="text-red-500">*</span>
           </label>
           <Input id="phone" name="phone" required type="tel" />
         </div>
-        <div className="w-full">
+        <div className="flex w-full flex-col">
           <label htmlFor="address" className="text-base font-bold">
             Address<span className="text-red-500">*</span>
           </label>
           <Input id="address" name="address" required type="text" />
         </div>
-        <div className="w-full">
+        <div className="flex w-full flex-col">
           <label htmlFor="address-full">Address Line 1</label>
           <Input id="address-full" name="address-full" type="text" />
         </div>
         <div>
-          <label>Address Line 2</label>
-          <div className="grid grid-cols-2 gap-5">
-            <div>
+          <label htmlFor="address-container">Address Line 2</label>
+          <div id="address-container" className="grid grid-cols-2 gap-5">
+            <div className="flex flex-col">
               <Input id="address-city" name="address-city" type="text" />
               <label htmlFor="address-city">City</label>
             </div>
-            <div>
+            <div className="flex flex-col">
               <Input id="address-state" name="address-state" type="text" />
               <label htmlFor="address-state">State / Province / Region</label>
             </div>
-            <div>
+            <div className="flex flex-col">
               <Input id="address-postal" name="address-postal" type="text" />
               <label htmlFor="address-postal">Postal Code</label>
             </div>
-            <div>
+            <div className="flex flex-col">
               <SelectFromObject
                 required
                 id="address-country"
                 name="address-country"
                 obj={countries}
-              >
-                <></>
-              </SelectFromObject>
+              />
               <label htmlFor="address-country">Country</label>
             </div>
           </div>

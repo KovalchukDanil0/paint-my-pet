@@ -18,16 +18,13 @@ export default function ProductCard({
     Date.now() - new Date(createdAt).getTime() < 1000 * 60 * 60 * 24 * 7;
 
   return (
-    <Card
-      {...props}
-      draggable={false}
-      color="dark"
-      className={twMerge(
-        "w-full select-none bg-blue-100 transition-shadow hover:shadow-xl",
-        className,
-      )}
-    >
-      <Card.Image src={imageUrl} alt={name} />
+    <Card {...props} className={twMerge("transition-shadow", className)}>
+      <Card.Image
+        src={imageUrl}
+        alt={name}
+        draggable="false"
+        className="h-96 w-full object-cover"
+      />
       <Card.Body>
         <Card.Title tag="h2">
           {name} {isNew && <Badge className="w-fit">NEW</Badge>}

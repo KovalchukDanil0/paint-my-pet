@@ -2,7 +2,7 @@
 
 import { Select, SelectProps } from "react-daisyui";
 
-interface Props extends SelectProps {
+interface Props extends Omit<SelectProps, "children"> {
   obj: object;
 }
 

@@ -30,6 +30,7 @@ export default function PriceTag({
     <Badge
       {...props}
       className={twMerge("w-fit", className, gg == null ? "animate-pulse" : "")}
+      color="accent"
     >
       {gg ?? "xxx.xx"}
     </Badge>

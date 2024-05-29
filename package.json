@@ -47,14 +47,14 @@
     "sharp": "^0.33.4",
     "stripe": "^14.25.0",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animated": "^1.0.1",
+    "tailwindcss-animated": "^1.1.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/big.js": "^6.2.2",
     "@types/mdx": "^2.0.13",
     "@types/negotiator": "^0.6.3",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.12.13",
     "@types/postcss-import": "^14.0.3",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

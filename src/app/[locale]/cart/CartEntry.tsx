@@ -56,9 +56,7 @@ export default function CartEntry({
           defaultValue={dimension}
           onChange={updateDimension}
           obj={Dimensions}
-        >
-          <></>
-        </SelectFromObject>
+        />
         <Button onClick={deleteButtonClick}>Delete</Button>
         {isPending && <Loading />}
       </div>

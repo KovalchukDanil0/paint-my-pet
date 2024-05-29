@@ -36,9 +36,7 @@ export default function AddProductPage() {
         <Textarea required name="description" placeholder="Description" />
         <Input required name="imageUrl" placeholder="Image URL" type="text" />
         <Input required name="price" placeholder="Price" type="number" />
-        <SelectFromObject required name="tag" obj={ProductTags}>
-          <></>
-        </SelectFromObject>
+        <SelectFromObject required name="tag" obj={ProductTags} />
         <FormSubmitButton className="w-fit">Add Product</FormSubmitButton>
       </form>
     </div>
