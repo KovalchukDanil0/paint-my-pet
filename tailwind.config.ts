@@ -4,7 +4,7 @@ import plugin from "tailwindcss/plugin";
 // @ts-ignore
 import tailwindcssAnimated from "tailwindcss-animated";
 
-const myPlugin = plugin(function ({ addUtilities }) {
+const myPlugin = plugin(function ({ addUtilities, addComponents }) {
   addUtilities({
     ".center": {
       display: "flex",

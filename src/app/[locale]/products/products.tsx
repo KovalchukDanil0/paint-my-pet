@@ -27,7 +27,7 @@ export default function ProductsPage({ products, admin }: Readonly<Props>) {
     <div>
       {admin && (
         <div className="flex h-24 items-center justify-center">
-          <Button tag="a" href="products/add-product">
+          <Button color="primary" tag="a" href="products/add-product">
             Add product page
           </Button>
         </div>
@@ -37,7 +37,7 @@ export default function ProductsPage({ products, admin }: Readonly<Props>) {
         {Object.keys(ProductTags).map((val) => {
           const num = ProductTags[val as keyof typeof ProductTags].toString();
           if (!isNaN(Number(num))) {
-            return null;
+            return false;
           }
           return (
             <div
@@ -56,6 +56,7 @@ export default function ProductsPage({ products, admin }: Readonly<Props>) {
           {newProducts.map((product, index) => (
             <ProductCard
               key={product.id}
+              imageHeight={index === 0 ? "h-[600px]" : undefined}
               product={product}
               className={twMerge(
                 index === 0 ? "col-span-1 md:col-span-3" : "",

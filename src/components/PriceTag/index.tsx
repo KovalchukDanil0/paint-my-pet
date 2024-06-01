@@ -3,7 +3,7 @@
 import { FormatPrice } from "@/lib/format";
 import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
-import { Badge, BadgeProps } from "react-daisyui";
+import { Badge, BadgeProps, Skeleton } from "react-daisyui";
 import { twMerge } from "tailwind-merge";
 
 interface Props extends BadgeProps {
@@ -16,23 +16,29 @@ export default function PriceTag({
   ...props
 }: Readonly<Props>) {
   const locale = useLocale();
-  const [gg, setGg] = useState<string | number | null>(null);
+  const [priceData, setPriceData] = useState<string | number | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      setGg(await FormatPrice(price, locale));
+      setPriceData(await FormatPrice(price, locale));
     };
 
     fetchData();
   }, [price, locale]);
 
   return (
-    <Badge
-      {...props}
-      className={twMerge("w-fit", className, gg == null ? "animate-pulse" : "")}
-      color="accent"
-    >
-      {gg ?? "xxx.xx"}
-    </Badge>
+    <div>
+      {priceData != null ? (
+        <Badge
+          {...props}
+          className={twMerge("w-fit", className)}
+          color="accent"
+        >
+          {priceData}
+        </Badge>
+      ) : (
+        <Skeleton className="h-6 w-20" />
+      )}
+    </div>
   );
 }

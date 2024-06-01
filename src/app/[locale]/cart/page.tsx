@@ -8,7 +8,6 @@ import { setupCache } from "axios-cache-interceptor";
 import { getLocale } from "next-intl/server";
 import BuyItNow from "./BuyItNow";
 import CartEntry from "./CartEntry";
-import CheckoutButton from "./CheckoutButton";
 
 const axios = setupCache(Axios.create());
 
@@ -17,10 +16,11 @@ export default async function CartPage() {
   const locale = await getLocale();
   const subtotalPrice = await FormatPrice(cart?.subtotal ?? 0, locale);
 
-  const countries: Countries = await axios.get(
+  const countriesResponse: Countries = await axios.get(
     "https://restcountries.com/v3.1/independent?status=true&fields=name",
+    {},
   );
-  const countriesNames = countries.data
+  const countries = countriesResponse.data
     .map((country) => country.name.common)
     .sort((a, b) => a.localeCompare(b));
 
@@ -42,10 +42,9 @@ export default async function CartPage() {
         <p>Your cart is empty</p>
       ) : (
         <div>
-          <BuyItNow countries={countriesNames} />
           <div className="flex flex-col items-end sm:items-center">
             <p className="mb-3 font-bold">Total: {subtotalPrice}</p>
-            <CheckoutButton locale={locale} />
+            <BuyItNow subtotalPrice={subtotalPrice} countries={countries} />
           </div>
         </div>
       )}

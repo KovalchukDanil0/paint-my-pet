@@ -7,10 +7,12 @@ import PriceTag from "../PriceTag";
 
 interface Props extends CardProps {
   product: Product;
+  imageHeight?: string;
 }
 
 export default function ProductCard({
   product: { name, createdAt, id, description, price, imageUrl },
+  imageHeight = "h-96",
   className,
   ...props
 }: Readonly<Props>) {
@@ -23,11 +25,16 @@ export default function ProductCard({
         src={imageUrl}
         alt={name}
         draggable="false"
-        className="h-96 w-full object-cover"
+        className={twMerge("w-full object-cover", imageHeight)}
       />
       <Card.Body>
         <Card.Title tag="h2">
-          {name} {isNew && <Badge className="w-fit">NEW</Badge>}
+          {name}
+          {isNew && (
+            <Badge color="warning" className="w-fit">
+              NEW
+            </Badge>
+          )}
         </Card.Title>
         <p>{description}</p>
         <PriceTag className="w-fit" price={price} />

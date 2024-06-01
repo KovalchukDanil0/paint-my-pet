@@ -18,7 +18,7 @@ export default function Blogs({ files }: Readonly<Props>) {
           file === "layout.tsx" ||
           file === "styles.css"
         ) {
-          return null;
+          return false;
         }
 
         const fileNoExtension =
