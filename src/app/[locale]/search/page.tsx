@@ -2,13 +2,12 @@
 
 import ProductCard from "@/components/ProductCard";
 import { prisma } from "@/lib/db/prisma";
-import { Metadata } from "next";
 
 type Props = { searchParams: { query: string } };
 
 export async function generateMetadata({
   searchParams: { query },
-}: Readonly<Props>): Promise<Metadata> {
+}: Readonly<Props>) {
   const title = `Search: ${query}`;
   const description = "This is a search page";
 

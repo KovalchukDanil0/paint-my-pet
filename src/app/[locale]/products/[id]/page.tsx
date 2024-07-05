@@ -2,7 +2,6 @@
 
 import { prisma } from "@/lib/db/prisma";
 import { Product } from "@prisma/client";
-import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import AddToCartSection from "./AddToCartSection";
@@ -16,9 +15,7 @@ const getProduct = cache(
     prisma.product.findUnique({ where: { id } }).catch(() => notFound()),
 );
 
-export async function generateMetadata({
-  params: { id },
-}: Readonly<Props>): Promise<Metadata> {
+export async function generateMetadata({ params: { id } }: Readonly<Props>) {
   const product: Product | null = await getProduct(id);
   if (!product) {
     throw new Error("No products found");

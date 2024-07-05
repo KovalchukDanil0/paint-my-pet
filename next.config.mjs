@@ -10,6 +10,11 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    SUPABASE_PAGE: process.env.SUPABASE_PAGE,
+    SUPABASE_API: process.env.SUPABASE_API,
+    NEXT_PUBLIC_EXCHANGE_API: process.env.NEXT_PUBLIC_EXCHANGE_API,
+  },
   webpack: (config) => {
     config.resolve.fallback = { fs: false };
 
