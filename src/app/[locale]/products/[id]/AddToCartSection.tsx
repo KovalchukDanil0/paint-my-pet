@@ -1,7 +1,7 @@
 "use client";
 
 import PriceTag from "@/components/PriceTag";
-import SelectFromObject from "@/components/SelectFromEnum";
+import SelectFromObject from "@/components/SelectFromObject";
 import { Dimensions } from "@/lib/shared";
 import { Product } from "@prisma/client";
 import Image from "next/image";
@@ -39,16 +39,16 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
 
   return (
     <div>
-      <Button className="mb-5 w-fit" tag="a" href="/products">
+      <Button color="primary" className="mb-5 w-fit" tag="a" href="/products">
         Back to products
       </Button>
       <div className="flex w-fit flex-col gap-4 lg:flex-row lg:items-center">
         <Image
           src={product.imageUrl}
           alt={product.name}
-          width={500}
-          height={500}
-          className="rounded-lg object-cover"
+          width={1080}
+          height={1920}
+          className="size-1/3 rounded-lg object-cover"
           style={{ aspectRatio: "3/4" }}
           priority
         />

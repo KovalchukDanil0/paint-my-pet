@@ -1,6 +1,6 @@
 "use client";
 
-import SelectFromObject from "@/components/SelectFromEnum";
+import SelectFromObject from "@/components/SelectFromObject";
 import { createClient } from "@/lib/supabase/client";
 import Axios from "axios";
 import { setupCache } from "axios-cache-interceptor";
@@ -49,15 +49,18 @@ export default function BuyItNow({
   const locale = useLocale();
 
   async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.currentTarget.files![0];
+    const file = event.currentTarget.files?.[0];
+    if (!file) {
+      throw new Error("current file target is undefined");
+    }
 
     const supabase = createClient();
 
     startTransition(async () => {
       const { data, error } = await supabase.auth.getUser();
 
-      if (error != null || data.user == null) {
-        throw new Error(error?.message);
+      if (error || !data.user) {
+        throw new Error(error?.message ?? "data.user is undefined");
       }
 
       const path = `${data.user?.id}/${file.name}`;
@@ -65,7 +68,7 @@ export default function BuyItNow({
       const storage = await supabase.storage
         .from("images")
         .upload(path, file, { upsert: true });
-      if (storage.error != null) {
+      if (storage.error) {
         throw new Error(storage.error.message);
       }
     });
@@ -81,7 +84,7 @@ export default function BuyItNow({
         Proceed to checkout
       </Button>
       <Modal className="w-11/12 max-w-5xl" ref={ref}>
-        <form method="dialog">
+        <form method="dialog" className="sticky top-0">
           <Button
             size="sm"
             color="ghost"

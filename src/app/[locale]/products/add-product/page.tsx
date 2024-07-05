@@ -1,44 +1,10 @@
-"use client";
+"use server";
 
-import FormSubmitButton from "@/components/FormSubmitButton";
-import SelectFromObject from "@/components/SelectFromEnum";
-import { ProductTags } from "@/lib/shared";
-import { useEffect, useState } from "react";
-import { Input, Progress, Textarea } from "react-daisyui";
-import { addProduct, checkIfSigned } from "./action";
+import { checkIfSigned } from "./action";
+import AddProductPageClient from "./AddProductPageClient";
 
-export default function AddProductPage() {
-  const [isSigned, setIsSigned] = useState<boolean>(false);
+export default async function AddProductPageServer() {
+  await checkIfSigned();
 
-  useEffect(() => {
-    if (isSigned) {
-      return;
-    }
-
-    async function checkIfAdmin() {
-      if (await checkIfSigned()) {
-        setIsSigned(true);
-      }
-    }
-
-    checkIfAdmin();
-  }, [isSigned]);
-
-  if (!isSigned) {
-    return <Progress />;
-  }
-
-  return (
-    <div>
-      <h1 className="mb-3 text-lg font-bold">Add Product</h1>
-      <form className="flex flex-col gap-3" action={addProduct}>
-        <Input required name="name" placeholder="Name" type="text" />
-        <Textarea required name="description" placeholder="Description" />
-        <Input required name="imageUrl" placeholder="Image URL" type="text" />
-        <Input required name="price" placeholder="Price" type="number" />
-        <SelectFromObject required name="tag" obj={ProductTags} />
-        <FormSubmitButton className="w-fit">Add Product</FormSubmitButton>
-      </form>
-    </div>
-  );
+  return <AddProductPageClient />;
 }

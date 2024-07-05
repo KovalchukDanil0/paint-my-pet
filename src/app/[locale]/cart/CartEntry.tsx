@@ -1,6 +1,6 @@
 "use client";
 
-import SelectFromObject from "@/components/SelectFromEnum";
+import SelectFromObject from "@/components/SelectFromObject";
 import { CartItemWithProduct } from "@/lib/db/cart";
 import { Dimensions } from "@/lib/shared";
 import Image from "next/image";

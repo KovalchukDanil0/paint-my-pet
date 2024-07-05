@@ -1,5 +1,5 @@
 import { ShoppingCart, getCart } from "@/lib/db/cart";
-import { FormatPrice, localeToCurrency } from "@/lib/format";
+import { formatPrice, localeToCurrency } from "@/lib/format";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   const currency = localeToCurrency(requestData.locale);
 
   const unit_amount = Number(
-    await FormatPrice(cart.subtotal, requestData.locale, false),
+    await formatPrice(cart.subtotal, requestData.locale, false),
   );
 
   const nickname: string = cart.items

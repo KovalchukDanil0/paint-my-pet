@@ -24,25 +24,24 @@ export async function getCart(): Promise<ShoppingCart> {
 
   const { data } = await supabase.auth.getUser();
 
-  let cart: CartWithProducts | null = null;
+  let cart: CartWithProducts | null;
 
-  if (data.user != null) {
+  if (data.user) {
     cart = await prisma.cart.findFirst({
       where: { userId: data.user.id },
       include,
     });
   } else {
     const localCartId = cookies().get(cartId)?.value;
-    cart =
-      localCartId != null
-        ? await prisma.cart.findUnique({
-            where: { id: localCartId },
-            include,
-          })
-        : null;
+    cart = localCartId
+      ? await prisma.cart.findUnique({
+          where: { id: localCartId },
+          include,
+        })
+      : null;
   }
 
-  if (cart == null) {
+  if (!cart) {
     return createCart();
   }
 
@@ -58,7 +57,7 @@ export async function createCart(): Promise<ShoppingCart> {
 
   let newCart: Cart;
 
-  if (user != null) {
+  if (user) {
     newCart = await prisma.cart.create({ data: { userId: user.id } });
   } else {
     newCart = await prisma.cart.create({ data: {} });

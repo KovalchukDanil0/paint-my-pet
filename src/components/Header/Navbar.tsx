@@ -24,7 +24,7 @@ import { searchProducts } from "./SearchProducts";
 type Props = {
   cart: ShoppingCart;
   price: string;
-  user: User;
+  user: User | null;
   userAvatar: string | undefined;
   userName: string | undefined;
   admin: boolean;
@@ -35,7 +35,6 @@ type NavLink = { disabled: boolean; title: string; href: string }[];
 export default function NavbarComponent({
   cart,
   price,
-  userAvatar,
   userName,
   user,
   admin,
@@ -44,7 +43,7 @@ export default function NavbarComponent({
   const pathname: string = usePathname();
   const router = useRouter();
 
-  function SignOut() {
+  function signOut() {
     router.push("/auth/sign-out");
     router.refresh();
   }
@@ -103,7 +102,7 @@ export default function NavbarComponent({
         </Menu>
       </Navbar.Center>
 
-      <Navbar.End>
+      <Navbar.End className="flex flex-row gap-3">
         <Dropdown end>
           <Button tag="label" tabIndex={0} color="ghost" shape="circle">
             <Indicator>
@@ -150,7 +149,7 @@ export default function NavbarComponent({
             />
           </Button>
           <Dropdown.Menu className="menu-sm z-[1] mt-3 w-52 p-2">
-            {user != null && (
+            {user && (
               <Dropdown.Item>
                 <span className="block text-sm">{userName}</span>
                 <span className="block truncate text-sm font-medium">
@@ -164,8 +163,8 @@ export default function NavbarComponent({
                 <Badge>New</Badge>
               </Link>
             </li>
-            {user != null ? (
-              <Dropdown.Item onClick={SignOut}>Sign out</Dropdown.Item>
+            {user ? (
+              <Dropdown.Item onClick={signOut}>Sign out</Dropdown.Item>
             ) : (
               <Dropdown.Item onClick={() => router.push("/auth/login")}>
                 Sign in

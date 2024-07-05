@@ -19,7 +19,10 @@ const getProduct = cache(
 export async function generateMetadata({
   params: { id },
 }: Readonly<Props>): Promise<Metadata> {
-  const product: Product = (await getProduct(id))!;
+  const product: Product | null = await getProduct(id);
+  if (!product) {
+    throw new Error("No products found");
+  }
 
   return {
     title: product.name,
@@ -33,7 +36,10 @@ export async function generateMetadata({
 }
 
 export default async function ProductPage({ params: { id } }: Readonly<Props>) {
-  const product = (await getProduct(id))!;
+  const product: Product | null = await getProduct(id);
+  if (!product) {
+    throw new Error("No products found");
+  }
 
   return <AddToCartSection product={product} />;
 }

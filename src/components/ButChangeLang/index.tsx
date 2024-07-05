@@ -21,7 +21,7 @@ export default function ButChangeLang({ locale, ...props }: Readonly<Props>) {
   const router: AppRouterInstance = useRouter();
   const searchParams: ReadonlyURLSearchParams = useSearchParams();
 
-  function ChangeLanguage() {
+  function changeLanguage() {
     const fullPath = `${pathname}?${searchParams}`.replace(
       /^\/\w\w/gm,
       `/${butValue}`,
@@ -39,7 +39,7 @@ export default function ButChangeLang({ locale, ...props }: Readonly<Props>) {
   }
 
   return (
-    <Dropdown.Item {...props} onClick={ChangeLanguage}>
+    <Dropdown.Item {...props} onClick={changeLanguage}>
       {butText}
     </Dropdown.Item>
   );

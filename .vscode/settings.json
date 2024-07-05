@@ -1,3 +1,4 @@
 {
-  "iridium.npm.showSupportIcon": false
+  "iridium.npm.showSupportIcon": false,
+  "cSpell.words": ["supabase"]
 }

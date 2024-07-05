@@ -31,10 +31,10 @@ export default function Billboard({
         objectPosition: `${offsetX}% ${offsetY}%`,
         height: "inherit",
       }}
-      src={src!}
+      src={src ?? ""}
       width={2160}
       height={750}
-      alt={alt!}
+      alt={alt ?? "image"}
       title={alt}
     />
   );
@@ -47,7 +47,7 @@ export default function Billboard({
       }}
       {...props}
     >
-      {href == null ? image : <Link href={href}>{image}</Link>}
+      {!href ? image : <Link href={href}>{image}</Link>}
       {children ? (
         <div
           className={twMerge(
@@ -57,7 +57,7 @@ export default function Billboard({
           )}
         >
           {children}
-          {href == null ? (
+          {!href ? (
             <></>
           ) : (
             <Button tag="a" href={href} className="m-auto mt-9 w-1/3">
@@ -65,7 +65,9 @@ export default function Billboard({
             </Button>
           )}
         </div>
-      ) : null}
+      ) : (
+        false
+      )}
     </div>
   );
 }

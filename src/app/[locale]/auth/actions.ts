@@ -21,7 +21,7 @@ export async function login(formData: FormData) {
   }
 
   const userId = (await supabase.auth.getUser()).data.user?.id;
-  if (userId != null) {
+  if (userId) {
     await mergeAnonymousCartIntoUserCart(userId);
   }
 
@@ -58,8 +58,6 @@ export async function signout() {
     throw new Error(error.message);
   }
 
-  cookies().delete("localCartId");
-
   redirectAfterAction();
 }
 
@@ -78,6 +76,25 @@ export async function logInWithGoogle() {
   redirect(data.url);
 }
 
+export async function deleteAccount() {
+  const supabase = createClient();
+
+  const user = await supabase.auth.getUser();
+
+  if (!user.data.user || user.error) {
+    throw new Error(user.error?.message);
+  }
+
+  const deleteUser = await supabase.auth.admin.deleteUser(user.data.user?.id);
+
+  if (!deleteUser.data.user || deleteUser.error) {
+    throw new Error(deleteUser.error?.message);
+  }
+
+  redirectAfterAction();
+}
+
 function redirectAfterAction() {
+  cookies().delete("localCartId");
   redirect("/");
 }

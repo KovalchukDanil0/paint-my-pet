@@ -1,7 +1,7 @@
 "use server";
 
 import { getCart } from "@/lib/db/cart";
-import { FormatPrice } from "@/lib/format";
+import { formatPrice } from "@/lib/format";
 import { Countries } from "@/lib/shared";
 import Axios from "axios";
 import { setupCache } from "axios-cache-interceptor";
@@ -14,7 +14,7 @@ const axios = setupCache(Axios.create());
 export default async function CartPage() {
   const cart = await getCart();
   const locale = await getLocale();
-  const subtotalPrice = await FormatPrice(cart?.subtotal ?? 0, locale);
+  const subtotalPrice = await formatPrice(cart?.subtotal ?? 0, locale);
 
   const countriesResponse: Countries = await axios.get(
     "https://restcountries.com/v3.1/independent?status=true&fields=name",
@@ -30,7 +30,7 @@ export default async function CartPage() {
       <div className="flex flex-row flex-wrap gap-9">
         {cart?.items.map(async (cartItem) => {
           const price = String(
-            await FormatPrice(cartItem.product.price, locale),
+            await formatPrice(cartItem.product.price, locale),
           );
           return (
             <CartEntry cartItem={cartItem} key={cartItem.id} price={price} />

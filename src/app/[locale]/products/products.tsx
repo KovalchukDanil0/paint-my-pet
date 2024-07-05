@@ -10,7 +10,7 @@ import { twMerge } from "tailwind-merge";
 type Props = { products: Product[]; admin: boolean };
 
 export default function ProductsPage({ products, admin }: Readonly<Props>) {
-  const [chosenTag, setChosenTag] = useState<string | null>(null);
+  const [chosenTag, setChosenTag] = useState<string>();
 
   function setChosenTagFunc(ev: ChangeEvent<HTMLInputElement>) {
     setChosenTag(ev.currentTarget.id);

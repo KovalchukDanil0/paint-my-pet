@@ -2,9 +2,9 @@ import { prisma } from "@/lib/db/prisma";
 import { User, UserResponse } from "@supabase/supabase-js";
 
 export async function isAdmin(
-  userResponse: UserResponse | User | null,
+  userResponse?: UserResponse | User,
 ): Promise<boolean> {
-  if (userResponse == null) {
+  if (!userResponse) {
     return false;
   }
 
@@ -16,12 +16,13 @@ export async function isAdmin(
     user = userResponse as User;
   }
 
-  if (user == null) {
+  if (!user) {
     return false;
   }
 
-  return (
-    (await prisma.admins.findFirst({ where: { id: { equals: user.id } } }))
-      ?.id != null
-  );
+  const adminsList = await prisma.admins.findFirst({
+    where: { id: { equals: user.id } },
+  });
+
+  return adminsList?.id != null;
 }

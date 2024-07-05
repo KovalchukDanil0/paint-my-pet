@@ -1,12 +1,15 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { getSupabaseProps } from "../shared";
 
 export function createClient() {
   const cookieStore = cookies();
 
+  const supabaseProps = getSupabaseProps();
+
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseProps.supabaseUrl,
+    supabaseProps.supabaseAnonKey,
     {
       cookies: {
         get(name: string) {

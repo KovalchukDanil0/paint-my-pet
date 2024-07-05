@@ -1,6 +1,6 @@
 "use client";
 
-import { FormatPrice } from "@/lib/format";
+import { formatPrice } from "@/lib/format";
 import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 import { Badge, BadgeProps, Skeleton } from "react-daisyui";
@@ -16,11 +16,11 @@ export default function PriceTag({
   ...props
 }: Readonly<Props>) {
   const locale = useLocale();
-  const [priceData, setPriceData] = useState<string | number | null>(null);
+  const [priceData, setPriceData] = useState<string | number>();
 
   useEffect(() => {
     const fetchData = async () => {
-      setPriceData(await FormatPrice(price, locale));
+      setPriceData(await formatPrice(price, locale));
     };
 
     fetchData();
@@ -28,7 +28,7 @@ export default function PriceTag({
 
   return (
     <div>
-      {priceData != null ? (
+      {priceData ? (
         <Badge
           {...props}
           className={twMerge("w-fit", className)}

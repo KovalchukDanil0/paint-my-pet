@@ -23,6 +23,8 @@ export default function ProductCard({
     <Card {...props} className={twMerge("transition-shadow", className)}>
       <Card.Image
         src={imageUrl}
+        width={1920}
+        height={1080}
         alt={name}
         draggable="false"
         className={twMerge("w-full object-cover", imageHeight)}

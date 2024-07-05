@@ -3,7 +3,7 @@
 import { isAdmin } from "@/lib/admin";
 import { getCart } from "@/lib/db/cart";
 import { prisma } from "@/lib/db/prisma";
-import { FormatPrice } from "@/lib/format";
+import { formatPrice } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import NavbarComponent from "./Navbar";
 
@@ -16,7 +16,7 @@ type Props = {
 
 export default async function Header({ locale }: Readonly<Props>) {
   const cart = await getCart();
-  const price = String(await FormatPrice(cart?.subtotal ?? 0, locale));
+  const price = String(await formatPrice(cart?.subtotal ?? 0, locale));
   const supabase = createClient();
   const user = await supabase.auth.getUser();
   const admin = await isAdmin(user);
@@ -24,7 +24,7 @@ export default async function Header({ locale }: Readonly<Props>) {
   let userAvatar: string | undefined;
   let userName: string | undefined;
 
-  if (user.data.user != null) {
+  if (user.data.user) {
     userAvatar = (
       await prisma.user.findFirst({
         where: { id: user.data.user?.id },
@@ -40,7 +40,7 @@ export default async function Header({ locale }: Readonly<Props>) {
 
   return (
     <NavbarComponent
-      user={user.data.user!}
+      user={user.data.user}
       userAvatar={userAvatar}
       userName={userName}
       cart={cart}
