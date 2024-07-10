@@ -29,7 +29,7 @@ export default async function Home() {
       <SectionHeading text="View collection" />
       <ProductsCarousel products={products} />
       <SectionHeading text="See the video" />
-      <ReactVideo videoID="Bv__4y2cyMk" />
+      <ReactVideo videoID="Ny-a_r3h208" />
     </div>
   );
 }

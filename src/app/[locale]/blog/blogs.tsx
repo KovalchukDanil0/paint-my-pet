@@ -16,7 +16,7 @@ export default function Blogs({ files }: Readonly<Props>) {
         if (
           file === "page.tsx" ||
           file === "layout.tsx" ||
-          file === "styles.css"
+          file === "styles.scss"
         ) {
           return false;
         }

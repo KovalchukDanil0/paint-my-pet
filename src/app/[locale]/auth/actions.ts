@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function login(formData: FormData) {
+export async function logIn(formData: FormData) {
   const supabase = createClient();
 
   const data = {
@@ -28,7 +28,7 @@ export async function login(formData: FormData) {
   redirectAfterAction();
 }
 
-export async function signup(formData: FormData) {
+export async function signUp(formData: FormData) {
   const supabase = createClient();
 
   const formAuthData = {
@@ -42,14 +42,18 @@ export async function signup(formData: FormData) {
     throw new Error(error.message);
   }
 
+  if (!data.user) {
+    throw new Error("data user is undefined");
+  }
+
   await prisma.user.create({
-    data: { id: data.user?.id!, name: formData.get("name") as string },
+    data: { id: data.user.id, name: formData.get("name") as string },
   });
 
   redirectAfterAction();
 }
 
-export async function signout() {
+export async function signOut() {
   const supabase = createClient();
 
   const { error } = await supabase.auth.signOut();

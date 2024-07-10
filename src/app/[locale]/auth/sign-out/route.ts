@@ -1,5 +1,5 @@
-import { signout } from "../actions";
+import { signOut } from "../actions";
 
 export async function GET() {
-  return signout();
+  return signOut();
 }

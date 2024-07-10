@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import "../styles.css";
+import "../styles.scss";
 
 export default function DashboardLayout({
   children,

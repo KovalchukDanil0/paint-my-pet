@@ -8,10 +8,6 @@ import "react-multi-carousel/lib/styles.css";
 import { twMerge } from "tailwind-merge";
 import ProductCard from "../ProductCard";
 
-interface Props extends ComponentProps<"div"> {
-  products: Product[];
-}
-
 const responsive: ResponsiveType = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -30,6 +26,10 @@ const responsive: ResponsiveType = {
     items: 1,
   },
 };
+
+interface Props extends ComponentProps<"div"> {
+  products: Product[];
+}
 
 export default function ProductsCarousel({
   products,

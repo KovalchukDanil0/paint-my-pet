@@ -3,7 +3,7 @@
 import fsPromises from "fs/promises";
 import path from "path";
 import Blogs from "./blogs";
-import "./styles.css";
+import "./styles.scss";
 
 type Props = {
   params: {

@@ -12,7 +12,7 @@ export enum ProductTags {
   "rat",
 }
 
-export function isEmpty(object: Object | undefined) {
+export function isEmpty(object?: Object) {
   if (!object) {
     return true;
   }

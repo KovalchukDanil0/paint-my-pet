@@ -6,7 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 import { twMerge } from "tailwind-merge";
-import "./globals.sass";
+import "./globals.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,10 +19,12 @@ export async function generateMetadata() {
   const titleTranslation = await getTranslations("MetaTitle");
   const descriptionTranslation = await getTranslations("MetaDescription");
 
-  const pathname = new URL(headers().get("x-request-url")!).pathname.replace(
-    /^\/\w\w/,
-    "",
-  );
+  const requestUrl = headers().get("x-request-url");
+  if (!requestUrl) {
+    throw new Error("request url is undefined");
+  }
+
+  const pathname = new URL(requestUrl).pathname.replace(/^\/\w\w/, "");
 
   const title = titleTranslation(pathname);
   const description = descriptionTranslation(pathname);
