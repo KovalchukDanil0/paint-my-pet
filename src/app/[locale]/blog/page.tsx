@@ -6,7 +6,7 @@ import path from "path";
 import Blogs from "./blogs";
 import "./styles.scss";
 
-export const getBlogs = async () => {
+const getBlogs = async () => {
   const locale = await getLocale();
   const folder = `blogs/${locale}`;
 
