@@ -15,6 +15,7 @@ const nextConfig = {
     SUPABASE_API: process.env.SUPABASE_API,
     NEXT_PUBLIC_EXCHANGE_API: process.env.NEXT_PUBLIC_EXCHANGE_API,
   },
+  webpack5: true,
   webpack: (config) => {
     config.resolve.fallback = { fs: false };
 

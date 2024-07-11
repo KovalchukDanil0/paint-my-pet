@@ -1,35 +1,37 @@
-#blog > * {
-  @apply block w-fit;
-}
+#blog {
+  * {
+    @apply block w-fit;
+  }
 
-#blog > h1 {
-  @apply my-5 font-bold;
-}
+  h1 {
+    @apply my-5 font-bold;
+  }
 
-#blog > h2 {
-  @apply my-3 font-medium;
-}
+  h2 {
+    @apply my-3 font-medium;
+  }
 
-#blog > h3 {
-  @apply my-3;
-}
+  h3 {
+    @apply my-3;
+  }
 
-#blog > h4 {
-  @apply my-3;
-}
+  h4 {
+    @apply my-3;
+  }
 
-#blog > h5 {
-  @apply my-3;
-}
+  h5 {
+    @apply my-3;
+  }
 
-#blog > h6 {
-  @apply my-3;
-}
+  h6 {
+    @apply my-3;
+  }
 
-#blog a {
-  @apply font-medium text-blue-600 hover:underline dark:text-blue-500;
-}
+  a {
+    @apply link link-primary;
+  }
 
-#blog > p {
-  @apply text-left;
+  p {
+    @apply text-left;
+  }
 }

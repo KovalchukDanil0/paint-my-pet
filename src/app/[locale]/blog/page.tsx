@@ -1,22 +1,20 @@
 "use server";
 
 import fsPromises from "fs/promises";
+import { getLocale } from "next-intl/server";
 import path from "path";
 import Blogs from "./blogs";
 import "./styles.scss";
 
-type Props = {
-  params: {
-    locale: string;
-  };
-};
-
-export default async function Page({ params: { locale } }: Readonly<Props>) {
+export const getBlogs = async () => {
+  const locale = await getLocale();
   const folder = `blogs/${locale}`;
 
-  const props: { files: string[] } = {
-    files: await fsPromises.readdir(path.join("src", folder)),
-  };
+  return fsPromises.readdir(path.join("src", folder));
+};
 
-  return <Blogs {...props} />;
+export default async function Page() {
+  const blogs = await getBlogs();
+
+  return <Blogs blogs={blogs} />;
 }
