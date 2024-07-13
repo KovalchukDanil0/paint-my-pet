@@ -1,0 +1,21 @@
+div#billboard-text {
+  h2 {
+    @apply block text-4xl uppercase;
+  }
+
+  @media (min-width: 768px) {
+    h2 {
+      @apply text-6xl;
+    }
+  }
+
+  h3 {
+    @apply block text-xl;
+  }
+
+  @media (min-width: 768px) {
+    h3 {
+      @apply text-3xl;
+    }
+  }
+}

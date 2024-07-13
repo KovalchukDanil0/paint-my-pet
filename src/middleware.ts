@@ -1,6 +1,6 @@
 import { CookieOptions, createServerClient } from "@supabase/ssr";
 import createIntlMiddleware from "next-intl/middleware";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { locales } from "./i18n";
 import { getSupabaseProps } from "./lib/shared";
 
@@ -16,7 +16,13 @@ const handleI18nRouting = createIntlMiddleware({
 });
 
 export default async function middleware(request: NextRequest) {
-  const response = handleI18nRouting(request);
+  const response: NextResponse = handleI18nRouting(request);
+
+  const originalFullUrl = response.headers.get("x-middleware-rewrite");
+  if (originalFullUrl) {
+    const originalUrlPathname = new URL(originalFullUrl).pathname;
+    response.headers.set("x-original-url", originalUrlPathname);
+  }
 
   const supabaseProps = getSupabaseProps();
 
@@ -41,8 +47,6 @@ export default async function middleware(request: NextRequest) {
   );
 
   await supabase.auth.getUser();
-
-  response.headers.set("x-request-url", request.url);
 
   return response;
 }

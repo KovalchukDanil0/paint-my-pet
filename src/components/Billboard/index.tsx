@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import React, { ComponentProps, type ReactElement } from "react";
-import { Button } from "react-daisyui";
+import { Button, Link } from "react-daisyui";
 import { twMerge } from "tailwind-merge";
+import "./index.scss";
 
 interface Props extends ComponentProps<"img"> {
   href?: string;
@@ -34,7 +34,7 @@ export default function Billboard({
       src={src ?? ""}
       width={2160}
       height={750}
-      alt={alt ?? "image"}
+      alt={alt ?? "billboard image"}
       title={alt}
     />
   );
@@ -47,26 +47,21 @@ export default function Billboard({
       }}
       {...props}
     >
-      {!href ? image : <Link href={href}>{image}</Link>}
-      {children ? (
+      {href ? <Link href={href}>{image}</Link> : image}
+      {children && (
         <div
+          id="billboard-text"
           className={twMerge(
             "absolute bottom-20 left-1/2 m-0 inline-block w-fit -translate-x-1/2 translate-y-1/3 justify-center text-center",
-            "[&>h1]:text-4xl [&>h1]:uppercase md:[&>h1]:text-6xl",
-            "[&>p]:text-xl md:[&>p]:text-3xl",
           )}
         >
           {children}
-          {!href ? (
-            <></>
-          ) : (
+          {href && (
             <Button tag="a" href={href} className="m-auto mt-9 w-1/3">
               {btnText}
             </Button>
           )}
         </div>
-      ) : (
-        false
       )}
     </div>
   );

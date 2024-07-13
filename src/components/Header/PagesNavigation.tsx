@@ -1,8 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import Link from "next/link";
-import { Menu } from "react-daisyui";
+import { Link, Menu } from "react-daisyui";
 
 type NavLink = { disabled: boolean; title: string; href: string }[];
 

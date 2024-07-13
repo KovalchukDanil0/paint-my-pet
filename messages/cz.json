@@ -1,12 +1,12 @@
 {
   "MetaTitle": {
     "": "Home",
-    "/o-nas": "About",
+    "/about": "About",
     "/blog": "Blog"
   },
   "MetaDescription": {
     "": "This is a homepage",
-    "/o-nas": "This is an about",
+    "/about": "This is an about",
     "/blog": "To je nas Blog"
   },
   "404": { "Error": "chyba", "NotFound": "nenalezeno" },
@@ -26,5 +26,8 @@
     "BBTitle": "Ahoj světe!",
     "BBBuyText": "Kupte si obraz",
     "BBBuyCTA": "Koupit"
+  },
+  "disclaimers": {
+    "test": "This painting is not  beautiful at all"
   }
 }

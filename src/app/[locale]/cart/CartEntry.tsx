@@ -4,9 +4,8 @@ import SelectFromObject from "@/components/SelectFromObject";
 import { CartItemWithProduct } from "@/lib/db/cart";
 import { Dimensions } from "@/lib/shared";
 import Image from "next/image";
-import Link from "next/link";
 import { ChangeEvent, useTransition } from "react";
-import { Button, Loading } from "react-daisyui";
+import { Button, Link, Loading } from "react-daisyui";
 import { deleteItemFromCart, setProductDimension } from "./action";
 
 interface Props {
@@ -47,7 +46,10 @@ export default function CartEntry({
         height={200}
         className="h-52 rounded-lg object-cover"
       />
-      <Link href={"/products/" + id} className="w-fit font-bold">
+      <Link
+        href={"/products/" + id}
+        className="link link-primary w-fit font-bold"
+      >
         View product
       </Link>
       <div>Price: {price}</div>

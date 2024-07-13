@@ -1,6 +1,7 @@
 "use server";
 
 import Billboard from "@/components/Billboard";
+import Disclaimer from "@/components/Disclaimer";
 import ProductsCarousel from "@/components/ProductsCarousel";
 import ReactVideo from "@/components/ReactVideo";
 import SectionHeading from "@/components/SectionHeading";
@@ -22,14 +23,17 @@ export default async function Home() {
         alt="Test Billboard"
         offsetY={25}
       >
-        <h1 className="text-black">{t("BBTitle")}</h1>
-        <p className="animate-fade text-slate-700">{t("BBBuyText")}</p>
+        <h2 className="text-black">{t("BBTitle")}</h2>
+        <h3 className="my-10 center">
+          Get the most beautiful painting of all ages
+          <Disclaimer name="test" /> ggg hhh jjj
+        </h3>
       </Billboard>
 
       <SectionHeading text="View collection" />
       <ProductsCarousel products={products} />
       <SectionHeading text="See the video" />
-      <ReactVideo videoID="Ny-a_r3h208" />
+      <ReactVideo videoID="kRQhapTU_OQ" />
     </div>
   );
 }

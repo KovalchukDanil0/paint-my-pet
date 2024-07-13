@@ -1,3 +1,4 @@
+import DisclaimerAccordion from "@/components/DisclaimerAccordion";
 import FooterNav from "@/components/Footer";
 import Header from "@/components/Header";
 import { Metadata } from "next";
@@ -16,17 +17,17 @@ type Props = {
 };
 
 export async function generateMetadata() {
-  const titleTranslation = await getTranslations("MetaTitle");
-  const descriptionTranslation = await getTranslations("MetaDescription");
-
-  const requestUrl = headers().get("x-request-url");
+  const requestUrl = headers().get("x-original-url");
   if (!requestUrl) {
     throw new Error("request url is undefined");
   }
+  const pathname = requestUrl.replace(/^\/\w\w/, "");
+  console.log(pathname);
 
-  const pathname = new URL(requestUrl).pathname.replace(/^\/\w\w/, "");
-
+  const titleTranslation = await getTranslations("MetaTitle");
   const title = titleTranslation(pathname);
+
+  const descriptionTranslation = await getTranslations("MetaDescription");
   const description = descriptionTranslation(pathname);
 
   const meta: Metadata = {
@@ -56,6 +57,7 @@ export default function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Header locale={locale} />
           <main>{children}</main>
+          <DisclaimerAccordion />
           <FooterNav />
         </NextIntlClientProvider>
       </body>

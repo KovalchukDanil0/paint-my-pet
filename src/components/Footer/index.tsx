@@ -3,8 +3,7 @@
 import SiteIcon from "@/app/favicon.ico";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
-import { Footer } from "react-daisyui";
+import { Footer, Link } from "react-daisyui";
 
 export default function FooterNav() {
   const t = useTranslations("Footer");
