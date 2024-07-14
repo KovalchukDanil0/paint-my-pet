@@ -5,6 +5,7 @@ import { Product } from "@prisma/client";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import AddToCartSection from "./AddToCartSection";
+import NoProductFound from "./NoProductFound";
 
 interface Props {
   params: { id: string };
@@ -16,10 +17,14 @@ const getProduct = cache(
 );
 
 export async function generateMetadata({ params: { id } }: Readonly<Props>) {
-  const product: Product | null = await getProduct(id);
-  if (!product) {
-    throw new Error("No products found");
-  }
+  const product: Omit<
+    Product,
+    "createdAt" | "id" | "price" | "tag" | "updatedAt"
+  > = (await getProduct(id)) ?? {
+    name: "No product found",
+    description: "We are sorry, no product found",
+    imageUrl: "",
+  };
 
   return {
     title: product.name,
@@ -35,7 +40,7 @@ export async function generateMetadata({ params: { id } }: Readonly<Props>) {
 export default async function ProductPage({ params: { id } }: Readonly<Props>) {
   const product: Product | null = await getProduct(id);
   if (!product) {
-    throw new Error("No products found");
+    return <NoProductFound />;
   }
 
   return <AddToCartSection product={product} />;

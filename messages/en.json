@@ -22,6 +22,13 @@
     "FollowUs": "Follow us",
     "Legal": "Legal"
   },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, cz {🇨🇿 CZ} en {🇺🇸 EN} other {Unknown}}"
+  },
+  "Disclaimers": {
+    "test": "This painting is not  beautiful at all"
+  },
   "Home": {
     "BBTitle": "Hello world!",
     "BBBuyText": "Buy the painting",

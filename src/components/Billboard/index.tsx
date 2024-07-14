@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { ComponentProps, type ReactElement } from "react";
+import { ComponentProps, type ReactElement } from "react";
 import { Button, Link } from "react-daisyui";
 import { twMerge } from "tailwind-merge";
 import "./index.scss";
@@ -23,7 +23,7 @@ export default function Billboard({
   btnText,
   className,
   ...props
-}: Readonly<Props>): React.ReactElement {
+}: Readonly<Props>): ReactElement {
   const image: ReactElement = (
     <Image
       className="object-cover"
@@ -52,7 +52,7 @@ export default function Billboard({
         <div
           id="billboard-text"
           className={twMerge(
-            "absolute bottom-20 left-1/2 m-0 inline-block w-fit -translate-x-1/2 translate-y-1/3 justify-center text-center",
+            "absolute bottom-20 left-1/2 inline-block w-full -translate-x-1/2 translate-y-1/3 justify-center px-5 text-center",
           )}
         >
           {children}

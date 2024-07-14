@@ -10,6 +10,8 @@ const getBlogs = async () => {
   const locale = await getLocale();
   const folder = `blogs/${locale}`;
 
+  // TODO: fix blogs not displaying on server
+
   return fsPromises.readdir(path.join("src", folder));
 };
 

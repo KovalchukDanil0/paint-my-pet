@@ -13,7 +13,7 @@ export default function Disclaimer({
   className,
   ...props
 }: Readonly<Props>) {
-  const t = useTranslations("disclaimers");
+  const t = useTranslations("Disclaimers");
   const disclaimer = t(name);
 
   return (

@@ -3,13 +3,16 @@
 import { ShoppingCart } from "@/lib/db/cart";
 import { User } from "@supabase/supabase-js";
 import { setCookie } from "cookies-next";
-import { usePathname } from "next/navigation";
 import { Button, Navbar } from "react-daisyui";
+import LocaleSwitcher from "../LocaleSwitcher";
+import SearchProduct from "../SearchProduct";
 import PagesNavigation from "./PagesNavigation";
-
-import SearchField from "./SearchField";
 import ShoppingCartComponent from "./ShoppingCart";
 import UserMenu from "./UserMenu";
+
+export type RealPathnameProps = {
+  realPathname: string;
+};
 
 export type ShoppingCartProps = { cart: ShoppingCart; price: string };
 
@@ -20,7 +23,7 @@ export type UserMenuProps = {
   admin: boolean;
 };
 
-type Props = UserMenuProps & ShoppingCartProps;
+type Props = UserMenuProps & ShoppingCartProps & RealPathnameProps;
 
 export default function NavbarComponent({
   cart,
@@ -28,13 +31,12 @@ export default function NavbarComponent({
   userName,
   user,
   admin,
+  realPathname,
 }: Readonly<Props>) {
-  const pathname: string = usePathname();
-
   setCookie("localCartId", cart.id, { sameSite: "none", secure: true });
 
   return (
-    <Navbar className="sticky top-0 z-top bg-black">
+    <Navbar className="sticky top-0 z-top bg-slate-400 dark:bg-black">
       <Navbar.Center className="flex-1">
         <Button tag="a" href="/" className="text-xl normal-case" color="ghost">
           Paint My Pet
@@ -42,14 +44,13 @@ export default function NavbarComponent({
       </Navbar.Center>
 
       <Navbar.Center className="hidden lg:flex">
-        <PagesNavigation pathname={pathname} />
+        <PagesNavigation realPathname={realPathname} />
       </Navbar.Center>
 
       <Navbar.End className="flex flex-row gap-3">
+        <SearchProduct className="w-auto" inNavigation />
         <ShoppingCartComponent cart={cart} price={price} />
-
-        <SearchField />
-
+        <LocaleSwitcher />
         <UserMenu admin={admin} user={user} userName={userName} />
       </Navbar.End>
     </Navbar>

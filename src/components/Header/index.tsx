@@ -4,22 +4,24 @@ import { isAdmin } from "@/lib/admin";
 import { getCart } from "@/lib/db/cart";
 import { prisma } from "@/lib/db/prisma";
 import { formatPrice } from "@/lib/format";
+import getRealPathname from "@/lib/getRealPathname";
 import { createClient } from "@/lib/supabase/server";
 import NavbarComponent from "./Navbar";
 
 export type NavLinks = NavLink[];
 export type NavLink = { active: boolean; title: string; href: string };
 
-type Props = {
+type LocaleProps = {
   locale: string;
 };
 
-export default async function Header({ locale }: Readonly<Props>) {
+export default async function Header({ locale }: Readonly<LocaleProps>) {
   const cart = await getCart();
   const price = String(await formatPrice(cart?.subtotal ?? 0, locale));
   const supabase = createClient();
   const user = await supabase.auth.getUser();
   const admin = await isAdmin(user);
+  const realPathname = getRealPathname();
 
   let userAvatar: string | undefined;
   let userName: string | undefined;
@@ -40,6 +42,7 @@ export default async function Header({ locale }: Readonly<Props>) {
 
   return (
     <NavbarComponent
+      realPathname={realPathname}
       user={user.data.user}
       userAvatar={userAvatar}
       userName={userName}

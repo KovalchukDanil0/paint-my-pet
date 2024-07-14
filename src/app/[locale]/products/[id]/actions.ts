@@ -5,7 +5,10 @@ import { prisma } from "@/lib/db/prisma";
 import { Dimensions } from "@/lib/shared";
 import { revalidatePath } from "next/cache";
 
-export async function setDimension(productId: string, dimension: Dimensions) {
+export default async function setDimension(
+  productId: string,
+  dimension: Dimensions,
+) {
   const cart = await getCart();
 
   await prisma.cart.update({

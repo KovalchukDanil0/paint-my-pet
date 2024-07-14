@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 
-export async function searchProducts(formData: FormData) {
+export default async function searchProducts(formData: FormData) {
   const searchQuery = formData.get("searchQuery")?.toString();
 
   if (searchQuery) {

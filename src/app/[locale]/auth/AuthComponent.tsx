@@ -70,10 +70,10 @@ export default function AuthComponent({ externalProviders }: Readonly<Props>) {
         </Button>
       </p>
 
-      <div className="flex flex-row gap-5">
+      <div className="flex flex-col gap-1 md:flex-row md:gap-5">
         {!isLogIn && (
           <div className="flex w-fit flex-col">
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">Name:</label>
             <Input id="name" name="name" type="text" />
           </div>
         )}
@@ -93,13 +93,13 @@ export default function AuthComponent({ externalProviders }: Readonly<Props>) {
         <Alert
           status="error"
           icon={<FaRegTimesCircle />}
-          className="w-fit min-w-[40rem] text-center"
+          className="w-fit min-w-96 text-center md:min-w-[40rem]"
         >
           {errorMsg}
         </Alert>
       )}
 
-      <div className="flex gap-3">
+      <div className="mt-5 flex-wrap gap-3 center md:mt-0">
         <Button
           color="primary"
           formAction={(data: FormData) =>

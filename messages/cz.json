@@ -22,12 +22,16 @@
     "FollowUs": "Následuj nás",
     "Legal": "Právní"
   },
+  "LocaleSwitcher": {
+    "label": "Změnit jazyk",
+    "locale": "{locale, select, cz {🇨🇿 CZ} en {🇺🇸 EN} other {Neznámý}}"
+  },
+  "Disclaimers": {
+    "test": "This painting is not  beautiful at all"
+  },
   "Home": {
     "BBTitle": "Ahoj světe!",
     "BBBuyText": "Kupte si obraz",
     "BBBuyCTA": "Koupit"
-  },
-  "disclaimers": {
-    "test": "This painting is not  beautiful at all"
   }
 }

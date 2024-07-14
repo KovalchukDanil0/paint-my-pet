@@ -1,6 +1,7 @@
 "use client";
 
 import ProductCard from "@/components/ProductCard";
+import SearchProduct from "@/components/SearchProduct";
 import { ProductTags, isEmpty } from "@/lib/shared";
 import { Product } from "@prisma/client";
 import { ChangeEvent, useState } from "react";
@@ -16,12 +17,9 @@ export default function ProductsPage({ products, admin }: Readonly<Props>) {
     setChosenTag(ev.currentTarget.id);
   }
 
-  let newProducts;
-  if (!isEmpty(chosenTag)) {
-    newProducts = products.filter((val) => val.tag === chosenTag);
-  } else {
-    newProducts = products;
-  }
+  const newProducts = isEmpty(chosenTag)
+    ? products
+    : products.filter((val) => val.tag === chosenTag);
 
   return (
     <div>
@@ -32,6 +30,10 @@ export default function ProductsPage({ products, admin }: Readonly<Props>) {
           </Button>
         </div>
       )}
+
+      <center className="my-5 block md:hidden">
+        <SearchProduct />
+      </center>
 
       <div className="my-5 flex flex-row justify-around">
         {Object.keys(ProductTags).map((val) => {

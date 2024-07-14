@@ -51,10 +51,10 @@ export default function FooterNav() {
       <div>
         <Footer.Title>Legal</Footer.Title>
         <Link href="" className="link-hover link">
-          Terms of use
+          {t("TermsConditions")}
         </Link>
         <Link href="" className="link-hover link">
-          Privacy policy
+          {t("PrivacyPolicy")}
         </Link>
         <Link href="" className="link-hover link">
           Cookie policy

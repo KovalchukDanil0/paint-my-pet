@@ -4,7 +4,7 @@ import SelectFromObject from "@/components/SelectFromObject";
 import { CartItemWithProduct } from "@/lib/db/cart";
 import { Dimensions } from "@/lib/shared";
 import Image from "next/image";
-import { ChangeEvent, useTransition } from "react";
+import { ChangeEvent, MouseEvent, useTransition } from "react";
 import { Button, Link, Loading } from "react-daisyui";
 import { deleteItemFromCart, setProductDimension } from "./action";
 
@@ -30,7 +30,7 @@ export default function CartEntry({
     });
   }
 
-  function deleteButtonClick(_e: React.MouseEvent<HTMLButtonElement>) {
+  function deleteButtonClick(_e: MouseEvent<HTMLButtonElement>) {
     startTransition(async () => {
       await deleteItemFromCart(id);
     });

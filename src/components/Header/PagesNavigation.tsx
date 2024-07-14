@@ -2,12 +2,13 @@
 
 import { useTranslations } from "next-intl";
 import { Link, Menu } from "react-daisyui";
+import { RealPathnameProps } from "./Navbar";
 
 type NavLink = { disabled: boolean; title: string; href: string }[];
 
-type Props = { pathname: string };
-
-export default function PagesNavigation({ pathname }: Readonly<Props>) {
+export default function PagesNavigation({
+  realPathname,
+}: Readonly<RealPathnameProps>) {
   const t = useTranslations("Header");
 
   const navLink: NavLink = [
@@ -24,16 +25,18 @@ export default function PagesNavigation({ pathname }: Readonly<Props>) {
     },
   ];
 
+  console.log(realPathname);
+
   return (
     <Menu horizontal className="px-1">
       {navLink.map((link, index) => {
-        const regexCheckLink = new RegExp(
-          `^\/\\w\\w${index === 0 ? "$" : link.href}`,
-        );
         // TODO: add pagination with locale support
-        if (!regexCheckLink.test(pathname)) {
+        const condition = index === 0 ? "" : link.href;
+        if (realPathname !== condition) {
           link.disabled = false;
         }
+
+        // console.log(link.href);
 
         return (
           <Menu.Item disabled={link.disabled} key={link.title}>

@@ -1,34 +1,29 @@
-import DisclaimerAccordion from "@/components/DisclaimerAccordion";
 import FooterNav from "@/components/Footer";
 import Header from "@/components/Header";
+import getRealPathname from "@/lib/getRealPathname";
 import { Metadata } from "next";
 import { NextIntlClientProvider, useMessages } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Inter } from "next/font/google";
-import { headers } from "next/headers";
+import { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import "./globals.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
   params: { locale: string };
 };
 
 export async function generateMetadata() {
-  const requestUrl = headers().get("x-original-url");
-  if (!requestUrl) {
-    throw new Error("request url is undefined");
-  }
-  const pathname = requestUrl.replace(/^\/\w\w/, "");
-  console.log(pathname);
+  const realPathname = getRealPathname();
 
   const titleTranslation = await getTranslations("MetaTitle");
-  const title = titleTranslation(pathname);
+  const title = titleTranslation(realPathname);
 
   const descriptionTranslation = await getTranslations("MetaDescription");
-  const description = descriptionTranslation(pathname);
+  const description = descriptionTranslation(realPathname);
 
   const meta: Metadata = {
     metadataBase: new URL("https://paint-my-pet.vercel.app"),
@@ -57,7 +52,6 @@ export default function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Header locale={locale} />
           <main>{children}</main>
-          <DisclaimerAccordion />
           <FooterNav />
         </NextIntlClientProvider>
       </body>

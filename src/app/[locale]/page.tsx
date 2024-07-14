@@ -2,6 +2,7 @@
 
 import Billboard from "@/components/Billboard";
 import Disclaimer from "@/components/Disclaimer";
+import DisclaimerAccordion from "@/components/DisclaimerAccordion";
 import ProductsCarousel from "@/components/ProductsCarousel";
 import ReactVideo from "@/components/ReactVideo";
 import SectionHeading from "@/components/SectionHeading";
@@ -24,9 +25,9 @@ export default async function Home() {
         offsetY={25}
       >
         <h2 className="text-black">{t("BBTitle")}</h2>
-        <h3 className="my-10 center">
-          Get the most beautiful painting of all ages
-          <Disclaimer name="test" /> ggg hhh jjj
+        <h3 className="my-10 text-slate-700 center">
+          {t("BBBuyText")}
+          <Disclaimer name="test" />
         </h3>
       </Billboard>
 
@@ -34,6 +35,8 @@ export default async function Home() {
       <ProductsCarousel products={products} />
       <SectionHeading text="See the video" />
       <ReactVideo videoID="kRQhapTU_OQ" />
+
+      <DisclaimerAccordion />
     </div>
   );
 }
