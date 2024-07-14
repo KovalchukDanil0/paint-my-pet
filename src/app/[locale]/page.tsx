@@ -17,7 +17,7 @@ export default async function Home() {
   });
 
   return (
-    <div>
+    <>
       <Billboard
         btnText={t("BBBuyCTA")}
         src="/interior-dog-portrait.jpg"
@@ -37,6 +37,6 @@ export default async function Home() {
       <ReactVideo videoID="kRQhapTU_OQ" />
 
       <DisclaimerAccordion />
-    </div>
+    </>
   );
 }

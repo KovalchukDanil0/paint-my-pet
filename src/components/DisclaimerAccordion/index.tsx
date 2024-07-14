@@ -29,7 +29,7 @@ export default function DisclaimerAccordion({
   }
 
   return (
-    <Accordion {...props} className={twMerge(className, "w-full")} icon="arrow">
+    <Accordion {...props} className={twMerge(className, "w-auto")} icon="arrow">
       <Accordion.Title className="text-xl font-medium">
         Click to open disclaimers
       </Accordion.Title>
