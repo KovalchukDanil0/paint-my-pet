@@ -36,7 +36,7 @@ export default function NavbarComponent({
   setCookie("localCartId", cart.id, { sameSite: "none", secure: true });
 
   return (
-    <Navbar className="sticky top-0 z-top bg-slate-400 dark:bg-black">
+    <Navbar className="fixed top-0 z-top bg-slate-400 dark:bg-black">
       <Navbar.Center className="flex-1">
         <Button tag="a" href="/" className="text-xl normal-case" color="ghost">
           Paint My Pet

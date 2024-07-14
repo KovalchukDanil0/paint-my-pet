@@ -2,10 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { Accordion, AccordionProps } from "react-daisyui";
+import { twMerge } from "tailwind-merge";
 
 interface Props extends AccordionProps {}
 
-export default function DisclaimerAccordion({ ...props }: Readonly<Props>) {
+export default function DisclaimerAccordion({
+  className,
+  ...props
+}: Readonly<Props>) {
   const [disclaimerList, setDisclaimerList] =
     useState<NodeListOf<HTMLElement>>();
 
@@ -25,7 +29,7 @@ export default function DisclaimerAccordion({ ...props }: Readonly<Props>) {
   }
 
   return (
-    <Accordion {...props} icon="arrow">
+    <Accordion {...props} className={twMerge(className, "w-full")} icon="arrow">
       <Accordion.Title className="text-xl font-medium">
         Click to open disclaimers
       </Accordion.Title>
