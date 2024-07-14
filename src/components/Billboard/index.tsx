@@ -42,9 +42,6 @@ export default function Billboard({
   return (
     <div
       className={twMerge("relative h-[500px] md:h-[750px]", className)}
-      style={{
-        width: "fit-content",
-      }}
       {...props}
     >
       {href ? <Link href={href}>{image}</Link> : image}
@@ -52,7 +49,7 @@ export default function Billboard({
         <div
           id="billboard-text"
           className={twMerge(
-            "absolute bottom-20 left-1/2 inline-block w-full -translate-x-1/2 translate-y-1/3 justify-center px-5 text-center",
+            "absolute bottom-20 left-1/2 w-10/12 -translate-x-1/2 translate-y-1/3 text-center",
           )}
         >
           {children}
