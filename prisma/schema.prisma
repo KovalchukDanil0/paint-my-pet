@@ -19,8 +19,6 @@ model Product {
   createdAt DateTime   @default(now()) @map("created_at")
   updatedAt DateTime   @updatedAt @map("updated_at")
   cartItem  CartItem[]
-  Order     Order?     @relation(fields: [orderId], references: [id])
-  orderId   String?
 
   @@map("products")
 }
@@ -41,10 +39,8 @@ model CartItem {
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   dimension String
 
-  cartId  String  @map("cart_id")
-  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  Order   Order?  @relation(fields: [orderId], references: [id])
-  orderId String?
+  cartId String @map("cart_id")
+  cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
 
   @@map("cartitems")
 }
@@ -70,8 +66,6 @@ model Order {
   addressState   String
   addressPostal  String
   addressCountry String
-  CartItem       CartItem[]
-  Product        Product[]
 
   @@map("orders")
 }
