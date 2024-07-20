@@ -1,12 +1,9 @@
 "use client";
 
 import axios from "axios";
-import { MouseEvent } from "react";
 import { Button } from "react-daisyui";
 
-async function fetchPrices(e: MouseEvent<HTMLButtonElement>, locale: string) {
-  e.preventDefault();
-
+async function fetchPrices(locale: string) {
   const { data } = await axios.post(
     "/api/payment",
     {
@@ -29,10 +26,7 @@ type Props = {
 export default function CheckoutButton({ locale }: Readonly<Props>) {
   return (
     <div>
-      <Button
-        onClick={(ev: MouseEvent<HTMLButtonElement>) => fetchPrices(ev, locale)}
-        className="sm:w-52"
-      >
+      <Button onClick={() => fetchPrices(locale)} className="sm:w-52">
         Checkout
       </Button>
     </div>

@@ -5,21 +5,14 @@ import { createClient } from "@/lib/supabase/client";
 import Axios from "axios";
 import { setupCache } from "axios-cache-interceptor";
 import { useLocale } from "next-intl";
-import {
-  ChangeEvent,
-  MouseEvent,
-  useCallback,
-  useRef,
-  useTransition,
-} from "react";
+import { ChangeEvent, useCallback, useRef, useTransition } from "react";
 import { Button, FileInput, Input, Loading, Modal } from "react-daisyui";
 import { FaTimes } from "react-icons/fa";
+import { fillTheForm } from "./action";
 
 const axios = setupCache(Axios.create());
 
-async function fetchPrices(e: MouseEvent<HTMLButtonElement>, locale: string) {
-  e.preventDefault();
-
+async function fetchPrices(locale: string) {
   const { data } = await axios.post(
     "/api/payment",
     {
@@ -83,6 +76,7 @@ export default function BuyItNow({
       <Button color="primary" className="center" onClick={handleShow}>
         Proceed to checkout
       </Button>
+
       <Modal className="w-11/12 max-w-5xl" ref={ref}>
         <form method="dialog" className="sticky top-0">
           <Button
@@ -94,11 +88,17 @@ export default function BuyItNow({
             <FaTimes />
           </Button>
         </form>
+
         <Modal.Header className="font-bold">Please fill the form</Modal.Header>
-        <Modal.Body>
-          <div className="md:m-36">
-            <form className="flex flex-col gap-5" action="">
-              <div>
+
+        <form
+          method="dialog"
+          action={fillTheForm}
+          onSubmit={() => fetchPrices(locale)}
+        >
+          <Modal.Body>
+            <div className="flex flex-col gap-3 md:m-36">
+              <div className="flex flex-col">
                 <label htmlFor="name-box" className="text-base font-bold">
                   Name<span className="text-red-500">*</span>
                 </label>
@@ -141,15 +141,16 @@ export default function BuyItNow({
                 </label>
                 <Input id="address" name="address" required type="text" />
               </div>
-              <div className="flex w-full flex-col">
-                <label htmlFor="address-full">Address Line 1</label>
-                <Input id="address-full" name="address-full" type="text" />
-              </div>
               <div>
-                <label htmlFor="address-container">Address Line 2</label>
+                <label htmlFor="address-container">Address Details</label>
                 <div id="address-container" className="grid grid-cols-2 gap-5">
                   <div className="flex flex-col">
-                    <Input id="address-city" name="address-city" type="text" />
+                    <Input
+                      id="address-city"
+                      name="address-city"
+                      type="text"
+                      required
+                    />
                     <label htmlFor="address-city">City</label>
                   </div>
                   <div className="flex flex-col">
@@ -157,6 +158,7 @@ export default function BuyItNow({
                       id="address-state"
                       name="address-state"
                       type="text"
+                      required
                     />
                     <label htmlFor="address-state">
                       State / Province / Region
@@ -167,6 +169,7 @@ export default function BuyItNow({
                       id="address-postal"
                       name="address-postal"
                       type="text"
+                      required
                     />
                     <label htmlFor="address-postal">Postal Code</label>
                   </div>
@@ -185,22 +188,16 @@ export default function BuyItNow({
                 <FileInput accept="image/*" onChange={handleImageUpload} />
                 {isPending && <Loading />}
               </div>
-            </form>
-          </div>
-        </Modal.Body>
-        <Modal.Actions>
-          <form>
-            <p className="mb-3 font-bold">Total: {subtotalPrice}</p>
-            <Button
-              color="primary"
-              onClick={(ev: MouseEvent<HTMLButtonElement>) =>
-                fetchPrices(ev, locale)
-              }
-            >
-              Submit the form
-            </Button>
-          </form>
-        </Modal.Actions>
+            </div>
+          </Modal.Body>
+
+          <Modal.Actions>
+            <div className="flex flex-col">
+              <p className="mb-3 font-bold">Total: {subtotalPrice}</p>
+              <Button color="primary">Submit the form</Button>
+            </div>
+          </Modal.Actions>
+        </form>
       </Modal>
     </div>
   );

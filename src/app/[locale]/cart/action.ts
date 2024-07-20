@@ -2,14 +2,16 @@
 
 import { ShoppingCart, getCart } from "@/lib/db/cart";
 import { prisma } from "@/lib/db/prisma";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function deleteItemFromCart(productId: string) {
   const cart: ShoppingCart = await getCart();
 
-  const articleInCart = cart.items.find(
-    (item) => item.productId === productId,
-  )!;
+  const articleInCart = cart.items.find((item) => item.productId === productId);
+  if (!articleInCart) {
+    throw new Error("item in cart wasn't found");
+  }
 
   await prisma.cart.update({
     where: { id: cart.id },
@@ -49,6 +51,26 @@ export async function setProductDimension(
   }
 
   refreshPage();
+}
+
+export async function fillTheForm(formData: FormData) {
+  // const cart = await getCart();
+
+  const data: Prisma.OrderCreateInput = {
+    nameFirst: formData.get("name-first") as string,
+    nameLast: formData.get("name-last") as string,
+    email: formData.get("email") as string,
+    phone: formData.get("phone") as string,
+    address: formData.get("address") as string,
+    addressCity: formData.get("address-city") as string,
+    addressState: formData.get("address-state") as string,
+    addressPostal: formData.get("address-postal") as string,
+    addressCountry: formData.get("address-country") as string,
+  };
+
+  await prisma.order.create({
+    data: { ...data },
+  });
 }
 
 function refreshPage() {

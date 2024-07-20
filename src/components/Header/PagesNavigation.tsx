@@ -25,8 +25,6 @@ export default function PagesNavigation({
     },
   ];
 
-  console.log(realPathname);
-
   return (
     <Menu horizontal className="px-1">
       {navLink.map((link, index) => {
@@ -35,8 +33,6 @@ export default function PagesNavigation({
         if (realPathname !== condition) {
           link.disabled = false;
         }
-
-        // console.log(link.href);
 
         return (
           <Menu.Item disabled={link.disabled} key={link.title}>

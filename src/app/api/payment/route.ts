@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     throw new Error("There are no items in cart");
   }
 
-  const stripe: Stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  const stripe: Stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const requestData: routeData = await request.json();
   const currency = localeToCurrency(requestData.locale);
 
