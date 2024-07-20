@@ -31,9 +31,9 @@ export default function ProductsPage({ products, admin }: Readonly<Props>) {
         </div>
       )}
 
-      <center className="my-5 block md:hidden">
+      <div className="my-5 block center md:hidden">
         <SearchProduct />
-      </center>
+      </div>
 
       <div className="my-5 flex flex-row justify-around">
         {Object.keys(ProductTags).map((val) => {

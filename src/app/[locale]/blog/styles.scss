@@ -1,6 +1,6 @@
-#blog {
+div#blog {
   * {
-    @apply block w-fit;
+    @apply w-fit;
   }
 
   h1 {
@@ -25,10 +25,6 @@
 
   h6 {
     @apply my-3;
-  }
-
-  a {
-    @apply link link-primary;
   }
 
   p {

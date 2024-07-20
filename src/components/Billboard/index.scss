@@ -1,20 +1,16 @@
 div#billboard-text {
   h2 {
-    @apply block text-4xl uppercase;
-  }
+    @apply text-4xl uppercase;
 
-  @media (min-width: 768px) {
-    h2 {
+    @media (min-width: 768px) {
       @apply text-6xl;
     }
   }
 
   h3 {
-    @apply block text-xl;
-  }
+    @apply mt-5 text-xl;
 
-  @media (min-width: 768px) {
-    h3 {
+    @media (min-width: 768px) {
       @apply text-3xl;
     }
   }

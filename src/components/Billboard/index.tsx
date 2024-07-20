@@ -48,11 +48,10 @@ export default function Billboard({
       {children && (
         <div
           id="billboard-text"
-          className={twMerge(
-            "absolute bottom-20 left-1/2 w-10/12 -translate-x-1/2 translate-y-1/3 text-center",
-          )}
+          className="absolute bottom-20 left-0 right-0 mx-auto text-center"
         >
           {children}
+
           {href && (
             <Button tag="a" href={href} className="m-auto mt-9 w-1/3">
               {btnText}
