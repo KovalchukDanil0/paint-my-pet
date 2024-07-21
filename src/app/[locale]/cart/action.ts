@@ -2,6 +2,7 @@
 
 import { ShoppingCart, getCart } from "@/lib/db/cart";
 import { prisma } from "@/lib/db/prisma";
+import { createClient } from "@/lib/supabase/server";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -54,9 +55,15 @@ export async function setProductDimension(
 }
 
 export async function fillTheForm(formData: FormData) {
-  // const cart = await getCart();
+  const cart = await getCart();
 
-  const data: Prisma.OrderCreateInput = {
+  const supabase = createClient();
+  const userId = (await supabase.auth.getUser()).data.user?.id;
+  if (!userId) {
+    throw new Error("User not logged in");
+  }
+
+  const data: Prisma.OrderUncheckedCreateInput = {
     nameFirst: formData.get("name-first") as string,
     nameLast: formData.get("name-last") as string,
     email: formData.get("email") as string,
@@ -66,6 +73,8 @@ export async function fillTheForm(formData: FormData) {
     addressState: formData.get("address-state") as string,
     addressPostal: formData.get("address-postal") as string,
     addressCountry: formData.get("address-country") as string,
+    productIds: cart.items.map((item) => item.productId),
+    userId,
   };
 
   await prisma.order.create({

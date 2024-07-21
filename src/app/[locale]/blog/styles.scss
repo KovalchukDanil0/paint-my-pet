@@ -1,6 +1,6 @@
 div#blog {
-  * {
-    @apply w-fit;
+  *:not(.btn) {
+    @apply block;
   }
 
   h1 {

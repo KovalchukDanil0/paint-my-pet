@@ -50,6 +50,7 @@ model User {
   name   String
   image  String  @default("https://ljcwvpublqnhcfwtbjli.supabase.co/storage/v1/object/public/images/user.png")
   admins Admins?
+  Order  Order[]
 
   @@map("user")
 }
@@ -66,6 +67,11 @@ model Order {
   addressState   String
   addressPostal  String
   addressCountry String
+
+  productIds String[]
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 
   @@map("orders")
 }

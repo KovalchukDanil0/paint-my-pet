@@ -99,7 +99,7 @@ export default function AuthComponent({ externalProviders }: Readonly<Props>) {
         </Alert>
       )}
 
-      <div className="mt-5 flex-wrap gap-3 center md:mt-0">
+      <div className="mt-5 flex flex-row flex-wrap items-center justify-center gap-3 md:mt-0">
         <Button
           color="primary"
           formAction={(data: FormData) =>
