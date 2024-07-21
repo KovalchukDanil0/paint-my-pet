@@ -9,7 +9,10 @@ const getBlogs = async () => {
   const locale = await getLocale();
   const folder = `blogs/${locale}`;
 
-  const files = await fs.readdir(process.cwd() + `/src/${folder}`);
+  const files = await fs.readdir(
+    path.resolve(path.join(process.cwd(), "src", `${folder}`)),
+    "utf8",
+  );
   return files.map((file) => path.parse(file).name);
 };
 
