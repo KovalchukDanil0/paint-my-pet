@@ -1,10 +1,9 @@
 import daisyui from "daisyui";
 import type { Config } from "tailwindcss";
-import plugin from "tailwindcss/plugin";
 // @ts-ignore
 import tailwindcssAnimated from "tailwindcss-animated";
 
-const myPlugin = plugin(function ({ addUtilities, addComponents }) {
+/* const myPlugin = plugin(function ({ addUtilities, addComponents }) {
   addUtilities({
     ".center": {
       display: "flex",
@@ -12,7 +11,7 @@ const myPlugin = plugin(function ({ addUtilities, addComponents }) {
       "justify-content": "center",
     },
   });
-});
+}); */
 
 const tailwind: Config = {
   content: [
@@ -22,11 +21,10 @@ const tailwind: Config = {
   ],
   theme: {
     extend: {
-      height: { 600: "600px" },
       zIndex: { top: "9999" },
     },
   },
-  plugins: [myPlugin, daisyui, tailwindcssAnimated],
+  plugins: [daisyui, tailwindcssAnimated],
   darkMode: "media",
 };
 

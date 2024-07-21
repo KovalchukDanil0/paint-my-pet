@@ -19,7 +19,10 @@ const nextConfig = {
     return config;
   },
   images: {
-    remotePatterns: [{ hostname: "ljcwvpublqnhcfwtbjli.supabase.co" }],
+    remotePatterns: [
+      { hostname: "ljcwvpublqnhcfwtbjli.supabase.co" },
+      { hostname: "http.cat" },
+    ],
   },
   pageExtensions: ["ts", "tsx", "mdx"],
   reactStrictMode: true,

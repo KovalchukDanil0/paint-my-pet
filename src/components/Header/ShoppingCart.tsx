@@ -18,7 +18,7 @@ export default function ShoppingCartComponent({
           <FaShoppingCart />
         </Indicator>
       </Button>
-      <Dropdown.Menu className="card card-compact z-[1] mt-3 w-52 !p-0">
+      <Dropdown.Menu className="card card-compact z-10 mt-3 w-52 !p-0">
         <Card.Body>
           <span className="text-lg font-bold">{itemsCount} Items</span>
           <span className="text-info">Subtotal: {price}</span>

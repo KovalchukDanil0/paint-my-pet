@@ -42,7 +42,6 @@ export default function RootLayout({
 
   return (
     <html lang={locale}>
-      <head></head>
       <body
         className={twMerge(
           "bg-gray-50 text-black dark:bg-black dark:text-white",

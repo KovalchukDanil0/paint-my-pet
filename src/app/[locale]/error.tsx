@@ -3,13 +3,12 @@
 import { useEffect } from "react";
 import { Button } from "react-daisyui";
 
-export default function ErrorPage({
-  error,
-  reset,
-}: Readonly<{
+type Props = {
   error: Error & { digest?: string };
   reset: () => void;
-}>) {
+};
+
+export default function ErrorPage({ error, reset }: Readonly<Props>) {
   useEffect(() => {
     // Log the error to an error reporting service
     console.error(error);

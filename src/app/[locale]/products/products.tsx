@@ -31,7 +31,7 @@ export default function ProductsPage({ products, admin }: Readonly<Props>) {
         </div>
       )}
 
-      <div className="my-5 block center md:hidden">
+      <div className="my-5 flex flex-col items-center justify-center md:hidden">
         <SearchProduct />
       </div>
 
@@ -68,7 +68,9 @@ export default function ProductsPage({ products, admin }: Readonly<Props>) {
           ))}
         </div>
       ) : (
-        <p className="center">No products to display</p>
+        <p className="flex flex-col items-center justify-center">
+          No products to display
+        </p>
       )}
     </div>
   );

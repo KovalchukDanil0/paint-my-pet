@@ -32,7 +32,7 @@ export default function UserMenu({
           )}
         />
       </Button>
-      <Dropdown.Menu className="menu-sm z-[1] mt-3 w-52 p-2">
+      <Dropdown.Menu className="menu-sm z-10 mt-3 w-52 p-2">
         {user && (
           <Dropdown.Item>
             <span className="block text-sm">{userName}</span>
