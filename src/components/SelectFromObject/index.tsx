@@ -1,5 +1,6 @@
 "use client";
 
+import { ReactElement } from "react";
 import { Select, SelectProps } from "react-daisyui";
 
 interface Props extends Omit<SelectProps, "children"> {
@@ -14,10 +15,10 @@ export default function SelectFromObject({
     <Select {...props}>
       {Object.keys(enumObj).map((val) => {
         const num = enumObj[val as keyof typeof enumObj];
-        if (!isNaN(Number(num))) {
-          return <></>;
-        }
-        return <Select.Option key={num}>{num}</Select.Option>;
+
+        return (isNaN(Number(num)) && (
+          <Select.Option key={num}>{num}</Select.Option>
+        )) as ReactElement;
       })}
     </Select>
   );

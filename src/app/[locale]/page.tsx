@@ -31,7 +31,7 @@ export default async function Home() {
       </Billboard>
 
       <SectionHeading text="View collection" />
-      <ProductsCarousel products={products} />
+      <ProductsCarousel products={products} showButton />
       <SectionHeading text="See the video" />
       <ReactVideo videoID="kRQhapTU_OQ" />
 

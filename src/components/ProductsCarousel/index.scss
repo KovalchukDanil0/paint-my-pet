@@ -1,7 +1,7 @@
 .slick-list {
-  margin: 0 -5px;
+  @apply -mx-1 my-0;
 }
 
 .slick-slide > div {
-  padding: 0 5px;
+  @apply mx-1 my-0;
 }

@@ -28,7 +28,6 @@ export default function PagesNavigation({
   return (
     <Menu horizontal className="px-1">
       {navLink.map((link, index) => {
-        // TODO: add pagination with locale support
         const condition = index === 0 ? "" : link.href;
         if (realPathname !== condition) {
           link.disabled = false;
@@ -37,9 +36,7 @@ export default function PagesNavigation({
         return (
           <Menu.Item disabled={link.disabled} key={link.title}>
             <Link
-              className={
-                link.disabled ? "pointer-events-none cursor-default" : ""
-              }
+              className={link.disabled ? "pointer-events-none" : ""}
               href={link.href}
             >
               {link.title}

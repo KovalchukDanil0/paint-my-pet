@@ -11,8 +11,10 @@ export default async function PrivatePage() {
   const supabase = createClient();
 
   const currentUser: UserResponse = await supabase.auth.getUser();
-  if (!(await isAdmin(currentUser))) {
-    redirect("/auth/login");
+
+  const ifAdmin = await isAdmin(currentUser);
+  if (!ifAdmin) {
+    redirect("/auth");
   }
 
   const currentUserName = (
@@ -37,33 +39,28 @@ export default async function PrivatePage() {
       {root.data?.map(async (folder) => {
         const folders = await supabase.storage.from("images").list(folder.name);
 
-        if (folders.error || !folders?.data) {
-          return false;
-        }
-
         const userName = await prisma.user.findFirst({
           where: { id: { equals: folder.name } },
         });
 
         return (
-          <div key={folder.name} className="flex flex-col">
-            <h2>{userName?.name}</h2>
-            {folders.data?.map((image) => {
-              if (image.name === ".emptyFolderPlaceholder") {
-                return false;
-              }
-
-              return (
-                <Image
-                  key={image.name}
-                  alt={image.name}
-                  src={`https://ljcwvpublqnhcfwtbjli.supabase.co/storage/v1/object/public/images/${folder.name}/${image.name}`}
-                  width={1000}
-                  height={1000}
-                />
-              );
-            })}
-          </div>
+          (!folders.error || folders.data) && (
+            <div key={folder.name} className="flex flex-col">
+              <h2>{userName?.name}</h2>
+              {folders.data.map(
+                (image) =>
+                  image.name !== ".emptyFolderPlaceholder" && (
+                    <Image
+                      key={image.name}
+                      alt={image.name}
+                      src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${folder.name}/${image.name}`}
+                      width={1000}
+                      height={1000}
+                    />
+                  ),
+              )}
+            </div>
+          )
         );
       })}
     </div>

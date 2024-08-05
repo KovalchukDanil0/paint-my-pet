@@ -1,12 +1,10 @@
 "use client";
 
 import SelectFromObject from "@/components/SelectFromObject";
-import { createClient } from "@/lib/supabase/client";
 import Axios from "axios";
 import { setupCache } from "axios-cache-interceptor";
 import { useLocale } from "next-intl";
-import { ChangeEvent, useCallback, useRef, useTransition } from "react";
-import { Button, FileInput, Input, Loading, Modal } from "react-daisyui";
+import { Button, FileInput, Input, Modal } from "react-daisyui";
 import { FaTimes } from "react-icons/fa";
 import { fillTheForm } from "./action";
 
@@ -37,39 +35,9 @@ export default function BuyItNow({
   subtotalPrice,
   countries,
 }: Readonly<Props>) {
-  const [isPending, startTransition] = useTransition();
-  const ref = useRef<HTMLDialogElement>(null);
   const locale = useLocale();
 
-  async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.currentTarget.files?.[0];
-    if (!file) {
-      throw new Error("current file target is undefined");
-    }
-
-    const supabase = createClient();
-
-    startTransition(async () => {
-      const { data, error } = await supabase.auth.getUser();
-
-      if (error || !data.user) {
-        throw new Error(error?.message ?? "data.user is undefined");
-      }
-
-      const path = `${data.user?.id}/${file.name}`;
-
-      const storage = await supabase.storage
-        .from("images")
-        .upload(path, file, { upsert: true });
-      if (storage.error) {
-        throw new Error(storage.error.message);
-      }
-    });
-  }
-
-  const handleShow = useCallback(async () => {
-    ref.current?.showModal();
-  }, [ref]);
+  const { Dialog, handleShow } = Modal.useDialog();
 
   return (
     <div>
@@ -77,7 +45,7 @@ export default function BuyItNow({
         Proceed to checkout
       </Button>
 
-      <Modal className="w-11/12 max-w-5xl" ref={ref}>
+      <Dialog className="w-11/12 max-w-5xl" backdrop>
         <form method="dialog" className="sticky top-0">
           <Button
             size="sm"
@@ -92,7 +60,8 @@ export default function BuyItNow({
         <Modal.Header className="font-bold">Please fill the form</Modal.Header>
 
         <form
-          method="dialog"
+          method="post"
+          encType="multipart/form-data"
           action={fillTheForm}
           onSubmit={() => fetchPrices(locale)}
         >
@@ -185,8 +154,12 @@ export default function BuyItNow({
                 </div>
               </div>
               <div className="flex flex-row">
-                <FileInput accept="image/*" onChange={handleImageUpload} />
-                {isPending && <Loading />}
+                <FileInput
+                  id="file-input"
+                  name="file-input"
+                  accept="image/*"
+                  required
+                />
               </div>
             </div>
           </Modal.Body>
@@ -198,7 +171,7 @@ export default function BuyItNow({
             </div>
           </Modal.Actions>
         </form>
-      </Modal>
+      </Dialog>
     </div>
   );
 }

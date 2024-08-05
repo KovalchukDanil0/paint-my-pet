@@ -38,17 +38,17 @@ export default function ProductsPage({ products, admin }: Readonly<Props>) {
       <div className="my-5 flex flex-row justify-around">
         {Object.keys(ProductTags).map((val) => {
           const num = ProductTags[val as keyof typeof ProductTags].toString();
-          if (!isNaN(Number(num))) {
-            return false;
-          }
+
           return (
-            <div
-              key={num}
-              className="flex select-none flex-row items-center gap-3"
-            >
-              <Radio id={num} onChange={setChosenTagFunc} name="tagFilter" />
-              <p className="uppercase">{num}</p>
-            </div>
+            isNaN(Number(num)) && (
+              <div
+                key={num}
+                className="flex select-none flex-row items-center gap-3"
+              >
+                <Radio id={num} onChange={setChosenTagFunc} name="tagFilter" />
+                <p className="uppercase">{num}</p>
+              </div>
+            )
           );
         })}
       </div>

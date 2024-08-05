@@ -44,7 +44,7 @@ export default function CartEntry({
         alt={name}
         width={200}
         height={200}
-        className="h-52 rounded-lg object-cover"
+        className="size-52 rounded-lg object-cover"
       />
       <Link
         href={"/products/" + id}

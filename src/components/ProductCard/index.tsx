@@ -40,7 +40,7 @@ export default function ProductCard({
         </Card.Title>
         <p>{description}</p>
         <PriceTag className="w-fit" price={price} />
-        <Card.Actions className="justify-end">
+        <Card.Actions className="justify-start md:justify-end">
           <Button color="primary" tag="a" href={"/products/" + id}>
             View Product
           </Button>

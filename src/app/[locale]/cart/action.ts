@@ -63,6 +63,19 @@ export async function fillTheForm(formData: FormData) {
     throw new Error("User not logged in");
   }
 
+  const fileInput = formData.get("file-input") as File;
+
+  const path = `${userId}/${fileInput.name}`;
+
+  const storage = await supabase.storage
+    .from("images")
+    .upload(path, fileInput, { upsert: true });
+  if (storage.error) {
+    throw new Error(storage.error.message);
+  }
+
+  const imagePath = storage.data.fullPath;
+
   const data: Prisma.OrderUncheckedCreateInput = {
     nameFirst: formData.get("name-first") as string,
     nameLast: formData.get("name-last") as string,
@@ -74,6 +87,7 @@ export async function fillTheForm(formData: FormData) {
     addressPostal: formData.get("address-postal") as string,
     addressCountry: formData.get("address-country") as string,
     productIds: cart.items.map((item) => item.productId),
+    imagePath,
     userId,
   };
 

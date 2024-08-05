@@ -69,6 +69,7 @@ model Order {
   addressCountry String
 
   productIds String[]
+  imagePath  String?
 
   user   User   @relation(fields: [userId], references: [id])
   userId String

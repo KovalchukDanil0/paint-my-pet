@@ -12,48 +12,56 @@ import "./index.scss";
 
 interface Props extends ComponentProps<"div"> {
   products: Product[];
+  showButton?: boolean;
 }
-
-const settings: Settings = {
-  dots: true,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 3,
-  slidesToScroll: 3,
-  initialSlide: 0,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        infinite: true,
-        dots: true,
-      },
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2,
-        initialSlide: 2,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-};
 
 export default function ProductsCarousel({
   products,
   className,
+  showButton,
   ...props
 }: Readonly<Props>) {
+  if (products.length === 0) {
+    return false;
+  }
+
+  const maxSlides = products.length < 3 ? products.length : 3;
+
+  const settings: Settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: maxSlides,
+    slidesToScroll: maxSlides,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
   return (
     <div {...props} className={twMerge(className, "px-10")}>
       <Slider {...settings}>
@@ -61,11 +69,13 @@ export default function ProductsCarousel({
           <ProductCard key={product.id} product={product} />
         ))}
       </Slider>
-      <div className="flex h-24 items-center justify-center">
-        <Button color="primary" tag="a" href="products">
-          See all paintings
-        </Button>
-      </div>
+      {showButton && (
+        <div className="flex h-24 items-center justify-center">
+          <Button color="primary" tag="a" href="products">
+            See all paintings
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

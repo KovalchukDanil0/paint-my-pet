@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { Badge, Button, Dropdown, Link } from "react-daisyui";
+import { Button, Dropdown, Link } from "react-daisyui";
 import { FaRegUserCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import { UserMenuProps } from "./Navbar";
@@ -41,12 +41,15 @@ export default function UserMenu({
             </span>
           </Dropdown.Item>
         )}
-        <li>
-          <Link href="" className="justify-between">
-            Profile
-            <Badge>New</Badge>
-          </Link>
-        </li>
+
+        {admin && (
+          <li>
+            <Link href="/orders" className="justify-between">
+              Orders
+            </Link>
+          </li>
+        )}
+
         {user ? (
           <Dropdown.Item onClick={signOut}>Sign out</Dropdown.Item>
         ) : (
