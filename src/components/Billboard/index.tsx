@@ -33,7 +33,7 @@ export default function Billboard({
       }}
       src={src ?? ""}
       width={2160}
-      height={750}
+      height={500}
       alt={alt ?? "billboard image"}
       title={alt}
     />
@@ -41,14 +41,14 @@ export default function Billboard({
 
   return (
     <div
-      className={twMerge("relative h-[500px] md:h-[750px]", className)}
+      className={twMerge("relative h-[325px] md:h-[650px]", className)}
       {...props}
     >
       {href ? <Link href={href}>{image}</Link> : image}
       {children && (
         <div
           id="billboard-text"
-          className="absolute bottom-20 left-0 right-0 mx-auto text-center"
+          className="absolute bottom-10 left-0 right-0 mx-auto flex flex-col gap-1 text-center md:bottom-20 md:gap-5"
         >
           {children}
 

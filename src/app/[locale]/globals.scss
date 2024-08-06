@@ -3,23 +3,23 @@
 @tailwind utilities;
 
 h1 {
-  @apply text-2xl;
+  @apply text-xl md:text-2xl;
 }
 
 h2 {
-  @apply text-xl;
+  @apply text-lg md:text-xl;
 }
 
 h3 {
-  @apply text-lg;
+  @apply text-base md:text-lg;
 }
 
 h4 {
-  @apply text-base;
+  @apply text-sm md:text-base;
 }
 
 h5 {
-  @apply text-sm;
+  @apply text-xs md:text-sm;
 }
 
 h6 {
@@ -27,13 +27,13 @@ h6 {
 }
 
 p {
-  @apply text-base;
-}
-
-a {
-  @apply w-fit;
+  @apply text-sm md:text-base;
 }
 
 button {
-  @apply text-base;
+  @apply text-sm md:text-base;
+}
+
+a {
+  @apply w-fit text-sm md:text-base;
 }

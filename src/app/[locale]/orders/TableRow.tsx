@@ -45,7 +45,7 @@ export default function TableRow({
         details
       </Button>
       <Dialog className="w-11/12 max-w-5xl" backdrop>
-        <form method="dialog" className="sticky top-0">
+        <form method="dialog" className="sticky top-0 z-10">
           <Button
             size="sm"
             color="ghost"
@@ -59,7 +59,7 @@ export default function TableRow({
         <Modal.Header className="font-bold">
           Details of {order.nameFirst} {order.nameLast}
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="mx-5">
           <div className="flex items-center justify-around space-x-3 truncate">
             <Mask className="size-16" variant="squircle" src={userImage} />
 
@@ -79,7 +79,7 @@ export default function TableRow({
             </div>
           </div>
 
-          <div className="m-3 grid grid-cols-2 grid-rows-3 gap-3 md:m-10">
+          <div className="grid grid-cols-2 grid-rows-3 gap-3">
             <p className="col-span-2 row-start-1">
               Full Address: {order.address}
             </p>

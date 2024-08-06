@@ -63,6 +63,8 @@ export async function fillTheForm(formData: FormData) {
     throw new Error("User not logged in");
   }
 
+  //#region Handle Image Upload
+
   const fileInput = formData.get("file-input") as File;
 
   const path = `${userId}/${fileInput.name}`;
@@ -70,11 +72,13 @@ export async function fillTheForm(formData: FormData) {
   const storage = await supabase.storage
     .from("images")
     .upload(path, fileInput, { upsert: true });
-  if (storage.error) {
+  if (storage.error || !storage.data) {
     throw new Error(storage.error.message);
   }
 
   const imagePath = storage.data.fullPath;
+
+  //#endregion
 
   const data: Prisma.OrderUncheckedCreateInput = {
     nameFirst: formData.get("name-first") as string,

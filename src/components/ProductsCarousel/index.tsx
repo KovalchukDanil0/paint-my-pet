@@ -6,7 +6,6 @@ import { Button } from "react-daisyui";
 import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import { twMerge } from "tailwind-merge";
 import ProductCard from "../ProductCard";
 import "./index.scss";
 
@@ -17,7 +16,6 @@ interface Props extends ComponentProps<"div"> {
 
 export default function ProductsCarousel({
   products,
-  className,
   showButton,
   ...props
 }: Readonly<Props>) {
@@ -63,7 +61,7 @@ export default function ProductsCarousel({
   };
 
   return (
-    <div {...props} className={twMerge(className, "px-10")}>
+    <div {...props}>
       <Slider {...settings}>
         {products.slice(0, 6).map((product) => (
           <ProductCard key={product.id} product={product} />

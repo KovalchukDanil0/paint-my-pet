@@ -58,7 +58,6 @@ export default function ProductsPage({ products, admin }: Readonly<Props>) {
           {newProducts.map((product, index) => (
             <ProductCard
               key={product.id}
-              imageHeight={index === 0 ? "h-[600px]" : undefined}
               product={product}
               className={twMerge(
                 index === 0 ? "col-span-1 md:col-span-3" : "",

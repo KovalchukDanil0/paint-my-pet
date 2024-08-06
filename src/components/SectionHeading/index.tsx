@@ -25,7 +25,7 @@ export default function SectionHeading({
       {...props}
       ref={refElm}
       className={twMerge(
-        "my-10 text-center text-4xl",
+        "my-10 text-center text-3xl md:text-4xl",
         className,
         inViewport && enterCount === 1 ? "animate-rotate-y" : "",
       )}

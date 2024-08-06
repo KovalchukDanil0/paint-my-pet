@@ -3,6 +3,7 @@
 import Billboard from "@/components/Billboard";
 import Disclaimer from "@/components/Disclaimer";
 import DisclaimerAccordion from "@/components/DisclaimerAccordion";
+import ProductInformation from "@/components/ProductInformation";
 import ProductsCarousel from "@/components/ProductsCarousel";
 import ReactVideo from "@/components/ReactVideo";
 import SectionHeading from "@/components/SectionHeading";
@@ -30,8 +31,10 @@ export default async function Home() {
         </h3>
       </Billboard>
 
+      <ProductInformation />
+
       <SectionHeading text="View collection" />
-      <ProductsCarousel products={products} showButton />
+      <ProductsCarousel products={products} className="px-10" showButton />
       <SectionHeading text="See the video" />
       <ReactVideo videoID="kRQhapTU_OQ" />
 

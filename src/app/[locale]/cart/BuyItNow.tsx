@@ -1,5 +1,6 @@
 "use client";
 
+import FormRequiredField from "@/components/FormRequiredField";
 import SelectFromObject from "@/components/SelectFromObject";
 import Axios from "axios";
 import { setupCache } from "axios-cache-interceptor";
@@ -69,7 +70,7 @@ export default function BuyItNow({
             <div className="flex flex-col gap-3 md:m-36">
               <div className="flex flex-col">
                 <label htmlFor="name-box" className="text-base font-bold">
-                  Name<span className="text-red-500">*</span>
+                  Name
                 </label>
                 <div id="name-box" className="flex gap-5">
                   <div className="flex w-full flex-col">
@@ -79,7 +80,10 @@ export default function BuyItNow({
                       required
                       type="text"
                     />
-                    <label htmlFor="name-first">First</label>
+                    <label htmlFor="name-first">
+                      First
+                      <FormRequiredField />
+                    </label>
                   </div>
                   <div className="flex w-full flex-col">
                     <Input
@@ -88,25 +92,31 @@ export default function BuyItNow({
                       required
                       type="text"
                     />
-                    <label htmlFor="name-last">Last</label>
+                    <label htmlFor="name-last">
+                      Last
+                      <FormRequiredField />
+                    </label>
                   </div>
                 </div>
               </div>
               <div className="flex w-full flex-col">
                 <label htmlFor="email" className="text-base font-bold">
-                  Email<span className="text-red-500">*</span>
+                  Email
+                  <FormRequiredField />
                 </label>
                 <Input id="email" name="email" required type="email" />
               </div>
               <div className="flex w-full flex-col">
                 <label htmlFor="phone" className="text-base font-bold">
-                  Phone<span className="text-red-500">*</span>
+                  Phone
+                  <FormRequiredField />
                 </label>
                 <Input id="phone" name="phone" required type="tel" />
               </div>
               <div className="flex w-full flex-col">
                 <label htmlFor="address" className="text-base font-bold">
-                  Address<span className="text-red-500">*</span>
+                  Address
+                  <FormRequiredField />
                 </label>
                 <Input id="address" name="address" required type="text" />
               </div>
@@ -120,7 +130,10 @@ export default function BuyItNow({
                       type="text"
                       required
                     />
-                    <label htmlFor="address-city">City</label>
+                    <label htmlFor="address-city">
+                      City
+                      <FormRequiredField />
+                    </label>
                   </div>
                   <div className="flex flex-col">
                     <Input
@@ -131,6 +144,7 @@ export default function BuyItNow({
                     />
                     <label htmlFor="address-state">
                       State / Province / Region
+                      <FormRequiredField />
                     </label>
                   </div>
                   <div className="flex flex-col">
@@ -140,7 +154,10 @@ export default function BuyItNow({
                       type="text"
                       required
                     />
-                    <label htmlFor="address-postal">Postal Code</label>
+                    <label htmlFor="address-postal">
+                      Postal Code
+                      <FormRequiredField />
+                    </label>
                   </div>
                   <div className="flex flex-col">
                     <SelectFromObject
@@ -149,7 +166,10 @@ export default function BuyItNow({
                       name="address-country"
                       obj={countries}
                     />
-                    <label htmlFor="address-country">Country</label>
+                    <label htmlFor="address-country">
+                      Country
+                      <FormRequiredField />
+                    </label>
                   </div>
                 </div>
               </div>
@@ -160,6 +180,7 @@ export default function BuyItNow({
                   accept="image/*"
                   required
                 />
+                <FormRequiredField />
               </div>
             </div>
           </Modal.Body>
