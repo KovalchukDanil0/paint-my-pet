@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 
-const prismaClientSingleton = () => {
+/* const prismaClientSingleton = () => {
   return new PrismaClient();
-};
+}; */
 
-const globalForPrisma = globalThis as unknown as {
+const globalForPrisma = globalThis as {
   prisma?: PrismaClient;
 };
 

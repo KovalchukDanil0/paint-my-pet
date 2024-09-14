@@ -7,7 +7,7 @@ import { Footer, Link } from "react-daisyui";
 
 export default function FooterNav() {
   const t = useTranslations("Footer");
-  const currentYear = new Date().getFullYear();
+  // const currentYear = new Date().getFullYear();
 
   return (
     <Footer className="bg-neutral p-10 text-neutral-content">
