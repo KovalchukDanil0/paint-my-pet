@@ -3,7 +3,7 @@
 import ProductsCarousel from "@/components/ProductsCarousel";
 import { Prisma, Product } from "@prisma/client";
 import Image from "next/image";
-import path from "path";
+import { parse } from "path";
 import { Button, Checkbox, Link, Mask, Modal, Table } from "react-daisyui";
 import { FaTimes } from "react-icons/fa";
 
@@ -94,7 +94,7 @@ export default function TableRow({
           {order.imagePath && (
             <Image
               src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${order.imagePath}`}
-              alt={path.parse(order.imagePath).base}
+              alt={parse(order.imagePath).base}
               width={750}
               height={750}
             />

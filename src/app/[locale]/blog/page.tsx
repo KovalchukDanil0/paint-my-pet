@@ -2,7 +2,7 @@
 
 import { promises as fs } from "fs";
 import { getLocale } from "next-intl/server";
-import path from "path";
+import { join, parse, resolve } from "path";
 import Blogs from "./blogs";
 
 const getBlogs = async () => {
@@ -10,10 +10,10 @@ const getBlogs = async () => {
   const folder = `blogs/${locale}`;
 
   const files = await fs.readdir(
-    path.resolve(path.join(process.cwd(), "src", `${folder}`)),
+    resolve(join(process.cwd(), "src", `${folder}`)),
     "utf8",
   );
-  return files.map((file) => path.parse(file).name);
+  return files.map((file) => parse(file).name);
 };
 
 export default async function Page() {

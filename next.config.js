@@ -1,6 +1,10 @@
+// @ts-check
+
 import withMDX from "@next/mdx";
-import withPlugins from "next-compose-plugins";
 import createNextIntlPlugin from "next-intl/plugin";
+
+// @ts-ignore
+import withPlugins from "next-compose-plugins";
 
 const withMDXPlugin = withMDX({
   extension: /\.mdx?$/,
