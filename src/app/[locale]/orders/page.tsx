@@ -22,9 +22,14 @@ const supabaseImagesFolder = join(
 async function getUserImage(userId: string) {
   const userImage = join(supabaseImagesFolder, userId, "user.png");
 
-  const { status } = await axios.request({
-    url: userImage,
-  });
+  const { status } = await axios
+    .request({
+      url: userImage,
+    })
+    .catch((error) => {
+      console.error(userImage, error);
+      return { status: null };
+    });
 
   return status === 200 ? userImage : join(supabaseImagesFolder, "user.png");
 }

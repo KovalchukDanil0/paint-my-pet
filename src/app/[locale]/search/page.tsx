@@ -17,12 +17,14 @@ export async function generateMetadata({
 export default async function SearchPage({
   searchParams: { query },
 }: Readonly<Props>) {
+  const hasSome = query.toLowerCase().split(" ");
   const products = await prisma.product.findMany({
     where: {
-      OR: [{ name: { has: query } }, { description: { has: query } }],
+      OR: [{ name: { hasSome } }, { description: { hasSome } }],
     },
     orderBy: { id: "desc" },
   });
+  // TODO: fix searching in array
 
   if (products.length === 0) {
     return <div className="text-center">No products found</div>;

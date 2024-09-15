@@ -34,7 +34,7 @@ export default function ProductCard({
         className="h-64 w-full object-cover md:h-96"
       />
       <Card.Body>
-        <Card.Title tag="h2" className="uppercase">
+        <Card.Title tag="h2">
           {nameResolved}
           {isNew && (
             <Badge color="warning" className="w-fit">

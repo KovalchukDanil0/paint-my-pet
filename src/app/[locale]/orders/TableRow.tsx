@@ -4,8 +4,9 @@ import ProductsCarousel from "@/components/ProductsCarousel";
 import { Prisma, Product } from "@prisma/client";
 import Image from "next/image";
 import { join, parse } from "path";
-import { Button, Checkbox, Link, Mask, Modal, Table } from "react-daisyui";
+import { Button, Checkbox, Link, Modal, Table } from "react-daisyui";
 import { FaTimes } from "react-icons/fa";
+import UserImage from "./UserImage";
 
 type Props = {
   order: Prisma.OrderUncheckedCreateInput;
@@ -35,7 +36,7 @@ export default function TableRow({
     <Table.Row>
       <Checkbox />
       <div className="flex items-center space-x-3 truncate">
-        <Mask className="size-16" variant="squircle" src={userImage} />
+        <UserImage userImage={userImage} />
 
         <div>
           <div className="font-bold">{nameFirst}</div>
@@ -72,7 +73,7 @@ export default function TableRow({
         </Modal.Header>
         <Modal.Body className="mx-5">
           <div className="flex items-center justify-around space-x-3 truncate">
-            <Mask className="size-16" variant="squircle" src={userImage} />
+            <UserImage userImage={userImage} />
 
             <div className="basis-1/2">
               <div className="font-bold">{nameFirst}</div>
@@ -113,6 +114,7 @@ export default function TableRow({
               alt={parse(imagePath).base}
               width={750}
               height={750}
+              className="bg-white"
             />
           )}
         </Modal.Body>

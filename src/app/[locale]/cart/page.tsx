@@ -24,9 +24,13 @@ export default async function CartPage() {
     .map((country) => country.name.common)
     .sort((a, b) => a.localeCompare(b));
 
+  const isCartEmpty = items.length === 0;
+
   return (
     <div className="m-7 md:m-11">
-      <h1 className="mb-6 text-center text-3xl font-bold">Your cart</h1>
+      <h1 className="mb-6 text-center text-3xl font-bold">
+        Your cart {isCartEmpty && " is empty"}
+      </h1>
       <div className="flex flex-row flex-wrap gap-9">
         {items.map(async (cartItem) => {
           const price = String(
@@ -38,9 +42,7 @@ export default async function CartPage() {
         })}
       </div>
 
-      {items.length === 0 ? (
-        <p>Your cart is empty</p>
-      ) : (
+      {!isCartEmpty && (
         <div>
           <div className="flex flex-col items-end sm:items-center">
             <p className="mb-3 font-bold">Total: {subtotalPrice}</p>

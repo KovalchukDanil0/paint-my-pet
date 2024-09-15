@@ -41,7 +41,7 @@ export default function CartEntry({
 
   return (
     <div className="flex w-fit flex-col gap-3">
-      <h2>{name}</h2>
+      <h2>{name[getIndexOfLocale(locale as Locale)]}</h2>
       <Image
         src={imageUrl}
         alt={name[getIndexOfLocale(locale as Locale)]}

@@ -38,7 +38,7 @@ export default function OrdersPageClient({
           <span />
         </Table.Head>
 
-        <Table.Body className="table-body">
+        <Table.Body>
           {orders.map((order) => {
             if (!order.id) {
               return false;
