@@ -1,21 +1,7 @@
-import { prisma } from "@/lib/db/prisma";
-import { User, UserResponse } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
+import { prisma } from "lib/db/prisma";
 
-export async function isAdmin(
-  userResponse?: UserResponse | User,
-): Promise<boolean> {
-  if (!userResponse) {
-    return false;
-  }
-
-  let user: User | null;
-
-  if (new Object(userResponse).hasOwnProperty("data")) {
-    user = (userResponse as UserResponse).data.user;
-  } else {
-    user = userResponse as User;
-  }
-
+export async function isAdmin(user: User | null): Promise<boolean> {
   if (!user) {
     return false;
   }

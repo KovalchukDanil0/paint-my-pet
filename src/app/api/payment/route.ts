@@ -1,5 +1,5 @@
-import { ShoppingCart, getCart } from "@/lib/db/cart";
-import { formatPrice, localeToCurrency } from "@/lib/format";
+import { ShoppingCart, getCart } from "lib/db/cart";
+import { formatPrice, localeToCurrency } from "lib/format";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -9,34 +9,30 @@ export type routeData = {
 };
 
 export async function POST(request: NextRequest) {
-  const cart: ShoppingCart = await getCart();
+  const { items, subtotal }: ShoppingCart = await getCart();
 
-  if (cart.items.length === 0) {
+  if (items.length === 0) {
     throw new Error("There are no items in cart");
   }
 
-  const stripe: Stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-  const requestData: routeData = await request.json();
-  const currency = localeToCurrency(requestData.locale);
-
-  const unit_amount = Number(
-    await formatPrice(cart.subtotal, requestData.locale, false),
+  const { prices, checkout }: Stripe = new Stripe(
+    process.env.STRIPE_SECRET_KEY,
   );
+  const { locale, link }: routeData = await request.json();
+  const currency = localeToCurrency(locale);
 
-  const nickname: string = cart.items
-    .map((item) => item.product.name)
-    .join(", ");
+  const unit_amount = Number(await formatPrice(subtotal, locale, false));
 
-  const link: string = requestData.link;
+  const nickname: string = items.map((item) => item.product.name).join(", ");
 
-  const price: Stripe.Price = await stripe.prices.create({
+  const price: Stripe.Price = await prices.create({
     nickname,
     unit_amount,
     currency,
     product: "prod_PqAA86kBDBjhuO",
   });
 
-  const session = await stripe.checkout.sessions.create({
+  const session = await checkout.sessions.create({
     line_items: [{ price: price.id, quantity: 1 }],
     custom_text: {
       after_submit: { message: `Total products: ${nickname}` },

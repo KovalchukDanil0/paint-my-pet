@@ -1,21 +1,22 @@
 "use server";
 
-import { ShoppingCart, getCart } from "@/lib/db/cart";
-import { prisma } from "@/lib/db/prisma";
-import { createClient } from "@/lib/supabase/server";
 import { Prisma } from "@prisma/client";
+import { ShoppingCart, getCart } from "lib/db/cart";
+import { prisma } from "lib/db/prisma";
+import { createClient } from "lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { join } from "path";
 
 export async function deleteItemFromCart(productId: string) {
-  const cart: ShoppingCart = await getCart();
+  const { items, id } = await getCart();
 
-  const articleInCart = cart.items.find((item) => item.productId === productId);
+  const articleInCart = items.find((item) => item.productId === productId);
   if (!articleInCart) {
     throw new Error("item in cart wasn't found");
   }
 
   await prisma.cart.update({
-    where: { id: cart.id },
+    where: { id },
     data: { items: { delete: { id: articleInCart.id } } },
   });
 
@@ -26,13 +27,13 @@ export async function setProductDimension(
   productId: string,
   dimension: string,
 ) {
-  const cart: ShoppingCart = await getCart();
+  const { items, id }: ShoppingCart = await getCart();
 
-  const articleInCart = cart.items.find((item) => item.productId === productId);
+  const articleInCart = items.find((item) => item.productId === productId);
 
   if (articleInCart) {
     await prisma.cart.update({
-      where: { id: cart.id },
+      where: { id },
       data: {
         items: {
           update: {
@@ -44,7 +45,7 @@ export async function setProductDimension(
     });
   } else {
     await prisma.cart.update({
-      where: { id: cart.id },
+      where: { id },
       data: {
         items: { create: { productId, dimension } },
       },
@@ -55,11 +56,13 @@ export async function setProductDimension(
 }
 
 export async function fillTheForm(formData: FormData) {
-  const cart = await getCart();
+  const { items } = await getCart();
 
-  const supabase = createClient();
-  const userId = (await supabase.auth.getUser()).data.user?.id;
-  if (!userId) {
+  const { auth, storage } = createClient();
+  const {
+    data: { user },
+  } = await auth.getUser();
+  if (!user?.id) {
     throw new Error("User not logged in");
   }
 
@@ -67,16 +70,16 @@ export async function fillTheForm(formData: FormData) {
 
   const fileInput = formData.get("file-input") as File;
 
-  const path = `${userId}/${fileInput.name}`;
+  const path = join(user.id, fileInput.name);
 
-  const storage = await supabase.storage
+  const { data: storageUpload, error } = await storage
     .from("images")
     .upload(path, fileInput, { upsert: true });
-  if (storage.error || !storage.data) {
-    throw new Error(storage.error.message);
+  if (error || !storageUpload) {
+    throw new Error(error.message);
   }
 
-  const imagePath = storage.data.fullPath;
+  const imagePath = storageUpload.fullPath;
 
   //#endregion
 
@@ -90,10 +93,16 @@ export async function fillTheForm(formData: FormData) {
     addressState: formData.get("address-state") as string,
     addressPostal: formData.get("address-postal") as string,
     addressCountry: formData.get("address-country") as string,
-    productIds: cart.items.map((item) => item.productId),
+    productIds: items.map((item) => item.productId),
+    userId: user.id,
     imagePath,
-    userId,
   };
+
+  for (const [key, value] of Object.entries(data)) {
+    if (!value) {
+      throw new Error(`Form field ${key} wasn't specified`);
+    }
+  }
 
   await prisma.order.create({
     data: { ...data },

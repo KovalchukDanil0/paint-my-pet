@@ -1,7 +1,8 @@
 "use client";
 
+import { usePathname, useRouter } from "@/i18n";
 import { ExternalProviders } from "@supabase/supabase-js";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import { useCallback, useState, useTransition } from "react";
 import { Alert, Button, Input, Loading } from "react-daisyui";
 import { FaRegTimesCircle } from "react-icons/fa";
@@ -13,11 +14,24 @@ import {
   signUp,
 } from "./actions";
 
+function createQueryString(
+  searchParams: ReadonlyURLSearchParams,
+  name: string,
+  value: string,
+) {
+  const params = new URLSearchParams(searchParams.toString());
+  params.set(name, value);
+
+  return params.toString();
+}
+
 type Props = {
   externalProviders: ExternalProviders;
 };
 
-export default function AuthComponent({ externalProviders }: Readonly<Props>) {
+export default function AuthComponent({
+  externalProviders: { google },
+}: Readonly<Props>) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -27,6 +41,13 @@ export default function AuthComponent({ externalProviders }: Readonly<Props>) {
   const [errorMsg, setErrorMsg] = useState<string>();
   const [isLogIn, setIsLogIn] = useState(!isRegistererSearchParam);
   const [isPending, startTransition] = useTransition();
+
+  const changeLoginMethodFunc = useCallback(() => {
+    router.push(
+      `${pathname}?${createQueryString(searchParams, "method", isLogIn ? "register" : "login")}`,
+    );
+    setIsLogIn(!isLogIn);
+  }, [isLogIn, pathname, router, searchParams]);
 
   function loginMethod(func: Function, data: FormData) {
     startTransition(async () => {
@@ -38,29 +59,27 @@ export default function AuthComponent({ externalProviders }: Readonly<Props>) {
     });
   }
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams],
+  const signInFunc = useCallback(
+    (data: FormData) => loginMethod(isLogIn ? logIn : signUp, data),
+    [isLogIn],
   );
 
-  function changeLoginMethod() {
-    router.push(
-      `${pathname}?${createQueryString("method", isLogIn ? "register" : "login")}`,
-    );
-    setIsLogIn(!isLogIn);
-  }
+  const logInGoogleFunc = useCallback(
+    (data: FormData) => loginMethod(logInWithGoogle, data),
+    [],
+  );
+
+  const signOutFunc = useCallback(
+    (data: FormData) => loginMethod(isLogIn ? signOut : deleteAccount, data),
+    [isLogIn],
+  );
 
   return (
     <form className="my-12 flex flex-col items-center justify-center gap-5">
       <p>
         Already {isLogIn ? "logged in" : "registered"}?
         <Button
-          onClick={changeLoginMethod}
+          onClick={changeLoginMethodFunc}
           className="p-0 pl-1"
           color="primary"
           variant="link"
@@ -100,32 +119,15 @@ export default function AuthComponent({ externalProviders }: Readonly<Props>) {
       )}
 
       <div className="mt-5 flex flex-row flex-wrap items-center justify-center gap-3 md:mt-0">
-        <Button
-          color="primary"
-          formAction={(data: FormData) =>
-            isLogIn ? loginMethod(logIn, data) : loginMethod(signUp, data)
-          }
-        >
+        <Button color="primary" formAction={signInFunc}>
           {isLogIn ? "Log in" : "Sign up"}
         </Button>
-        {externalProviders.google && (
-          <Button
-            color="warning"
-            formNoValidate
-            formAction={(data: FormData) => loginMethod(logInWithGoogle, data)}
-          >
+        {google && (
+          <Button color="warning" formNoValidate formAction={logInGoogleFunc}>
             {isLogIn ? "Log in with Google" : "Sign Up with Google"}
           </Button>
         )}
-        <Button
-          color="error"
-          formNoValidate
-          formAction={(data: FormData) =>
-            isLogIn
-              ? loginMethod(signOut, data)
-              : loginMethod(deleteAccount, data)
-          }
-        >
+        <Button color="error" formNoValidate formAction={signOutFunc}>
           {isLogIn ? "Sign out" : "Delete Account"}
         </Button>
         {isPending && <Loading />}

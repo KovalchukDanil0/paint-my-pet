@@ -2,8 +2,10 @@
 
 import PriceTag from "@/components/PriceTag";
 import SelectFromObject from "@/components/SelectFromObject";
-import { Dimensions } from "@/lib/shared";
+import { getIndexOfLocale } from "@/i18n";
 import { Product } from "@prisma/client";
+import { Dimensions } from "lib/shared";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import { AnimationEvent, ChangeEvent, useState, useTransition } from "react";
 import { Button, Loading } from "react-daisyui";
@@ -16,23 +18,29 @@ type Props = {
 
 let dimension = Dimensions["16x20"];
 
-function setInvisible(event: AnimationEvent<HTMLSpanElement>) {
-  const element = event.currentTarget;
-  element.classList.remove("block");
-  element.classList.add("hidden");
+function setInvisible({
+  currentTarget: { classList },
+}: AnimationEvent<HTMLSpanElement>) {
+  classList.remove("block");
+  classList.add("hidden");
 }
 
-export default function AddToCartSection({ product }: Readonly<Props>) {
+export default function AddToCartSection({
+  product: { id, imageUrl, description, name, price },
+}: Readonly<Props>) {
   const [isPending, startTransition] = useTransition();
   const [success, setSuccess] = useState(false);
+  const locale = useLocale();
 
-  function selectChange(e: ChangeEvent<HTMLSelectElement>) {
-    dimension = e.currentTarget.value as unknown as Dimensions;
+  function selectChange({
+    currentTarget: { value },
+  }: ChangeEvent<HTMLSelectElement>) {
+    dimension = value as unknown as Dimensions;
   }
 
   function buttonClick() {
     startTransition(async () => {
-      await setDimension(product.id, dimension);
+      await setDimension(id, dimension);
       setSuccess(true);
     });
   }
@@ -40,8 +48,8 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
   return (
     <div className="flex w-fit flex-col gap-4 lg:flex-row lg:items-center">
       <Image
-        src={product.imageUrl}
-        alt={product.name}
+        src={imageUrl}
+        alt={name[getIndexOfLocale(locale)]}
         width={1080}
         height={1920}
         className="size-full rounded-lg object-cover md:size-1/3"
@@ -49,11 +57,11 @@ export default function AddToCartSection({ product }: Readonly<Props>) {
         priority
       />
       <div className="flex flex-col gap-4">
-        <h1 className="text-5xl font-bold">{product.name}</h1>
-        <PriceTag price={product.price} />
-        <p>{product.description}</p>
+        <h1 className="text-5xl font-bold">{name[getIndexOfLocale(locale)]}</h1>
+        <PriceTag price={price} />
+        <p>{description[getIndexOfLocale(locale)]}</p>
         <div className="flex w-fit items-center gap-2">
-          <SelectFromObject onChange={selectChange} obj={Dimensions} />
+          <SelectFromObject onChange={selectChange} enumObj={Dimensions} />
           <Button onClick={buttonClick} color="info">
             Add to cart {isPending ? <Loading /> : <FaShoppingCart />}
           </Button>

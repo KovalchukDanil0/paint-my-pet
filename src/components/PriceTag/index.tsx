@@ -1,6 +1,6 @@
 "use client";
 
-import { formatPrice } from "@/lib/format";
+import { formatPrice } from "lib/format";
 import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 import { Badge, BadgeProps, Skeleton } from "react-daisyui";
@@ -20,7 +20,8 @@ export default function PriceTag({
 
   useEffect(() => {
     const fetchData = async () => {
-      setPriceData(await formatPrice(price, locale));
+      const formatedPrice = await formatPrice(price, locale);
+      setPriceData(formatedPrice);
     };
 
     fetchData();

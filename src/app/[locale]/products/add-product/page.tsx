@@ -1,7 +1,7 @@
 "use server";
 
 import { checkIfSigned } from "./action";
-import AddProductPageClient from "./AddProductPageClient";
+import AddProductPageClient from "./client";
 
 export default async function AddProductPageServer() {
   await checkIfSigned();

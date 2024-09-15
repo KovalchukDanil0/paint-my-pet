@@ -2,8 +2,8 @@
 
 import ProductCard from "@/components/ProductCard";
 import SearchProduct from "@/components/SearchProduct";
-import { ProductTags, isEmpty } from "@/lib/shared";
 import { Product } from "@prisma/client";
+import { ProductTags, isEmpty } from "lib/shared";
 import { ChangeEvent, useState } from "react";
 import { Button, Radio } from "react-daisyui";
 import { twMerge } from "tailwind-merge";
@@ -13,8 +13,10 @@ type Props = { products: Product[]; admin: boolean };
 export default function ProductsPage({ products, admin }: Readonly<Props>) {
   const [chosenTag, setChosenTag] = useState<string>();
 
-  function setChosenTagFunc(ev: ChangeEvent<HTMLInputElement>) {
-    setChosenTag(ev.currentTarget.id);
+  function setChosenTagFunc({
+    currentTarget: { id },
+  }: ChangeEvent<HTMLInputElement>) {
+    setChosenTag(id);
   }
 
   const newProducts = isEmpty(chosenTag)

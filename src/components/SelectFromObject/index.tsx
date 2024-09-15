@@ -4,11 +4,11 @@ import { ReactElement } from "react";
 import { Select, SelectProps } from "react-daisyui";
 
 interface Props extends Omit<SelectProps, "children"> {
-  obj: object;
+  enumObj: object;
 }
 
 export default function SelectFromObject({
-  obj: enumObj,
+  enumObj,
   ...props
 }: Readonly<Props>) {
   return (

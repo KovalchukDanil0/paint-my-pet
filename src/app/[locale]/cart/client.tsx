@@ -1,8 +1,10 @@
 "use client";
 
 import SelectFromObject from "@/components/SelectFromObject";
-import { CartItemWithProduct } from "@/lib/db/cart";
-import { Dimensions } from "@/lib/shared";
+import { getIndexOfLocale } from "@/i18n";
+import { CartItemWithProduct } from "lib/db/cart";
+import { Dimensions } from "lib/shared";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import { ChangeEvent, MouseEvent, useTransition } from "react";
 import { Button, Link, Loading } from "react-daisyui";
@@ -21,10 +23,11 @@ export default function CartEntry({
   price,
 }: Readonly<Props>) {
   const [isPending, startTransition] = useTransition();
+  const locale = useLocale();
 
-  function updateDimension(e: ChangeEvent<HTMLSelectElement>) {
-    const newDimension = e.currentTarget.value;
-
+  function updateDimension({
+    currentTarget: { value: newDimension },
+  }: ChangeEvent<HTMLSelectElement>) {
     startTransition(async () => {
       await setProductDimension(id, newDimension);
     });
@@ -41,15 +44,12 @@ export default function CartEntry({
       <h2>{name}</h2>
       <Image
         src={imageUrl}
-        alt={name}
+        alt={name[getIndexOfLocale(locale)]}
         width={200}
         height={200}
         className="size-52 rounded-lg object-cover"
       />
-      <Link
-        href={"/products/" + id}
-        className="link link-primary w-fit font-bold"
-      >
+      <Link href={"/products/id"} className="link link-primary w-fit font-bold">
         View product
       </Link>
       <div>Price: {price}</div>
@@ -57,7 +57,7 @@ export default function CartEntry({
         <SelectFromObject
           defaultValue={dimension}
           onChange={updateDimension}
-          obj={Dimensions}
+          enumObj={Dimensions}
         />
         <Button color="error" onClick={deleteButtonClick}>
           Delete

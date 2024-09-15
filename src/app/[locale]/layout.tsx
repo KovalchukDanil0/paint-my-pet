@@ -1,6 +1,6 @@
 import FooterNav from "@/components/Footer";
 import Header from "@/components/Header";
-import getRealPathname from "@/lib/getRealPathname";
+import getRealPathname from "lib/getRealPathname";
 import { Metadata } from "next";
 import { NextIntlClientProvider, useMessages } from "next-intl";
 import { getTranslations } from "next-intl/server";

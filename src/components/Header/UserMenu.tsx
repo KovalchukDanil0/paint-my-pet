@@ -1,8 +1,8 @@
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n";
 import { Button, Dropdown, Link } from "react-daisyui";
 import { FaRegUserCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
-import { UserMenuProps } from "./Navbar";
+import { UserMenuProps } from "./client";
 
 export default function UserMenu({
   admin,

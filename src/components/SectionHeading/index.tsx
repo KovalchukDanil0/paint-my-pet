@@ -14,11 +14,7 @@ export default function SectionHeading({
   ...props
 }: Readonly<Props>) {
   const refElm: RefObject<HTMLHeadingElement> = useRef(null);
-  const { inViewport, enterCount } = useInViewport(
-    refElm,
-    {},
-    { disconnectOnLeave: false },
-  );
+  const { inViewport, enterCount } = useInViewport(refElm);
 
   return (
     <h2
@@ -27,7 +23,7 @@ export default function SectionHeading({
       className={twMerge(
         "my-10 text-center text-3xl md:text-4xl",
         className,
-        inViewport && enterCount === 1 ? "animate-rotate-y" : "",
+        inViewport && enterCount === 1 && "animate-rotate-y",
       )}
     >
       {text}

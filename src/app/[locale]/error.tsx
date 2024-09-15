@@ -15,12 +15,14 @@ export default function ErrorPage({ error, reset }: Readonly<Props>) {
   }, [error]);
 
   return (
-    <div className="mx-10 my-12 flex flex-col items-center justify-center gap-3">
-      <h2>Something went wrong!</h2>
+    <div className="m-12 flex flex-col items-center justify-center gap-3">
+      <h2 className="text-red-600">Something went wrong!</h2>
       <p>Details: {error.message}</p>
       <div className="flex flex-row gap-2">
-        <Button onClick={reset}>Try again</Button>
-        <Button tag="a" href="/">
+        <Button color="warning" onClick={reset}>
+          Try again
+        </Button>
+        <Button color="error" tag="a" href="/">
           Return to home
         </Button>
       </div>

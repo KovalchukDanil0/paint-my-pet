@@ -4,17 +4,13 @@ import { useTranslations } from "next-intl";
 import { Tooltip, TooltipProps } from "react-daisyui";
 import { twMerge } from "tailwind-merge";
 
-interface Props extends Omit<TooltipProps, "message"> {
-  name: string;
-}
-
 export default function Disclaimer({
-  name,
+  message,
   className,
   ...props
-}: Readonly<Props>) {
+}: Readonly<TooltipProps>) {
   const t = useTranslations("Disclaimers");
-  const disclaimer = t(name);
+  const disclaimer = t(message);
 
   return (
     <sup>
@@ -24,7 +20,7 @@ export default function Disclaimer({
         id="disclaimer"
         message={disclaimer}
       >
-        {name}
+        {message}
       </Tooltip>
     </sup>
   );

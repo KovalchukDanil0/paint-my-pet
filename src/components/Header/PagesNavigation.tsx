@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link, Menu } from "react-daisyui";
-import { RealPathnameProps } from "./Navbar";
+import { RealPathnameProps } from "./client";
 
 type NavLink = { disabled: boolean; title: string; href: string }[];
 
@@ -27,19 +27,16 @@ export default function PagesNavigation({
 
   return (
     <Menu horizontal className="px-1">
-      {navLink.map((link, index) => {
-        const condition = index === 0 ? "" : link.href;
+      {navLink.map(({ disabled, href, title }, index) => {
+        const condition = index === 0 ? "" : href;
         if (realPathname !== condition) {
-          link.disabled = false;
+          disabled = false;
         }
 
         return (
-          <Menu.Item disabled={link.disabled} key={link.title}>
-            <Link
-              className={link.disabled ? "pointer-events-none" : ""}
-              href={link.href}
-            >
-              {link.title}
+          <Menu.Item disabled={disabled} key={title}>
+            <Link className={disabled ? "pointer-events-none" : ""} href={href}>
+              {title}
             </Link>
           </Menu.Item>
         );

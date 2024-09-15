@@ -1,18 +1,18 @@
 "use server";
 
-import { getCart } from "@/lib/db/cart";
-import { prisma } from "@/lib/db/prisma";
-import { Dimensions } from "@/lib/shared";
+import { getCart } from "lib/db/cart";
+import { prisma } from "lib/db/prisma";
+import { Dimensions } from "lib/shared";
 import { revalidatePath } from "next/cache";
 
 export default async function setDimension(
   productId: string,
   dimension: Dimensions,
 ) {
-  const cart = await getCart();
+  const { id } = await getCart();
 
   await prisma.cart.update({
-    where: { id: cart.id },
+    where: { id },
     data: {
       items: {
         create: {

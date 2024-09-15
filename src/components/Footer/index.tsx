@@ -10,7 +10,7 @@ export default function FooterNav() {
   // const currentYear = new Date().getFullYear();
 
   return (
-    <Footer className="bg-neutral p-10 text-neutral-content">
+    <Footer className="bg-slate-500 p-10 text-neutral-content dark:bg-slate-700">
       <div>
         <Image className="size-16" src={SiteIcon} alt="Paint My Pet Logo" />
         <h2>Paint my pet</h2>

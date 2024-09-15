@@ -1,12 +1,8 @@
 "use client";
 
+import { usePathname, useRouter } from "@/i18n";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import {
-  ReadonlyURLSearchParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import { Dropdown, DropdownProps } from "react-daisyui";
 
 interface Props extends DropdownProps {

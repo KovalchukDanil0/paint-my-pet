@@ -13,7 +13,8 @@
   "Header": {
     "Home": "Domov",
     "Blogs": "Blogy",
-    "About": "O nás"
+    "About": "O nás",
+    "Search": "Vyhledávání"
   },
   "Footer": {
     "PrivacyPolicy": "Zásady ochrany osobních údajů",
@@ -27,11 +28,21 @@
     "locale": "{locale, select, cz {🇨🇿 CZ} en {🇺🇸 EN} other {Neznámý}}"
   },
   "Disclaimers": {
-    "test": "This painting is not  beautiful at all"
+    "click": "Tento obraz je krásný"
   },
   "Home": {
     "BBTitle": "Ahoj světe!",
     "BBBuyText": "Kupte si obraz",
-    "BBBuyCTA": "Koupit"
+    "BBBuyCTA": "Koupit",
+    "ViewCollection": "Zobrazit sbírku",
+    "SeeTheVideo": "Podívejte se na video"
+  },
+  "ProductInformation": {
+    "HandCraftedHeading": "Autentické, ručně vyráběné umění",
+    "HandCraftedDescription": "Nakupujte originální, jedinečné a cenově dostupné umění od tisíců umělců z celého světa.",
+    "ArtistsHeading": "Podporujte nezávislé umělce",
+    "ArtistsDescription": "Nakupujte přímo od umělce a pomozte mu vydělat si na živobytí tím, co milují.",
+    "ShoppingHeading": "Nakupování bez rizika",
+    "ShoppingDescription": "Bezpečné transakce, bezplatné 14denní vrácení. Naprostý klid, zaručen."
   }
 }

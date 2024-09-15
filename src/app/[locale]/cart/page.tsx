@@ -1,26 +1,26 @@
 "use server";
 
-import { getCart } from "@/lib/db/cart";
-import { formatPrice } from "@/lib/format";
-import { Countries } from "@/lib/shared";
 import Axios from "axios";
 import { setupCache } from "axios-cache-interceptor";
+import { getCart } from "lib/db/cart";
+import { formatPrice } from "lib/format";
+import { Countries } from "lib/shared";
 import { getLocale } from "next-intl/server";
 import BuyItNow from "./BuyItNow";
-import CartEntry from "./CartEntry";
+import CartEntry from "./client";
 
 const axios = setupCache(Axios.create());
 
 export default async function CartPage() {
-  const cart = await getCart();
+  const { items, subtotal } = await getCart();
   const locale = await getLocale();
-  const subtotalPrice = await formatPrice(cart?.subtotal ?? 0, locale);
+  const subtotalPrice = await formatPrice(subtotal ?? 0, locale);
 
-  const countriesResponse: Countries = await axios.get(
+  const { data: countriesResponse }: Countries = await axios.get(
     "https://restcountries.com/v3.1/independent?status=true&fields=name",
     {},
   );
-  const countries = countriesResponse.data
+  const countries = countriesResponse
     .map((country) => country.name.common)
     .sort((a, b) => a.localeCompare(b));
 
@@ -28,7 +28,7 @@ export default async function CartPage() {
     <div className="m-7 md:m-11">
       <h1 className="mb-6 text-center text-3xl font-bold">Your cart</h1>
       <div className="flex flex-row flex-wrap gap-9">
-        {cart?.items.map(async (cartItem) => {
+        {items.map(async (cartItem) => {
           const price = String(
             await formatPrice(cartItem.product.price, locale),
           );
@@ -38,7 +38,7 @@ export default async function CartPage() {
         })}
       </div>
 
-      {cart?.items.length === 0 ? (
+      {items.length === 0 ? (
         <p>Your cart is empty</p>
       ) : (
         <div>

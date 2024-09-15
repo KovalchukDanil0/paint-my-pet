@@ -1,8 +1,8 @@
 "use client";
 
-import { ShoppingCart } from "@/lib/db/cart";
 import { User } from "@supabase/supabase-js";
 import { setCookie } from "cookies-next";
+import { ShoppingCart } from "lib/db/cart";
 import { Button, Navbar } from "react-daisyui";
 import LocaleSwitcher from "../LocaleSwitcher";
 import SearchProduct from "../SearchProduct";

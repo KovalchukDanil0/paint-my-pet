@@ -7,7 +7,7 @@ import ProductInformation from "@/components/ProductInformation";
 import ProductsCarousel from "@/components/ProductsCarousel";
 import ReactVideo from "@/components/ReactVideo";
 import SectionHeading from "@/components/SectionHeading";
-import { prisma } from "@/lib/db/prisma";
+import { prisma } from "lib/db/prisma";
 import { getTranslations } from "next-intl/server";
 
 export default async function Home() {
@@ -27,16 +27,16 @@ export default async function Home() {
         <h2 className="text-black">{t("BBTitle")}</h2>
         <h3 className="text-slate-700">
           {t("BBBuyText")}
-          <Disclaimer name="test" />
+          <Disclaimer message="click" />
         </h3>
       </Billboard>
 
       <ProductInformation />
 
-      <SectionHeading text="View collection" />
+      <SectionHeading text={t("ViewCollection")} />
       <ProductsCarousel products={products} className="px-10" showButton />
-      <SectionHeading text="See the video" />
-      <ReactVideo videoID="kRQhapTU_OQ" />
+      <SectionHeading text={t("SeeTheVideo")} />
+      <ReactVideo videoID="LXtfbkymhII" />
 
       <DisclaimerAccordion />
     </>

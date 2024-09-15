@@ -3,7 +3,7 @@
 import ProductsCarousel from "@/components/ProductsCarousel";
 import { Prisma, Product } from "@prisma/client";
 import Image from "next/image";
-import { parse } from "path";
+import { join, parse } from "path";
 import { Button, Checkbox, Link, Mask, Modal, Table } from "react-daisyui";
 import { FaTimes } from "react-icons/fa";
 
@@ -14,7 +14,18 @@ type Props = {
 };
 
 export default function TableRow({
-  order,
+  order: {
+    nameFirst,
+    nameLast,
+    email,
+    phone,
+    address,
+    addressCity,
+    addressCountry,
+    addressPostal,
+    addressState,
+    imagePath,
+  },
   userImage,
   products,
 }: Readonly<Props>) {
@@ -27,20 +38,20 @@ export default function TableRow({
         <Mask className="size-16" variant="squircle" src={userImage} />
 
         <div>
-          <div className="font-bold">{order.nameFirst}</div>
-          <div className="text-sm opacity-50">{order.nameLast}</div>
+          <div className="font-bold">{nameFirst}</div>
+          <div className="text-sm opacity-50">{nameLast}</div>
         </div>
       </div>
       <div className="flex flex-col gap-3">
-        <Link color="primary" href={`mailto:${order.email}`}>
-          {order.email}
+        <Link color="primary" href={`mailto:${email}`}>
+          {email}
         </Link>
 
-        <Link color="primary" href={`tel:${order.phone}`}>
-          {order.phone}
+        <Link color="primary" href={`tel:${phone}`}>
+          {phone}
         </Link>
       </div>
-      <p className="row-start-1 md:col-span-2">{order.address}</p>
+      <p className="row-start-1 md:col-span-2">{address}</p>
       <Button color="ghost" size="xs" onClick={handleShow}>
         details
       </Button>
@@ -57,50 +68,55 @@ export default function TableRow({
         </form>
 
         <Modal.Header className="font-bold">
-          Details of {order.nameFirst} {order.nameLast}
+          Details of {nameFirst} {nameLast}
         </Modal.Header>
         <Modal.Body className="mx-5">
           <div className="flex items-center justify-around space-x-3 truncate">
             <Mask className="size-16" variant="squircle" src={userImage} />
 
             <div className="basis-1/2">
-              <div className="font-bold">{order.nameFirst}</div>
-              <div className="text-sm opacity-50">{order.nameLast}</div>
+              <div className="font-bold">{nameFirst}</div>
+              <div className="text-sm opacity-50">{nameLast}</div>
             </div>
 
             <div className="flex flex-col gap-3">
-              <Link color="primary" href={`mailto:${order.email}`}>
-                {order.email}
+              <Link color="primary" href={`mailto:${email}`}>
+                {email}
               </Link>
 
-              <Link color="primary" href={`tel:${order.phone}`}>
-                {order.phone}
+              <Link color="primary" href={`tel:${phone}`}>
+                {phone}
               </Link>
             </div>
           </div>
 
           <div className="grid grid-cols-2 grid-rows-3 gap-3">
-            <p className="col-span-2 row-start-1">
-              Full Address: {order.address}
-            </p>
-            <p>City: {order.addressCity}</p>
-            <p>State: {order.addressState}</p>
-            <p>Postal: {order.addressPostal}</p>
-            <p>Country: {order.addressCountry}</p>
+            <p className="col-span-2 row-start-1">Full Address: {address}</p>
+            <p>City: {addressCity}</p>
+            <p>State: {addressState}</p>
+            <p>Postal: {addressPostal}</p>
+            <p>Country: {addressCountry}</p>
           </div>
 
           <ProductsCarousel products={products} />
 
-          {order.imagePath && (
+          {imagePath && (
             <Image
-              src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${order.imagePath}`}
-              alt={parse(order.imagePath).base}
+              src={join(
+                process.env.NEXT_PUBLIC_SUPABASE_URL,
+                "storage",
+                "v1",
+                "object",
+                "public",
+                imagePath,
+              )}
+              alt={parse(imagePath).base}
               width={750}
               height={750}
             />
           )}
         </Modal.Body>
-        <Modal.Actions></Modal.Actions>
+        <Modal.Actions />
       </Dialog>
     </Table.Row>
   );

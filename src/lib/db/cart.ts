@@ -1,4 +1,4 @@
-import { Cart, CartItem, Prisma } from "@prisma/client";
+import { CartItem, Prisma } from "@prisma/client";
 import { cookies } from "next/headers";
 import { createClient } from "../supabase/server";
 import { prisma } from "./prisma";
@@ -20,15 +20,17 @@ export type ShoppingCart = CartWithProducts & {
 };
 
 export async function getCart(): Promise<ShoppingCart> {
-  const supabase = createClient();
+  const { auth } = createClient();
 
-  const { data } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await auth.getUser();
 
   let cart: CartWithProducts | null;
 
-  if (data.user) {
+  if (user) {
     cart = await prisma.cart.findFirst({
-      where: { userId: data.user.id },
+      where: { userId: user.id },
       include,
     });
   } else {
@@ -52,19 +54,17 @@ export async function getCart(): Promise<ShoppingCart> {
 }
 
 export async function createCart(): Promise<ShoppingCart> {
-  const supabase = createClient();
-  const user = (await supabase.auth.getUser()).data.user;
+  const { auth } = createClient();
+  const {
+    data: { user },
+  } = await auth.getUser();
 
-  let newCart: Cart;
+  const newCart = user
+    ? await prisma.cart.create({ data: { userId: user.id } })
+    : await prisma.cart.create({ data: {} });
 
-  if (user) {
-    newCart = await prisma.cart.create({ data: { userId: user.id } });
-  } else {
-    newCart = await prisma.cart.create({ data: {} });
-
-    //! this part must be assigning from here, but nextjs not allowing
-    //! cookies().set(cartId, newCart.id);
-  }
+  //! this part must be assigning from here, but nextjs not allowing
+  //! cookies().set(cartId, newCart.id);
 
   return { ...newCart, items: [], subtotal: 0 };
 }

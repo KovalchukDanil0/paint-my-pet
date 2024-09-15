@@ -22,11 +22,12 @@ export default function LocaleSwitcherSelect({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  function onSelectChange(event: ChangeEvent<HTMLSelectElement>) {
-    const nextLocale = event.target.value;
+  function onSelectChange({
+    target: { value: locale },
+  }: ChangeEvent<HTMLSelectElement>) {
     startTransition(() => {
       router.replace(`${pathname}?${searchParams.toString()}`, {
-        locale: nextLocale,
+        locale,
       });
     });
   }

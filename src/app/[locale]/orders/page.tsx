@@ -1,28 +1,32 @@
 "use server";
 
-import { isAdmin } from "@/lib/admin";
-import { prisma } from "@/lib/db/prisma";
-import { createClient } from "@/lib/supabase/server";
+import { redirect } from "@/i18n";
 import { Prisma, Product } from "@prisma/client";
 import { UserResponse } from "@supabase/supabase-js";
 import axios from "axios";
-import { redirect } from "next/navigation";
-import OrdersPageClient from "./orders";
+import { isAdmin } from "lib/admin";
+import { prisma } from "lib/db/prisma";
+import { createClient } from "lib/supabase/server";
+import { join } from "path";
+import OrdersPageClient from "./client";
 
-const supabaseImagesFolder = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/`;
+const supabaseImagesFolder = join(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  "storage",
+  "v1",
+  "object",
+  "public",
+  "images",
+);
 
 async function getUserImage(userId: string) {
-  const userImage = `${supabaseImagesFolder}${userId}/user.png`;
+  const userImage = join(supabaseImagesFolder, userId, "user.png");
 
-  const imageRequest = await axios
-    .request({
-      url: userImage,
-    })
-    .catch(() => null);
+  const { status } = await axios.request({
+    url: userImage,
+  });
 
-  return imageRequest?.status === 200
-    ? userImage
-    : `${supabaseImagesFolder}user.png`;
+  return status === 200 ? userImage : join(supabaseImagesFolder, "user.png");
 }
 
 export type ProductKeyType = {
@@ -33,14 +37,17 @@ export type ProductKeyType = {
 };
 
 export default async function OrdersPageServer() {
-  const supabase = createClient();
-  const currentUser: UserResponse = await supabase.auth.getUser();
+  const { auth } = createClient();
+  const {
+    data: { user },
+    error,
+  }: UserResponse = await auth.getUser();
 
-  if (currentUser.error || !currentUser.data.user) {
-    throw new Error(currentUser.error?.message ?? "user is undefined");
+  if (error || !user) {
+    throw new Error(error?.message ?? "user is undefined");
   }
 
-  const ifAdmin = await isAdmin(currentUser.data.user);
+  const ifAdmin = await isAdmin(user);
   if (!ifAdmin) {
     redirect("/auth");
   }
@@ -50,12 +57,12 @@ export default async function OrdersPageServer() {
 
   const products: ProductKeyType = Object.fromEntries(
     await Promise.all(
-      orders.map(async (order) => [
-        order.id,
+      orders.map(async ({ id, userId, productIds }) => [
+        id,
         {
-          userImage: await getUserImage(order.userId),
+          userImage: await getUserImage(userId),
           products: await Promise.all(
-            (order.productIds as string[]).map((productId) =>
+            (productIds as string[]).map((productId) =>
               prisma.product.findUnique({
                 where: { id: productId },
               }),

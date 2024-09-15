@@ -1,7 +1,7 @@
 "use server";
 
 import ProductCard from "@/components/ProductCard";
-import { prisma } from "@/lib/db/prisma";
+import { prisma } from "lib/db/prisma";
 
 type Props = { searchParams: { query: string } };
 
@@ -19,10 +19,7 @@ export default async function SearchPage({
 }: Readonly<Props>) {
   const products = await prisma.product.findMany({
     where: {
-      OR: [
-        { name: { contains: query, mode: "insensitive" } },
-        { description: { contains: query, mode: "insensitive" } },
-      ],
+      OR: [{ name: { has: query } }, { description: { has: query } }],
     },
     orderBy: { id: "desc" },
   });

@@ -13,7 +13,6 @@ export default function DashboardLayout({
         Back to blogs
       </Button>
       {children}
-      <h2>Blogs carousel</h2>
     </div>
   );
 }

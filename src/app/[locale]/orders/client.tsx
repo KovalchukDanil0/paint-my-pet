@@ -1,17 +1,21 @@
 "use client";
 
 import { Prisma } from "@prisma/client";
-import { MouseEvent, useEffect } from "react";
+import { MouseEvent } from "react";
 import { Checkbox, Table } from "react-daisyui";
 import { ProductKeyType } from "./page";
 import TableRow from "./TableRow";
 
 let checkboxes: NodeListOf<HTMLInputElement> | null = null;
 
-function checkAll(ev: MouseEvent<HTMLInputElement>) {
-  checkboxes?.forEach(
-    (checkbox) => (checkbox.checked = ev.currentTarget.checked),
-  );
+function checkAll({
+  currentTarget: { checked },
+}: MouseEvent<HTMLInputElement>) {
+  if (!checkboxes) {
+    checkboxes = document.querySelectorAll(".checkbox");
+  }
+
+  checkboxes.forEach((checkbox) => (checkbox.checked = checked));
 }
 
 type Props = {
@@ -23,10 +27,6 @@ export default function OrdersPageClient({
   orders,
   products,
 }: Readonly<Props>) {
-  useEffect(() => {
-    checkboxes = document.querySelectorAll(".checkbox");
-  }, []);
-
   return (
     <div className="m-10 overflow-x-auto">
       <Table className="rounded-box">

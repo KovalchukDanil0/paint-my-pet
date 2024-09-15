@@ -1,10 +1,12 @@
 "use server";
 
-import { prisma } from "@/lib/db/prisma";
+import { getIndexOfLocale } from "@/i18n";
 import { Product } from "@prisma/client";
+import { prisma } from "lib/db/prisma";
+import { getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { cache } from "react";
-import AddToCartSection from "./AddToCartSection";
+import AddToCartSection from "./client";
 import NoProductFound from "./NoProductFound";
 
 interface Props {
@@ -12,33 +14,38 @@ interface Props {
 }
 
 const getProduct = cache(
-  async (id: string): Promise<Product | null> =>
-    prisma.product.findUnique({ where: { id } }).catch(() => notFound()),
+  (id: string): Promise<Product> =>
+    prisma.product
+      .findFirstOrThrow({
+        where: { id },
+      })
+      .catch(() => notFound()),
 );
 
 export async function generateMetadata({ params: { id } }: Readonly<Props>) {
-  const product: Omit<
-    Product,
-    "createdAt" | "id" | "price" | "tag" | "updatedAt"
-  > = (await getProduct(id)) ?? {
-    name: "No product found",
-    description: "We are sorry, no product found",
-    imageUrl: "",
-  };
+  const {
+    name: nameArray,
+    description: descriptionArray,
+    imageUrl,
+  } = await getProduct(id);
+  const locale = await getLocale();
+
+  const name = nameArray[getIndexOfLocale(locale)];
+  const description = descriptionArray[getIndexOfLocale(locale)];
 
   return {
-    title: product.name,
-    description: product.description,
+    title: name,
+    description,
     openGraph: {
-      title: product.name,
-      description: product.description,
-      images: [{ url: product.imageUrl }],
+      title: name,
+      images: [{ url: imageUrl }],
+      description,
     },
   };
 }
 
 export default async function ProductPage({ params: { id } }: Readonly<Props>) {
-  const product: Product | null = await getProduct(id);
+  const product = await getProduct(id);
   if (!product) {
     return <NoProductFound />;
   }

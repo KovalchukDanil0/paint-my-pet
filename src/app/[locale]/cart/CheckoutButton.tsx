@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import { useCallback } from "react";
 import { Button } from "react-daisyui";
 
 async function fetchPrices(locale: string) {
@@ -24,9 +25,14 @@ type Props = {
 };
 
 export default function CheckoutButton({ locale }: Readonly<Props>) {
+  const fetchPricesFunc = useCallback(
+    () => () => fetchPrices(locale),
+    [locale],
+  );
+
   return (
     <div>
-      <Button onClick={() => fetchPrices(locale)} className="sm:w-52">
+      <Button onClick={fetchPricesFunc} className="sm:w-52">
         Checkout
       </Button>
     </div>

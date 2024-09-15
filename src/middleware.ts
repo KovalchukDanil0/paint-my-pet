@@ -1,8 +1,8 @@
 import { CookieOptions, createServerClient } from "@supabase/ssr";
+import { getSupabaseProps } from "lib/supabase/client";
 import createIntlMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { localePrefix, locales, pathnames } from "./i18n";
-import { getSupabaseProps } from "./lib/shared";
 
 const handleI18nRouting = createIntlMiddleware({
   defaultLocale: "en",
@@ -20,29 +20,25 @@ export default async function middleware(request: NextRequest) {
     response.headers.set("x-original-url", originalUrlPathname);
   }
 
-  const supabaseProps = getSupabaseProps();
+  const { supabaseAnonKey, supabaseUrl } = getSupabaseProps();
 
-  const supabase = createServerClient(
-    supabaseProps.supabaseUrl,
-    supabaseProps.supabaseAnonKey,
-    {
-      cookies: {
-        get(name: string) {
-          return request.cookies.get(name)?.value;
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({ name, value, ...options });
-          response.cookies.set({ name, value, ...options });
-        },
-        remove(name: string, options: CookieOptions) {
-          request.cookies.set({ name, value: "", ...options });
-          response.cookies.set({ name, value: "", ...options });
-        },
+  const { auth } = createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      get(name: string) {
+        return request.cookies.get(name)?.value;
+      },
+      set(name: string, value: string, options: CookieOptions) {
+        request.cookies.set({ name, value, ...options });
+        response.cookies.set({ name, value, ...options });
+      },
+      remove(name: string, options: CookieOptions) {
+        request.cookies.set({ name, value: "", ...options });
+        response.cookies.set({ name, value: "", ...options });
       },
     },
-  );
+  });
 
-  await supabase.auth.getUser();
+  await auth.getUser();
 
   return response;
 }

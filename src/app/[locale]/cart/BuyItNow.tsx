@@ -5,27 +5,12 @@ import SelectFromObject from "@/components/SelectFromObject";
 import Axios from "axios";
 import { setupCache } from "axios-cache-interceptor";
 import { useLocale } from "next-intl";
-import { Button, FileInput, Input, Modal } from "react-daisyui";
+import { useTransition } from "react";
+import { Button, FileInput, Input, Loading, Modal } from "react-daisyui";
 import { FaTimes } from "react-icons/fa";
 import { fillTheForm } from "./action";
 
 const axios = setupCache(Axios.create());
-
-async function fetchPrices(locale: string) {
-  const { data } = await axios.post(
-    "/api/payment",
-    {
-      link: window.location.href,
-      locale,
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  );
-  window.location.assign(data);
-}
 
 type Props = {
   subtotalPrice: string | number;
@@ -37,18 +22,39 @@ export default function BuyItNow({
   countries,
 }: Readonly<Props>) {
   const locale = useLocale();
+  const [isPending, startTransition] = useTransition();
+  const { Dialog, handleShow, handleHide } = Modal.useDialog();
 
-  const { Dialog, handleShow } = Modal.useDialog();
+  async function fetchPrices(formData: FormData) {
+    startTransition(async function () {
+      await fillTheForm(formData);
+
+      const { data } = await axios.post(
+        "/api/payment",
+        {
+          link: window.location.href,
+          locale,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      window.location.assign(data);
+    });
+  }
 
   return (
     <div>
       <Button color="primary" className="center" onClick={handleShow}>
-        Proceed to checkout
+        Proceed to checkout {isPending && <Loading />}
       </Button>
 
       <Dialog className="w-11/12 max-w-5xl" backdrop>
-        <form method="dialog" className="sticky top-0">
+        <div className="sticky top-0">
           <Button
+            onClick={handleHide}
             size="sm"
             color="ghost"
             shape="circle"
@@ -56,16 +62,11 @@ export default function BuyItNow({
           >
             <FaTimes />
           </Button>
-        </form>
+        </div>
 
         <Modal.Header className="font-bold">Please fill the form</Modal.Header>
 
-        <form
-          method="post"
-          encType="multipart/form-data"
-          action={fillTheForm}
-          onSubmit={() => fetchPrices(locale)}
-        >
+        <form action={fetchPrices}>
           <Modal.Body>
             <div className="flex flex-col gap-3 md:m-36">
               <div className="flex flex-col">
@@ -164,7 +165,7 @@ export default function BuyItNow({
                       required
                       id="address-country"
                       name="address-country"
-                      obj={countries}
+                      enumObj={countries}
                     />
                     <label htmlFor="address-country">
                       Country

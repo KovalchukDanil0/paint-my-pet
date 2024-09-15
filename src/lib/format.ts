@@ -35,10 +35,9 @@ export async function formatPrice(
       `https://v6.exchangerate-api.com/v6/${exchangeApi}/latest/USD`,
     );
 
-    const reqResolved: CacheAxiosResponse<{ conversion_rates: Rates }> =
-      await req;
-
-    const rates: Rates = reqResolved.data.conversion_rates;
+    const {
+      data: { conversion_rates: rates },
+    }: CacheAxiosResponse<{ conversion_rates: Rates }> = await req;
 
     convertedPrice = Math.round(
       convert(price, {

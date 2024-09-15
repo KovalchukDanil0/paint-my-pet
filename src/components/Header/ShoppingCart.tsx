@@ -1,12 +1,12 @@
 import { Badge, Button, Card, Dropdown, Indicator } from "react-daisyui";
 import { FaShoppingCart } from "react-icons/fa";
-import { ShoppingCartProps } from "./Navbar";
+import { ShoppingCartProps } from "./client";
 
 export default function ShoppingCartComponent({
-  cart,
+  cart: { items },
   price,
 }: Readonly<ShoppingCartProps>) {
-  const itemsCount: number = cart?.items.length ?? 0;
+  const itemsCount: number = items.length ?? 0;
 
   return (
     <Dropdown end>

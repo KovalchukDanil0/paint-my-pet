@@ -13,7 +13,8 @@
   "Header": {
     "Home": "Home",
     "Blogs": "Blogs",
-    "About": "About"
+    "About": "About",
+    "Search": "Search"
   },
   "Footer": {
     "PrivacyPolicy": "Privacy Policy",
@@ -27,11 +28,21 @@
     "locale": "{locale, select, cz {🇨🇿 CZ} en {🇺🇸 EN} other {Unknown}}"
   },
   "Disclaimers": {
-    "test": "This painting is not  beautiful at all"
+    "click": "This painting is beautiful"
   },
   "Home": {
     "BBTitle": "Hello world!",
     "BBBuyText": "Buy the painting",
-    "BBBuyCTA": "Buy"
+    "BBBuyCTA": "Buy",
+    "ViewCollection": "View collection",
+    "SeeTheVideo": "See the video"
+  },
+  "ProductInformation": {
+    "HandCraftedHeading": "Authentic, hand-crafted art",
+    "HandCraftedDescription": "Shop original, unique and affordable art from thousands of artists around the world.",
+    "ArtistsHeading": "Support independent artists",
+    "ArtistsDescription": "Buy directly from an artist, helping them to make a living doing what they love.",
+    "ShoppingHeading": "Risk-free shopping",
+    "ShoppingDescription": "Secure transactions, free 14-day returns. Full peace of mind, guaranteed."
   }
 }

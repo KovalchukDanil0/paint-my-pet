@@ -1,10 +1,10 @@
 "use server";
 
-import { mergeAnonymousCartIntoUserCart } from "@/lib/db/cart";
-import { prisma } from "@/lib/db/prisma";
-import { createClient } from "@/lib/supabase/server";
+import { redirect } from "@/i18n";
+import { mergeAnonymousCartIntoUserCart } from "lib/db/cart";
+import { prisma } from "lib/db/prisma";
+import { createClient } from "lib/supabase/server";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export async function logIn(formData: FormData) {
   const supabase = createClient();
@@ -20,34 +20,39 @@ export async function logIn(formData: FormData) {
     throw new Error(error.message);
   }
 
-  const userId = (await supabase.auth.getUser()).data.user?.id;
-  if (userId) {
-    await mergeAnonymousCartIntoUserCart(userId);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (user?.id) {
+    await mergeAnonymousCartIntoUserCart(user.id);
   }
 
   redirectAfterAction();
 }
 
 export async function signUp(formData: FormData) {
-  const supabase = createClient();
+  const { auth } = createClient();
 
   const formAuthData = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
 
-  const { error, data } = await supabase.auth.signUp(formAuthData);
+  const {
+    error,
+    data: { user },
+  } = await auth.signUp(formAuthData);
 
   if (error) {
     throw new Error(error.message);
   }
 
-  if (!data.user) {
+  if (!user) {
     throw new Error("data user is undefined");
   }
 
   await prisma.user.create({
-    data: { id: data.user.id, name: formData.get("name") as string },
+    data: { id: user.id, name: formData.get("name") as string },
   });
 
   redirectAfterAction();
@@ -68,7 +73,10 @@ export async function signOut() {
 export async function logInWithGoogle() {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const {
+    data: { url },
+    error,
+  } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: { redirectTo: `${process.env.NEXTAUTH_URL}/api/auth/callback` },
   });
@@ -77,22 +85,30 @@ export async function logInWithGoogle() {
     throw new Error(error.message);
   }
 
-  redirect(data.url);
+  if (url) {
+    redirect(url);
+  }
 }
 
 export async function deleteAccount() {
   const supabase = createClient();
 
-  const user = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
-  if (!user.data.user || user.error) {
-    throw new Error(user.error?.message);
+  if (!user || error) {
+    throw new Error(error?.message);
   }
 
-  const deleteUser = await supabase.auth.admin.deleteUser(user.data.user?.id);
+  const {
+    data: { user: deleteUser },
+    error: deleteUserError,
+  } = await supabase.auth.admin.deleteUser(user?.id);
 
-  if (!deleteUser.data.user || deleteUser.error) {
-    throw new Error(deleteUser.error?.message);
+  if (!deleteUser || deleteUserError) {
+    throw new Error(deleteUserError?.message);
   }
 
   redirectAfterAction();
