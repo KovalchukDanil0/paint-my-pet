@@ -2,7 +2,7 @@
 
 import PriceTag from "@/components/PriceTag";
 import SelectFromObject from "@/components/SelectFromObject";
-import { getIndexOfLocale } from "@/i18n";
+import { getIndexOfLocale, Locale } from "@/i18n/routing";
 import { Product } from "@prisma/client";
 import { Dimensions } from "lib/shared";
 import { useLocale } from "next-intl";
@@ -45,11 +45,13 @@ export default function AddToCartSection({
     });
   }
 
+  const nameResolved = name[getIndexOfLocale(locale as Locale)];
+
   return (
     <div className="flex w-fit flex-col gap-4 lg:flex-row lg:items-center">
       <Image
         src={imageUrl}
-        alt={name[getIndexOfLocale(locale)]}
+        alt={nameResolved}
         width={1080}
         height={1920}
         className="size-full rounded-lg object-cover md:size-1/3"
@@ -57,9 +59,9 @@ export default function AddToCartSection({
         priority
       />
       <div className="flex flex-col gap-4">
-        <h1 className="text-5xl font-bold">{name[getIndexOfLocale(locale)]}</h1>
+        <h1 className="text-5xl font-bold">{nameResolved}</h1>
         <PriceTag price={price} />
-        <p>{description[getIndexOfLocale(locale)]}</p>
+        <p>{description[getIndexOfLocale(locale as Locale)]}</p>
         <div className="flex w-fit items-center gap-2">
           <SelectFromObject onChange={selectChange} enumObj={Dimensions} />
           <Button onClick={buttonClick} color="info">

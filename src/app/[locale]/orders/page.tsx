@@ -1,6 +1,6 @@
 "use server";
 
-import { redirect } from "@/i18n";
+import { redirect } from "@/i18n/routing";
 import { Prisma, Product } from "@prisma/client";
 import { UserResponse } from "@supabase/supabase-js";
 import axios from "axios";

@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "@/i18n";
+import { usePathname, useRouter } from "@/i18n/routing";
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, ReactElement, useTransition } from "react";
 import { Select } from "react-daisyui";
@@ -26,7 +26,7 @@ export default function LocaleSwitcherSelect({
     target: { value: locale },
   }: ChangeEvent<HTMLSelectElement>) {
     startTransition(() => {
-      router.replace(`${pathname}?${searchParams.toString()}`, {
+      router.replace<any>(`${pathname}?${searchParams.toString()}`, {
         locale,
       });
     });

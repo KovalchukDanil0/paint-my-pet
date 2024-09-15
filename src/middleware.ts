@@ -2,13 +2,13 @@ import { CookieOptions, createServerClient } from "@supabase/ssr";
 import { getSupabaseProps } from "lib/supabase/client";
 import createIntlMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
-import { localePrefix, locales, pathnames } from "./i18n";
+import { routing } from "./i18n/routing";
 
 const handleI18nRouting = createIntlMiddleware({
   defaultLocale: "en",
-  locales,
-  pathnames,
-  localePrefix,
+  locales: routing.locales,
+  pathnames: routing.pathnames,
+  localePrefix: routing.localePrefix,
 });
 
 export default async function middleware(request: NextRequest) {

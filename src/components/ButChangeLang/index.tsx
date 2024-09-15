@@ -1,7 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "@/i18n";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { usePathname, useRouter } from "@/i18n/routing";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import { Dropdown, DropdownProps } from "react-daisyui";
 
@@ -14,7 +13,7 @@ let butText: string;
 
 export default function ButChangeLang({ locale, ...props }: Readonly<Props>) {
   const pathname: string = usePathname();
-  const router: AppRouterInstance = useRouter();
+  const router = useRouter();
   const searchParams: ReadonlyURLSearchParams = useSearchParams();
 
   function changeLanguage() {
@@ -23,7 +22,7 @@ export default function ButChangeLang({ locale, ...props }: Readonly<Props>) {
       `/${butValue}`,
     );
 
-    router.replace(fullPath);
+    router.replace<any>(fullPath);
   }
 
   if (locale === "en") {

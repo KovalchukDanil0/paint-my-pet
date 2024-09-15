@@ -1,7 +1,7 @@
 "use client";
 
 import SelectFromObject from "@/components/SelectFromObject";
-import { getIndexOfLocale } from "@/i18n";
+import { getIndexOfLocale, Locale } from "@/i18n/routing";
 import { CartItemWithProduct } from "lib/db/cart";
 import { Dimensions } from "lib/shared";
 import { useLocale } from "next-intl";
@@ -44,7 +44,7 @@ export default function CartEntry({
       <h2>{name}</h2>
       <Image
         src={imageUrl}
-        alt={name[getIndexOfLocale(locale)]}
+        alt={name[getIndexOfLocale(locale as Locale)]}
         width={200}
         height={200}
         className="size-52 rounded-lg object-cover"

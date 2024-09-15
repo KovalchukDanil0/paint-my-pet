@@ -1,6 +1,6 @@
 "use server";
 
-import { redirect } from "@/i18n";
+import { redirect } from "@/i18n/routing";
 import { isAdmin } from "lib/admin";
 import { prisma } from "lib/db/prisma";
 import { createClient } from "lib/supabase/server";

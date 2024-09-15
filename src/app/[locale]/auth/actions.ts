@@ -1,6 +1,6 @@
 "use server";
 
-import { redirect } from "@/i18n";
+import { redirect } from "@/i18n/routing";
 import { mergeAnonymousCartIntoUserCart } from "lib/db/cart";
 import { prisma } from "lib/db/prisma";
 import { createClient } from "lib/supabase/server";
@@ -86,7 +86,7 @@ export async function logInWithGoogle() {
   }
 
   if (url) {
-    redirect(url);
+    redirect<any>(url);
   }
 }
 

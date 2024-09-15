@@ -6,6 +6,7 @@ import { NextIntlClientProvider, useMessages } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
+import "root/messages/en.json";
 import { twMerge } from "tailwind-merge";
 import "./globals.scss";
 
@@ -27,9 +28,9 @@ export async function generateMetadata() {
 
   const meta: Metadata = {
     metadataBase: new URL("https://paint-my-pet.vercel.app"),
+    openGraph: { title, description },
     title,
     description,
-    openGraph: { title, description },
   };
   return meta;
 }

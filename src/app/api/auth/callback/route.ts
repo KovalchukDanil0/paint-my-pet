@@ -1,4 +1,4 @@
-import { redirect } from "@/i18n";
+import { redirect } from "@/i18n/routing";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { join } from "path";
@@ -30,10 +30,10 @@ export async function GET({ url }: Request) {
     );
     const { error } = await auth.exchangeCodeForSession(code);
     if (!error) {
-      return redirect(`${origin}${next}`);
+      return redirect<any>(`${origin}${next}`);
     }
   }
 
   // return the user to an error page with instructions
-  return redirect(join(origin, "auth", "auth-code-error"));
+  return redirect<any>(join(origin, "auth", "auth-code-error"));
 }

@@ -1,4 +1,4 @@
-import { useRouter } from "@/i18n";
+import { useRouter } from "@/i18n/routing";
 import { Button, Dropdown, Link } from "react-daisyui";
 import { FaRegUserCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";

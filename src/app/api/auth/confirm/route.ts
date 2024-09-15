@@ -1,4 +1,4 @@
-import { redirect } from "@/i18n";
+import { redirect } from "@/i18n/routing";
 import { type EmailOtpType } from "@supabase/supabase-js";
 import { createClient } from "lib/supabase/server";
 import { type NextRequest } from "next/server";
@@ -23,11 +23,11 @@ export async function GET({ nextUrl, url }: NextRequest) {
     });
     if (!error) {
       redirectTo.searchParams.delete("next");
-      return redirect(redirectTo);
+      return redirect<any>(redirectTo);
     }
   }
 
   // return the user to an error page with some instructions
   redirectTo.pathname = "/error";
-  return redirect(redirectTo);
+  return redirect<any>(redirectTo);
 }

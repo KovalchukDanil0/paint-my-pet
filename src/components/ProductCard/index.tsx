@@ -1,6 +1,6 @@
 "use client";
 
-import { getIndexOfLocale } from "@/i18n";
+import { getIndexOfLocale, Locale } from "@/i18n/routing";
 import { Product } from "@prisma/client";
 import { useLocale } from "next-intl";
 import { Badge, Button, Card, CardProps } from "react-daisyui";
@@ -21,7 +21,7 @@ export default function ProductCard({
   const isNew =
     Date.now() - new Date(createdAt).getTime() < 1000 * 60 * 60 * 24 * 7;
 
-  const nameResolved = name[getIndexOfLocale(locale)];
+  const nameResolved = name[getIndexOfLocale(locale as Locale)];
 
   return (
     <Card {...props} className={twMerge("transition-shadow", className)}>
@@ -42,7 +42,7 @@ export default function ProductCard({
             </Badge>
           )}
         </Card.Title>
-        <p>{description[getIndexOfLocale(locale)]}</p>
+        <p>{description[getIndexOfLocale(locale as Locale)]}</p>
         <PriceTag className="w-fit" price={price} />
         <Card.Actions className="justify-start md:justify-end">
           <Button color="primary" tag="a" href={"/products/" + id}>

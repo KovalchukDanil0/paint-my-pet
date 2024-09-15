@@ -1,6 +1,6 @@
 "use server";
 
-import { getIndexOfLocale } from "@/i18n";
+import { getIndexOfLocale, Locale } from "@/i18n/routing";
 import { Product } from "@prisma/client";
 import { prisma } from "lib/db/prisma";
 import { getLocale } from "next-intl/server";
@@ -30,17 +30,17 @@ export async function generateMetadata({ params: { id } }: Readonly<Props>) {
   } = await getProduct(id);
   const locale = await getLocale();
 
-  const name = nameArray[getIndexOfLocale(locale)];
-  const description = descriptionArray[getIndexOfLocale(locale)];
+  const name = nameArray[getIndexOfLocale(locale as Locale)];
+  const description = descriptionArray[getIndexOfLocale(locale as Locale)];
 
   return {
     title: name,
-    description,
     openGraph: {
       title: name,
       images: [{ url: imageUrl }],
       description,
     },
+    description,
   };
 }
 

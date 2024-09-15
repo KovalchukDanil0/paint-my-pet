@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "@/i18n";
+import { usePathname, useRouter } from "@/i18n/routing";
 import { ExternalProviders } from "@supabase/supabase-js";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import { useCallback, useState, useTransition } from "react";
@@ -43,7 +43,7 @@ export default function AuthComponent({
   const [isPending, startTransition] = useTransition();
 
   const changeLoginMethodFunc = useCallback(() => {
-    router.push(
+    router.push<any>(
       `${pathname}?${createQueryString(searchParams, "method", isLogIn ? "register" : "login")}`,
     );
     setIsLogIn(!isLogIn);
