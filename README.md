@@ -10,7 +10,7 @@ This is a [Next.js](https://nextjs.org/) painting E-Shop project that using [Typ
 <img alt="White Dog Portrait" width="400" src="public/white-dog-portrait.jpg"> <img alt="White Dog Portrait" width="400" src="public/black-dog-portrait.jpg">
 </p>
 
-You can see it live at the [Vercel Platform](https://painting-project.vercel.app)
+You can see it live at the [Vercel Platform](https://paint-my-pet.vercel.app)
 
 ## How to build
 
