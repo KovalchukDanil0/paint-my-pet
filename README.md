@@ -1,14 +1,18 @@
 # Paint My Pet
 
-This is a [Next.js](https://nextjs.org/) painting E-Shop project that using TypeScript, React, TailwindCss, Sass together with Supabase database.
+This is a [Next.js](https://nextjs.org/) painting E-Shop project that using [TypeScript](https://www.typescriptlang.org), [React](https://react.dev), [TailwindCss](https://tailwindcss.com), [Sass](https://sass-lang.com) under the hood together with [Supabase](https://supabase.com) back-end server.
 
+<p align="center">
 <img align="center" width="100" height="100" src="src/app/favicon.ico">
+</p>
 
+<p align="center">
 <img alt="White Dog Portrait" width="400" src="public/white-dog-portrait.jpg"> <img alt="White Dog Portrait" width="400" src="public/black-dog-portrait.jpg">
+</p>
 
-[Site preview](https://painting-project.vercel.app/en)
+You can see it live at the [Vercel Platform](https://painting-project.vercel.app)
 
-## Getting Started
+## How to build
 
 First, run the development server:
 
