@@ -6,8 +6,8 @@ import { NextIntlClientProvider, useMessages } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
-import "root/messages/en.json";
 import { twMerge } from "tailwind-merge";
+import "~/messages/en.json";
 import "./globals.scss";
 
 const inter = Inter({ subsets: ["latin"] });
